@@ -1,0 +1,24 @@
+.ingredient_card {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 272px;
+}
+
+.ingredient_picture {
+    width: 240px;
+    cursor: pointer;
+}
+
+.ingredient_counter {
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+.ingredient_value {
+    display: flex;
+    justify-content: start;
+}

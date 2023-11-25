@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    background-color: rgba(28, 28, 33, 1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 1240px;
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    justify-content: start;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
