@@ -20,15 +20,15 @@ function BurgerIngredient(props) {
       />
       <img
         className={styles.ingredient_picture}
-        src={props.image}
-        alt="Ингридиент"
+        src={props.ingredient.image}
+        alt={props.ingredient.name}
         onClick={onIngredientClick}
       />
       <div className={`${styles.ingredient_value} mt-1 mb-4`}>
-        <div className="text text_type_digits-default mr-3">{props.price}</div>
+        <div className="text text_type_digits-default mr-3">{props.ingredient.price}</div>
         <CurrencyIcon type="primary" />
       </div>
-      <p className="text text__type_main-default">{props.name}</p>
+      <p className="text text__type_main-default">{props.ingredient.name}</p>
     </section>
   );
 }

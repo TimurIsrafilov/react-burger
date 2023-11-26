@@ -8,20 +8,26 @@
 .constructor_ingredients_container {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
-    height: 60vh;
+    row-gap: 10px;
 }
 
 .constructor_ingredient_container {
     display: flex;
-    flex-direction: row;
-    justify-content: end;
     align-items: center;
+    margin: 0 10px 0 0;
 }
 
 .constructor_ingredient_shift {
     height: 24px;
     width: 24px;
+}
+
+.constructor_ingredients_secondary {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    overflow-y: scroll;
+    height: 50vh;
 }
 
 .constructor_total_price {

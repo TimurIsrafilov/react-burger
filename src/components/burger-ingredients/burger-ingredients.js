@@ -17,7 +17,7 @@ function BurgerIngredients(props) {
       >
         Соберите бургер
       </h2>
-      <div style={{ display: "flex" }}>
+      <div className={styles.ingredients_types_menu}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -42,10 +42,6 @@ function BurgerIngredients(props) {
                   <BurgerIngredient
                     ingredients={props.ingredients}
                     ingredient={ingredient}
-                    name={ingredient.name}
-                    price={ingredient.price}
-                    image={ingredient.image}
-                    type={ingredient.type}
                     key={ingredient._id}
                     handleOnOpen={props.handleOnOpen}
                     onIngredientClick={props.onIngredientClick}
@@ -67,10 +63,6 @@ function BurgerIngredients(props) {
                   <BurgerIngredient
                     ingredients={props.ingredients}
                     ingredient={ingredient}
-                    name={ingredient.name}
-                    price={ingredient.price}
-                    image={ingredient.image}
-                    type={ingredient.type}
                     key={ingredient._id}
                     handleOnOpen={props.handleOnOpen}
                     onIngredientClick={props.onIngredientClick}
@@ -92,10 +84,6 @@ function BurgerIngredients(props) {
                   <BurgerIngredient
                     ingredients={props.ingredients}
                     ingredient={ingredient}
-                    name={ingredient.name}
-                    price={ingredient.price}
-                    image={ingredient.image}
-                    type={ingredient.type}
                     key={ingredient._id}
                     handleOnOpen={props.handleOnOpen}
                     onIngredientClick={props.onIngredientClick}

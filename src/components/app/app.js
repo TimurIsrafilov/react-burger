@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 
-import "./app.css";
+import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 
-import api from "../utils/api";
+import api from "../../utils/api";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -20,12 +22,12 @@ function App() {
 
   function handleIngredientDetailsIsClosed() {
     setIngredientDetailsIsOpen(false);
-    closeAllPopup();
+    closeAllPopups();
   }
 
   function handleOrderDetailsIsClosed() {
     setOrderDetailsIsOpen(false);
-    closeAllPopup();
+    closeAllPopups();
   }
 
   function handleIngredientDetailsIsOpen() {
@@ -51,15 +53,15 @@ function App() {
     }
   }, [selectedIngredient]);
 
-  function closeAllPopup() {
+  function closeAllPopups() {
     setIngredientDetailsIsOpen(false);
     setOrderDetailsIsOpen(false);
   }
 
   return (
-    <div className="App">
+    <div className={styles.app}>
       <AppHeader />
-      <section className="main">
+      <main className={styles.main}>
         <BurgerIngredients
           ingredients={ingredients}
           handleOnOpen={handleIngredientDetailsIsOpen}
@@ -69,17 +71,23 @@ function App() {
           ingredients={ingredients}
           handleOnOpen={handleOrderDetailsIsOpen}
         />
-      </section>
-      {(ingredientDetailsIsOpen || orderDetailsIsOpen) && (
+      </main>
+      {ingredientDetailsIsOpen && (
         <Modal
-          handleOnClose={
-            (ingredientDetailsIsOpen && handleIngredientDetailsIsClosed) ||
-            (orderDetailsIsOpen && handleOrderDetailsIsClosed)
-          }
+          handleOnClose={handleIngredientDetailsIsClosed}
           ingredientDetailsIsOpen={ingredientDetailsIsOpen}
           orderDetailsIsOpen={orderDetailsIsOpen}
-          ingredient={selectedIngredientToShow}
-        />
+        >
+          <IngredientDetails ingredient={selectedIngredientToShow} />
+        </Modal>
+      )}
+      {orderDetailsIsOpen && (
+        <Modal
+          handleOnClose={handleOrderDetailsIsClosed}
+          orderDetailsIsOpen={orderDetailsIsOpen}
+        >
+          <OrderDetails />
+        </Modal>
       )}
     </div>
   );
