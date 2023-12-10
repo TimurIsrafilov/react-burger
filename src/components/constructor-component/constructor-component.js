@@ -1,23 +1,39 @@
 import PropTypes from "prop-types";
 
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 
-import { useCallback } from "react";
-
-import { useState, useEffect } from "react";
-
 import {
-  CurrencyIcon,
   DragIcon,
-  Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./constructor-component.module.css";
 
+import { deleteIngredient } from "../../services/components/actions";
+
+import {
+  addIngredient,
+  moveIngredient,
+} from "../../services/components/actions";
+
 function ConstructorComponent(props) {
   const ref = useRef(null);
+
+  const dispatch = useDispatch();
+
+  const uniqueId = props.ingredient.uniqueId;
+  const index = props.index;
+
+  function deleteIngr(uniqueId) {
+    dispatch(deleteIngredient(uniqueId));
+  }
+
+  function handleOnMoveIngredient(dragIndex, hoverIndex) {
+    dispatch(moveIngredient(dragIndex, hoverIndex));
+  }
+
 
   const [, dropConstructor] = useDrop({
     accept: "constructorIngredient",
@@ -57,7 +73,7 @@ function ConstructorComponent(props) {
         return;
       }
       // Time to actually perform the action
-      props.moveIngredient(dragIndex, hoverIndex);
+      moveIngredient(dragIndex, hoverIndex);
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
@@ -65,9 +81,6 @@ function ConstructorComponent(props) {
       item.index = hoverIndex;
     },
   });
-
-  const uniqueId = props.ingredient.uniqueId;
-  const index = props.index;
 
   const [, dragConstructor] = useDrag(() => ({
     type: "constructorIngredient",
@@ -89,10 +102,11 @@ function ConstructorComponent(props) {
         text={props.ingredient.name}
         price={props.ingredient.price}
         thumbnail={props.ingredient.image}
-        key={props.ingredient.uniqueId}
+        key={uniqueId}
         index={index}
-        uniqueId={props.ingredient.uniqueId}
-        moveIngredient={props.moveIngredient}
+        uniqueId={uniqueId}
+        handleOnMoveIngredient={handleOnMoveIngredient}
+        handleClose={() => deleteIngr(uniqueId)}
       />
     </div>
   );

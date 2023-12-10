@@ -5,9 +5,9 @@ import styles from "./ingredient-details.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 function IngredientDetails() {
-
-
-  const ingredientToShow = useSelector(store => store.ingredient.showIngredient);
+  const ingredientToShow = useSelector(
+    (store) => store.ingredient.showIngredient
+  );
 
   return (
     <section className={styles.ingredient_details_container}>

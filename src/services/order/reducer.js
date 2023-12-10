@@ -1,4 +1,4 @@
-import { LOADING_ORDERS, ERROR_ORDERS, LOAD_ORDERS_SUCCESS } from "./actions";
+import { LOADING_ORDERS, ERROR_ORDERS, LOAD_ORDERS_SUCCESS, CLOSE_ORDERS } from "./actions";
 
 const initialState = {
   orderInfo: null,
@@ -26,6 +26,12 @@ export const reducer = (state = initialState, action) => {
         orderInfo: action.payload,
         loading: false,
       };
+      case CLOSE_ORDERS: {
+        return {
+          ...state,
+          orderInfo: null,
+        };
+      }
     default:
       return state;
   }

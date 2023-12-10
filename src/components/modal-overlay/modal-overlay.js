@@ -1,13 +1,24 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
-import styles from "./modal-overlay.module.css";
+import { useDispatch, useSelector } from "react-redux";
 
-function ModalOverlay(props) {
+import styles from "./modal-overlay.module.css";
+import { closeIngredient } from "../../services/ingredient/actions";
+import { closeOrder } from "../../services/order/actions";
+
+function ModalOverlay() {
+  const dispatch = useDispatch();
+
+  function handleOnClose() {
+    dispatch(closeIngredient());
+    dispatch(closeOrder());
+  }
+
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
-        props.handleOnClose();
+        handleOnClose();
       }
     };
 
@@ -19,15 +30,8 @@ function ModalOverlay(props) {
   }, []);
 
   return (
-    <section
-      className={styles.modal_overlay}
-      onClick={props.handleOnClose}
-    ></section>
+    <section className={styles.modal_overlay} onClick={handleOnClose}></section>
   );
 }
-
-ModalOverlay.propTypes = {
-  handleOnClose: PropTypes.func,
-};
 
 export default ModalOverlay;

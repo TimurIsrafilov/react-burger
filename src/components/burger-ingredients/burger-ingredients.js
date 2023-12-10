@@ -12,19 +12,16 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 import { loadIngredients } from "../../services/ingredients/actions";
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
   const [current, setCurrent] = useState("one");
-
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadIngredients());
-}, []);
+  }, []);
 
-
-
-  const ingredientsSet = useSelector(store => store.ingredients.ingredients);
+  const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
 
   return (
     <section className={`${styles.ingredients} custom-scroll mb-10`}>
@@ -56,11 +53,8 @@ function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "bun" && (
                   <BurgerIngredient
-                    // ingredients={ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}
-                    handleOnOpen={props.handleOnOpen}
-                    onIngredientClick={props.onIngredientClick}
                   />
                 )
             )}
@@ -77,12 +71,8 @@ function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "sauce" && (
                   <BurgerIngredient
-                  // dragRef={dragRef}
-                    ingredients={props.ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}
-                    handleOnOpen={props.handleOnOpen}
-                    onIngredientClick={props.onIngredientClick}
                   />
                 )
             )}
@@ -99,12 +89,8 @@ function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "main" && (
                   <BurgerIngredient
-                  // dragRef={dragRef}
-                    ingredients={props.ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}
-                    handleOnOpen={props.handleOnOpen}
-                    onIngredientClick={props.onIngredientClick}
                   />
                 )
             )}
