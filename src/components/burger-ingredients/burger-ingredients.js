@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+
+import { useState, useEffect, useCallback } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -7,8 +10,21 @@ import styles from "./burger-ingredients.module.css";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
+import { loadIngredients } from "../../services/ingredients/actions";
+
 function BurgerIngredients(props) {
   const [current, setCurrent] = useState("one");
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadIngredients());
+}, []);
+
+
+
+  const ingredientsSet = useSelector(store => store.ingredients.ingredients);
 
   return (
     <section className={`${styles.ingredients} custom-scroll mb-10`}>
@@ -36,11 +52,11 @@ function BurgerIngredients(props) {
             Булки
           </h3>
           <div className={styles.ingredients_cards}>
-            {props.ingredients.map(
+            {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "bun" && (
                   <BurgerIngredient
-                    ingredients={props.ingredients}
+                    // ingredients={ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}
                     handleOnOpen={props.handleOnOpen}
@@ -57,10 +73,11 @@ function BurgerIngredients(props) {
             Соусы
           </h3>
           <div className={styles.ingredients_cards}>
-            {props.ingredients.map(
+            {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "sauce" && (
                   <BurgerIngredient
+                  // dragRef={dragRef}
                     ingredients={props.ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}
@@ -78,10 +95,11 @@ function BurgerIngredients(props) {
             Начинки
           </h3>
           <div className={styles.ingredients_cards}>
-            {props.ingredients.map(
+            {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "main" && (
                   <BurgerIngredient
+                  // dragRef={dragRef}
                     ingredients={props.ingredients}
                     ingredient={ingredient}
                     key={ingredient._id}

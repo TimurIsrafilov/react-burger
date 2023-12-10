@@ -2,17 +2,23 @@ import PropTypes from "prop-types";
 
 import styles from "./ingredient-details.module.css";
 
-function IngredientDetails(props) {
+import { useDispatch, useSelector } from "react-redux";
+
+function IngredientDetails() {
+
+
+  const ingredientToShow = useSelector(store => store.ingredient.showIngredient);
+
   return (
     <section className={styles.ingredient_details_container}>
       <h3 className="text text_type_main-large">{"Детали ингредиента"}</h3>
       <img
         className={styles.ingredient_details_picture}
-        src={props.ingredient.image}
+        src={ingredientToShow.image}
         alt="Ингридиент"
       />
       <h4 className="text text_type_main-medium mt-4 mb-15">
-        {props.ingredient.name}
+        {ingredientToShow.name}
       </h4>
       <ul className={styles.ingredient_details_items}>
         <li className={styles.ingredient_details_item}>
@@ -20,7 +26,7 @@ function IngredientDetails(props) {
             Калории,ккал
           </p>
           <span className="text text_type_main-default text_color_inactive  mt-4">
-            {props.ingredient.proteins}
+            {ingredientToShow.proteins}
           </span>
         </li>
         <li className={`${styles.ingredient_details_item} ml-5`}>
@@ -28,7 +34,7 @@ function IngredientDetails(props) {
             Белки, г
           </p>
           <span className="text text_type_main-default text_color_inactive mt-4">
-            {props.ingredient.fat}
+            {ingredientToShow.fat}
           </span>
         </li>
         <li className={`${styles.ingredient_details_item} ml-5`}>
@@ -36,7 +42,7 @@ function IngredientDetails(props) {
             Жиры, г
           </p>
           <span className="text text_type_main-default text_color_inactive mt-4">
-            {props.ingredient.carbohydrates}
+            {ingredientToShow.carbohydrates}
           </span>
         </li>
         <li className={`${styles.ingredient_details_item} ml-5`}>
@@ -44,7 +50,7 @@ function IngredientDetails(props) {
             Углеводы, г
           </p>
           <span className="text text_type_main-default text_color_inactive mt-4">
-            {props.ingredient.calories}
+            {ingredientToShow.calories}
           </span>
         </li>
       </ul>

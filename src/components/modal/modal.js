@@ -29,3 +29,52 @@ Modal.propTypes = {
 };
 
 export default Modal;
+
+
+
+
+
+
+// import ReactDOM from "react-dom";
+// import PropTypes from "prop-types";
+
+// import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// import ModalOverlay from "../modal-overlay/modal-overlay";
+
+// import { useDispatch, useSelector } from "react-redux";
+
+// import styles from "./modal.module.css";
+
+// import { closeIngredient } from "../../services/ingredient/actions";
+
+// const portal = document.getElementById("portal");
+
+// const Modal = (props) => {
+//   const dispatch = useDispatch();
+
+//   function handleOnClose() {
+//     dispatch(closeIngredient());
+//   }
+
+//   ReactDOM.createPortal(
+//     <section className={styles.modal}>
+//       <ModalOverlay />
+//       <div className={styles.modal_container}>
+//         <div className={`${styles.modal_close_icon} mt-15 mr-10`}>
+//           <CloseIcon type="primary" onClick={handleOnClose} />
+//         </div>
+//         {props.children}
+//       </div>
+//     </section>,
+//     portal
+//   );
+// };
+
+// Modal.propTypes = {
+//   handleOnClose: PropTypes.func,
+//   ingredient: PropTypes.object,
+// };
+
+// export default Modal;
+

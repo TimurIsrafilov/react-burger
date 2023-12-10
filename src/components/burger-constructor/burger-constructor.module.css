@@ -8,13 +8,19 @@
 .constructor_ingredients_container {
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    /* row-gap: 10px; */
+}
+
+.constructor_ingredient_bun_container {
+    display: flex;
+    align-items: center;
+    /* margin: 0 10px 0 0; */
 }
 
 .constructor_ingredient_container {
     display: flex;
     align-items: center;
-    margin: 0 10px 0 0;
+    /* margin: 10px 10px 0 0; */
 }
 
 .constructor_ingredient_shift {
@@ -27,7 +33,7 @@
     flex-direction: column;
     row-gap: 10px;
     overflow-y: scroll;
-    height: 50vh;
+    max-height: 50vh;
 }
 
 .constructor_total_price {
@@ -40,3 +46,37 @@
 .constructor_ingredient_value {
     display: flex;
 }
+
+.constructor_bun_top_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 536px;
+    height: 80px;
+    background-color: rgba(47, 47, 55, 1);
+    border-radius: 60px 60px 20px 20px;
+    margin-left: 24px;
+}
+
+.constructor_bun_bottom_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 536px;
+    height: 80px;
+    background-color: rgba(47, 47, 55, 1);
+    border-radius: 20px 20px 60px 60px;
+    margin-left: 24px;
+}
+
+.constructor_ingr_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 536px;
+    height: 80px;
+    background-color: rgba(47, 47, 55, 1);
+    border-radius: 40px;
+    margin: 0 0 0 24px;
+}
+

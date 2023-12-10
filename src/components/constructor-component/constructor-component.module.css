@@ -1,0 +1,9 @@
+.constructor_component_container {
+    display: flex;
+    align-items: center;
+}
+
+.constructor_component_shift {
+    height: 24px;
+    width: 24px;
+}
