@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 
-import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { DndProvider } from "react-dnd";
 
 import styles from "./app.module.css";
 
@@ -24,7 +25,6 @@ function App() {
         <AppHeader />
         <main className={styles.main}>
           <BurgerIngredients />
-
           <BurgerConstructor />
         </main>
         {isIngredientModalOpen && (

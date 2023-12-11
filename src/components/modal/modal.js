@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { closeIngredient } from "../../services/ingredient/actions";
 import { closeOrder } from "../../services/order/actions";

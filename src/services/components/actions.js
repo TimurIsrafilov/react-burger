@@ -19,6 +19,6 @@ export const deleteIngredient = (id) => (dispatch) => {
 export const moveIngredient = (dragIndex, hoverIndex) => (dispatch) => {
     dispatch({
         type: MOVE_INGREDIENTS,
-        payload: dragIndex, hoverIndex,
+        payload: {dragIndex, hoverIndex},
     });
 };

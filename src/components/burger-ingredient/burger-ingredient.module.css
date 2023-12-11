@@ -16,6 +16,13 @@
     position: absolute;
     top: 0;
     right: 5px;
+    height: 32px;
+    width: 32px;
+    background-color: rgba(76, 76, 255, 1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ingredient_value {

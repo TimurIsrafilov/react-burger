@@ -57,9 +57,15 @@ function BurgerIngredient(props) {
 
   return (
     <section className={styles.ingredient_card}>
-      <div className={styles.ingredient_counter}>
-        {orderedIngredientCounty ? orderedIngredientCounty : ""}
-      </div>
+      {orderedIngredientCounty ? (
+        <div
+          className={`${styles.ingredient_counter} "text text_type_digits-default`}
+        >
+          {orderedIngredientCounty}
+        </div>
+      ) : (
+        ""
+      )}
       <div>
         <img
           ref={drag}

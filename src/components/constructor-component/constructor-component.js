@@ -34,7 +34,6 @@ function ConstructorComponent(props) {
     dispatch(moveIngredient(dragIndex, hoverIndex));
   }
 
-
   const [, dropConstructor] = useDrop({
     accept: "constructorIngredient",
     collect(monitor) {
@@ -73,7 +72,7 @@ function ConstructorComponent(props) {
         return;
       }
       // Time to actually perform the action
-      moveIngredient(dragIndex, hoverIndex);
+      handleOnMoveIngredient(dragIndex, hoverIndex);
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
@@ -82,19 +81,27 @@ function ConstructorComponent(props) {
     },
   });
 
-  const [, dragConstructor] = useDrag(() => ({
+  const [{ isDragging }, dragConstructor] = useDrag(() => ({
     type: "constructorIngredient",
     item: { uniqueId, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging,
+    }),
   }));
+
+  const opacity = isDragging ? 0 : 1;
 
   dragConstructor(dropConstructor(ref));
 
   return (
     <div
+      ref={ref}
       className={`${styles.constructor_component_container} mt-4`}
       key={Math.random()}
     >
-      <div ref={ref} className={styles.constructor_component_shift}>
+      <div
+        className={`${styles.constructor_component_shift}  "opacity=${opacity}"`}
+      >
         {props.ingredient.type !== "bun" && <DragIcon type="primary" />}
       </div>
       <ConstructorElement
@@ -112,12 +119,12 @@ function ConstructorComponent(props) {
   );
 }
 
-// ConstructorComponent.propTypes = {
-//   handleOnOpen: PropTypes.func,
-//   onIngredientClick: PropTypes.func,
-//   image: PropTypes.string,
-//   price: PropTypes.number,
-//   name: PropTypes.string,
-// };
+ConstructorComponent.propTypes = {
+  handleOnOpen: PropTypes.func,
+  onIngredientClick: PropTypes.func,
+  image: PropTypes.string,
+  price: PropTypes.number,
+  name: PropTypes.string,
+};
 
 export default ConstructorComponent;

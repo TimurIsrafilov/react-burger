@@ -42,16 +42,26 @@ export const reducer = (state = initialState, action) => {
       };
     }
 
+    // case MOVE_INGREDIENTS: {
+    //   return {
+    //     ...state,
+    //     orderedIngredients: [...state.orderedIngredients].splice(action.payload.dragIndex, 1)
+    //     state.orderedIngredients.splice(
+    //         action.payload.hoverIndex,
+    //         0,
+    //         state.orderedIngredients[action.payload.dragIndex]
+    //       ),
+    //   };
+    // }
+
     case MOVE_INGREDIENTS: {
       return {
         ...state,
-        orderedIngredients: [...state.orderedIngredients]
-          .splice(action.payload.dragIndex, 1)
-          .splice(
-            action.payload.hoverIndex,
-            0,
-            state.orderedIngredients[action.payload.dragIndex]
-          ),
+        orderedIngredients: [...state.orderedIngredients].splice(
+          action.payload.dragIndex,
+          0,
+          [...state.orderedIngredients].splice(action.payload.hoverIndex, 1)[0]
+        ),
       };
     }
 

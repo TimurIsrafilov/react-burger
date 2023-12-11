@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
@@ -35,7 +35,6 @@ function BurgerConstructor() {
     (store) => store.components.orderedIngredients
   );
 
-  const orderedIngredientsById = [];
   const handleOrder = () => {
     const bun = orderedIngredients.find((i) => i.type === "bun");
     const orderedIngredientsForPurshase = orderedIngredients.filter(
@@ -51,14 +50,19 @@ function BurgerConstructor() {
     dispatch(loadOrder(orderedIngredientsById));
   };
 
-  let sum = 0;
+  const summa = useMemo(() => suma(), [orderedIngredients]);
 
-  for (let i = 0; i < orderedIngredients.length; i++) {
-    if (orderedIngredients[i].type !== "bun") {
-      sum += orderedIngredients[i].price;
-    } else {
-      sum += orderedIngredients[i].price * 2;
+  function suma() {
+    let sum = 0;
+
+    for (let i = 0; i < orderedIngredients.length; i++) {
+      if (orderedIngredients[i].type !== "bun") {
+        sum += orderedIngredients[i].price;
+      } else {
+        sum += orderedIngredients[i].price * 2;
+      }
     }
+    return sum;
   }
 
   const [, dropTarget] = useDrop({
@@ -87,7 +91,6 @@ function BurgerConstructor() {
           key={ingredient._id}
           index={index}
           id={ingredient._id}
-          handleOnMoveIngredient={handleOnMoveIngredient}
         />
       </div>
     );
@@ -122,7 +125,6 @@ function BurgerConstructor() {
           key={ingredient._id}
           index={index}
           id={ingredient._id}
-          handleOnMoveIngredient={handleOnMoveIngredient}
         />
       </div>
     );
@@ -198,7 +200,7 @@ function BurgerConstructor() {
 
       <div className={`${styles.constructor_total_price} mt-10`}>
         <div className={`${styles.constructor_ingredient_value} mr-5`}>
-          <div className="text text_type_digits-default mr-2">{sum}</div>
+          <div className="text text_type_digits-default mr-2">{summa}</div>
           <CurrencyIcon type="primary" />
         </div>
         <Button

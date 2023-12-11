@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import PropTypes from "prop-types";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import styles from "./modal-overlay.module.css";
+
 import { closeIngredient } from "../../services/ingredient/actions";
 import { closeOrder } from "../../services/order/actions";
 

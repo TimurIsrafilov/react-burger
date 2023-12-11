@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import styles from "./ingredient-details.module.css";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function IngredientDetails() {
   const ingredientToShow = useSelector(

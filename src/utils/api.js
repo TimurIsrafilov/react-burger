@@ -28,10 +28,6 @@ class Api {
   }
 }
 
-// Эндпоинт // POST <https://norma.nomoreparties.space/api/orders>
-// Тело запроса {  "ingredients": ["609646e4dc916e00276b286e","609646e4dc916e00276b2870"] }
-// Пример ответа {   "name": "Краторный метеоритный бургер",   "order": {       "number": 6257   },   "success": true }
-
 const api = new Api({
   baseUrl: "https://norma.nomoreparties.space/api",
   headers: {
