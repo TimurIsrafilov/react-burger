@@ -13,18 +13,12 @@ import styles from "./constructor-component.module.css";
 
 import { deleteIngredient } from "../../services/components/actions";
 
-import {
-  addIngredient,
-  moveIngredient,
-} from "../../services/components/actions";
+import { moveIngredient } from "../../services/components/actions";
 
-function ConstructorComponent(props) {
+function ConstructorComponent({ index, ingredient, uniqueId }) {
   const ref = useRef(null);
 
   const dispatch = useDispatch();
-
-  const uniqueId = props.ingredient.uniqueId;
-  const index = props.index;
 
   function deleteIngr(uniqueId) {
     dispatch(deleteIngredient(uniqueId));
@@ -34,7 +28,7 @@ function ConstructorComponent(props) {
     dispatch(moveIngredient(dragIndex, hoverIndex));
   }
 
-  const [, dropConstructor] = useDrop({
+  const [{ handlerId }, dropConstructor] = useDrop({
     accept: "constructorIngredient",
     collect(monitor) {
       return {
@@ -45,12 +39,15 @@ function ConstructorComponent(props) {
       if (!ref.current) {
         return;
       }
+
       const dragIndex = item.index;
       const hoverIndex = index;
+
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
         return;
       }
+
       // Determine rectangle on screen
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       // Get vertical middle
@@ -81,35 +78,30 @@ function ConstructorComponent(props) {
     },
   });
 
-  const [{ isDragging }, dragConstructor] = useDrag(() => ({
+  const [{ isDragging }, dragConstructor] = useDrag({
     type: "constructorIngredient",
-    item: { uniqueId, index },
+    item: () => ({ index }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging,
     }),
-  }));
+  });
 
   const opacity = isDragging ? 0 : 1;
 
   dragConstructor(dropConstructor(ref));
 
   return (
-    <div
-      ref={ref}
-      className={`${styles.constructor_component_container} mt-4`}
-      key={Math.random()}
-    >
+    <div ref={ref} className={`${styles.constructor_component_container} mt-4`}>
       <div
         className={`${styles.constructor_component_shift}  "opacity=${opacity}"`}
       >
-        {props.ingredient.type !== "bun" && <DragIcon type="primary" />}
+        {ingredient.type !== "bun" && <DragIcon type="primary" />}
       </div>
       <ConstructorElement
-        ingredient={props.ingredient}
-        text={props.ingredient.name}
-        price={props.ingredient.price}
-        thumbnail={props.ingredient.image}
-        key={uniqueId}
+        ingredient={ingredient}
+        text={ingredient.name}
+        price={ingredient.price}
+        thumbnail={ingredient.image}
         index={index}
         uniqueId={uniqueId}
         handleOnMoveIngredient={handleOnMoveIngredient}
@@ -120,11 +112,9 @@ function ConstructorComponent(props) {
 }
 
 ConstructorComponent.propTypes = {
-  handleOnOpen: PropTypes.func,
-  onIngredientClick: PropTypes.func,
-  image: PropTypes.string,
-  price: PropTypes.number,
-  name: PropTypes.string,
+  index: PropTypes.number,
+  ingredient: PropTypes.object,
+  uniqueId: PropTypes.number,
 };
 
 export default ConstructorComponent;

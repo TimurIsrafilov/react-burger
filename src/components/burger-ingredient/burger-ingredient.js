@@ -87,11 +87,7 @@ function BurgerIngredient(props) {
 }
 
 BurgerIngredient.propTypes = {
-  handleOnOpen: PropTypes.func,
-  onIngredientClick: PropTypes.func,
-  image: PropTypes.string,
-  price: PropTypes.number,
-  name: PropTypes.string,
+  ingredient: PropTypes.object,
 };
 
 export default BurgerIngredient;
