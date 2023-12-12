@@ -1,0 +1,28 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: fixed;
+    top: 200px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 1);
+}
+
+.modal_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 720px;
+    width: 720px;
+    background-color: rgba(28, 28, 33, 1);
+    position: fixed;
+    border-radius: 40px;
+}
+
+.modal_close_icon {
+    position: absolute;
+    top: 20px;
+    left: 660px;
+    cursor: pointer;
+}
