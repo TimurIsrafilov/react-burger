@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 import {
   ADD_INGREDIENTS,
   DELETE_INGREDIENTS,
@@ -24,12 +22,12 @@ export const reducer = (state = initialState, action) => {
                 ...state.orderedIngredients.filter(
                   (element) => element.type !== action.payload.item.type
                 ),
-                action.payload.item,
-              ].map((v) => ({ ...v, uniqueId: uuidv4() }))
-            : [...state.orderedIngredients, action.payload.item].map((v) => ({
-                ...v,
-                uniqueId: uuidv4(),
-              })),
+                { ...action.payload.item, uniqueId: action.payload.uniqueId },
+              ]
+            : [
+                ...state.orderedIngredients,
+                { ...action.payload.item, uniqueId: action.payload.uniqueId },
+              ],
       };
     }
 

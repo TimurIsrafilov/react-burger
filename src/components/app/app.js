@@ -13,11 +13,23 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 
+import { useDispatch } from "react-redux";
+
+import { closeIngredient } from "../../services/ingredient/actions";
+import { closeOrder } from "../../services/order/actions";
+
 function App() {
   const isIngredientModalOpen = useSelector(
     (store) => store.ingredient.showIngredient
   );
   const isOrdertModalOpen = useSelector((store) => store.order.orderInfo);
+
+  const dispatch = useDispatch();
+
+  function handleOnClose() {
+    dispatch(closeIngredient());
+    dispatch(closeOrder());
+  }
 
   return (
     <div className={styles.app}>
@@ -28,12 +40,12 @@ function App() {
           <BurgerConstructor />
         </main>
         {isIngredientModalOpen && (
-          <Modal>
+          <Modal handleOnClose={handleOnClose}>
             <IngredientDetails />
           </Modal>
         )}
         {isOrdertModalOpen && (
-          <Modal>
+          <Modal handleOnClose={handleOnClose}>
             <OrderDetails />
           </Modal>
         )}

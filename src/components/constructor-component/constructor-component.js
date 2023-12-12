@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
@@ -15,10 +13,12 @@ import { deleteIngredient } from "../../services/components/actions";
 
 import { moveIngredient } from "../../services/components/actions";
 
-function ConstructorComponent({ index, ingredient, uniqueId }) {
+function ConstructorComponent({ index, ingredient }) {
   const ref = useRef(null);
 
   const dispatch = useDispatch();
+
+  const uniqueId = ingredient.uniqueId;
 
   function deleteIngr(uniqueId) {
     dispatch(deleteIngredient(uniqueId));
@@ -110,11 +110,5 @@ function ConstructorComponent({ index, ingredient, uniqueId }) {
     </div>
   );
 }
-
-ConstructorComponent.propTypes = {
-  index: PropTypes.number,
-  ingredient: PropTypes.object,
-  uniqueId: PropTypes.number,
-};
 
 export default ConstructorComponent;

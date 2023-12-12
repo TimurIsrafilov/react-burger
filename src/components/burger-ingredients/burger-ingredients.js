@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -118,11 +116,5 @@ function BurgerIngredients() {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array,
-  handleOnOpen: PropTypes.func,
-  onIngredientClick: PropTypes.func,
-};
 
 export default BurgerIngredients;

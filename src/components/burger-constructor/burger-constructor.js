@@ -1,8 +1,7 @@
 import { useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import PropTypes from "prop-types";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 
 import {
   CurrencyIcon,
@@ -208,6 +207,9 @@ function BurgerConstructor() {
           type="primary"
           size="large"
           onClick={handleOrder}
+          disabled={
+            orderedIngredients.some((i) => i.type === "bun") ? false : true
+          }
         >
           Оформить заказ
         </Button>
@@ -215,10 +217,5 @@ function BurgerConstructor() {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.array,
-  handleOnOpen: PropTypes.func,
-};
 
 export default BurgerConstructor;
