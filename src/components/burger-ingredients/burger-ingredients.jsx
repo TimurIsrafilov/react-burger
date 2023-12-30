@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import styles from "./burger-ingredients.module.css";
 
@@ -7,9 +8,9 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { loadIngredients } from "../../services/ingredients/actions";
-
 function BurgerIngredients() {
+  const location = useLocation();
+
   const [current, setCurrent] = useState("one");
 
   const ref = useRef(null);
@@ -27,12 +28,6 @@ function BurgerIngredients() {
       setCurrent("two");
     } else if (scrollTop > 750) setCurrent("three");
   }, [scrollTop]);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
 
   const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
 
@@ -68,10 +63,17 @@ function BurgerIngredients() {
             {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "bun" && (
-                  <BurgerIngredient
-                    ingredient={ingredient}
+                  <Link
+                    className={styles.ingredients_link}
                     key={ingredient._id}
-                  />
+                    to={`/ingredients/${ingredient._id}`}
+                    state={{ backgroundLocation: location }}
+                  >
+                    <BurgerIngredient
+                      ingredient={ingredient}
+                      key={ingredient._id}
+                    />
+                  </Link>
                 )
             )}
           </div>
@@ -86,10 +88,17 @@ function BurgerIngredients() {
             {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "sauce" && (
-                  <BurgerIngredient
-                    ingredient={ingredient}
+                  <Link
+                    className={styles.ingredients_link}
                     key={ingredient._id}
-                  />
+                    to={`/ingredients/${ingredient._id}`}
+                    state={{ backgroundLocation: location }}
+                  >
+                    <BurgerIngredient
+                      ingredient={ingredient}
+                      key={ingredient._id}
+                    />
+                  </Link>
                 )
             )}
           </div>
@@ -104,10 +113,17 @@ function BurgerIngredients() {
             {ingredientsSet.map(
               (ingredient) =>
                 ingredient.type === "main" && (
-                  <BurgerIngredient
-                    ingredient={ingredient}
+                  <Link
+                    className={styles.ingredients_link}
                     key={ingredient._id}
-                  />
+                    to={`/ingredients/${ingredient._id}`}
+                    state={{ backgroundLocation: location }}
+                  >
+                    <BurgerIngredient
+                      ingredient={ingredient}
+                      key={ingredient._id}
+                    />
+                  </Link>
                 )
             )}
           </div>

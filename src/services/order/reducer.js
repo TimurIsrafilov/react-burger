@@ -1,37 +1,44 @@
-import { LOADING_ORDERS, ERROR_ORDERS, LOAD_ORDERS_SUCCESS, CLOSE_ORDERS } from "./actions";
+import {
+  LOAD_ORDER_SUCCESS,
+  CLOSE_ORDER,
+  ORDER_LOADING,
+  ORDER_ERROR,
+} from "./actions";
 
 const initialState = {
-  orderInfo: null,
+  order: null,
+  loading: false,
+  error: null,
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_ORDERS: {
+    case LOAD_ORDER_SUCCESS:
+      return {
+        ...state,
+        order: action.payload,
+        loading: false,
+      };
+    case CLOSE_ORDER: {
+      return {
+        ...state,
+        order: null,
+      };
+    }
+    case ORDER_LOADING: {
       return {
         ...state,
         loading: true,
         error: null,
       };
     }
-    case ERROR_ORDERS: {
+    case ORDER_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case LOAD_ORDERS_SUCCESS:
-      return {
-        ...state,
-        orderInfo: action.payload,
-        loading: false,
-      };
-      case CLOSE_ORDERS: {
-        return {
-          ...state,
-          orderInfo: null,
-        };
-      }
     default:
       return state;
   }

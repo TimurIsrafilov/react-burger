@@ -1,11 +1,17 @@
-import styles from "./ingredient-details.module.css";
+import { useParams } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
+import styles from "./ingredient-details.module.css";
+
 function IngredientDetails() {
-  const ingredientToShow = useSelector(
-    (store) => store.ingredient.showIngredient
-  );
+  const { ingredientId } = useParams();
+
+  const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
+
+  const ingredientToShow =
+    ingredientsSet.length > 0 &&
+    ingredientsSet.filter((ingredient) => ingredient._id === ingredientId)[0];
 
   return (
     <section className={styles.ingredient_details_container}>

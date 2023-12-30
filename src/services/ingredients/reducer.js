@@ -1,35 +1,37 @@
 import {
-  LOADING_INGREDIENTS,
-  ERROR_INGREDIENTS,
   LOAD_INGREDIENTS_SUCCESS,
+  INGREDIENTS_LOADING,
+  INGREDIENTS_ERROR,
 } from "./actions";
 
 const initialState = {
   ingredients: [],
+  loading: false,
+  error: null,
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_INGREDIENTS: {
+    case LOAD_INGREDIENTS_SUCCESS:
+      return {
+        ...state,
+        ingredients: action.payload,
+        loading: false,
+      };
+    case INGREDIENTS_LOADING: {
       return {
         ...state,
         loading: true,
         error: null,
       };
     }
-    case ERROR_INGREDIENTS: {
+    case INGREDIENTS_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case LOAD_INGREDIENTS_SUCCESS:
-      return {
-        ...state,
-        ingredients: action.payload.data,
-        loading: false,
-      };
     default:
       return state;
   }

@@ -18,8 +18,23 @@
     justify-content: start;
 }
 
-.item {
+.menu_item {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+}
+
+
+.profile_item {
+    display: flex;
+    justify-content: end;
+    align-self: center;
+    width: 350px;
+    text-decoration: none;
+}
+
+.text {
+    color: rgba(242, 242, 243, 1);
+    text-decoration: none;
 }

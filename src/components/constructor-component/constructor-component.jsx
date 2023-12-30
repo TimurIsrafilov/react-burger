@@ -91,7 +91,7 @@ function ConstructorComponent({ index, ingredient }) {
   dragConstructor(dropConstructor(ref));
 
   return (
-    <div ref={ref} className={`${styles.constructor_component_container} mt-4`}>
+    <div ref={ref} className={`${styles.constructor_component_container}`}>
       <div
         className={`${styles.constructor_component_shift}  "opacity=${opacity}"`}
       >

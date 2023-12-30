@@ -81,7 +81,7 @@ function BurgerIngredient(props) {
         </div>
         <CurrencyIcon type="primary" />
       </div>
-      <p className="text text__type_main-default">{props.ingredient.name}</p>
+      <p className="text text_type_main-default">{props.ingredient.name}</p>
     </section>
   );
 }

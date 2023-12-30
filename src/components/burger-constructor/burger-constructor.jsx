@@ -1,5 +1,6 @@
 import { useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { useDrop } from "react-dnd";
 
@@ -22,6 +23,8 @@ import {
 import { loadOrder } from "../../services/order/actions";
 
 function BurgerConstructor() {
+  const navigate = useNavigate();
+
   const ref = useRef(null);
 
   const dispatch = useDispatch();
@@ -34,19 +37,25 @@ function BurgerConstructor() {
     (store) => store.components.orderedIngredients
   );
 
-  const handleOrder = () => {
-    const bun = orderedIngredients.find((i) => i.type === "bun");
-    const orderedIngredientsForPurshase = orderedIngredients.filter(
-      (i) => i.type !== "bun"
-    );
-    orderedIngredientsForPurshase.push(bun);
-    orderedIngredientsForPurshase.unshift(bun);
-    const orderedIngredientsById = [];
-    orderedIngredientsForPurshase.map((i) =>
-      orderedIngredientsById.push(i._id)
-    );
+  const isUserLogged = useSelector((store) => store.user.user);
 
-    dispatch(loadOrder(orderedIngredientsById));
+  const handleOrder = () => {
+    if (isUserLogged) {
+      const bun = orderedIngredients.find((i) => i.type === "bun");
+      const orderedIngredientsForPurshase = orderedIngredients.filter(
+        (i) => i.type !== "bun"
+      );
+      orderedIngredientsForPurshase.push(bun);
+      orderedIngredientsForPurshase.unshift(bun);
+      const orderedIngredientsById = [];
+      orderedIngredientsForPurshase.map((i) =>
+        orderedIngredientsById.push(i._id)
+      );
+
+      dispatch(loadOrder(orderedIngredientsById));
+    } else {
+      navigate("/login", { replace: true });
+    }
   };
 
   const summa = useMemo(() => suma(), [orderedIngredients]);
@@ -74,7 +83,9 @@ function BurgerConstructor() {
   const renderTopIngredient = useCallback((ingredient, index) => {
     return (
       <div
-        className={`${styles.constructor_ingredient_container} mt-4`}
+        className={`${styles.constructor_ingredient_container}
+
+         `}
         key={Math.random()}
       >
         <div className={styles.constructor_ingredient_shift}>
@@ -109,7 +120,9 @@ function BurgerConstructor() {
   const renderBottomIngredient = useCallback((ingredient, index) => {
     return (
       <div
-        className={`${styles.constructor_ingredient_container} mt-4`}
+        className={`${styles.constructor_ingredient_container} 
+      
+        `}
         key={Math.random()}
       >
         <div className={styles.constructor_ingredient_shift}>
@@ -135,46 +148,42 @@ function BurgerConstructor() {
         ref={dropTarget}
         className={`${styles.constructor_ingredients_container}`}
       >
-        <div>
-          {orderedIngredients.length > 0 &&
-          orderedIngredients.some((obj) => obj.type === "bun") ? (
-            <div>
-              {orderedIngredients.map(
-                (ingredient, index) =>
-                  ingredient.type === "bun" &&
-                  renderTopIngredient(ingredient, index)
-              )}
-            </div>
-          ) : (
-            <div
-              className={`${styles.constructor_bun_top_container} text text__type_main-default`}
-            >
-              Выберете булочку
-            </div>
-          )}
-        </div>
+        {orderedIngredients.length > 0 &&
+        orderedIngredients.some((obj) => obj.type === "bun") ? (
+          <div>
+            {orderedIngredients.map(
+              (ingredient, index) =>
+                ingredient.type === "bun" &&
+                renderTopIngredient(ingredient, index)
+            )}
+          </div>
+        ) : (
+          <div
+            className={`${styles.constructor_bun_top_container} text text_type_main-default`}
+          >
+            Выберете булочку
+          </div>
+        )}
 
         <div
           className={`${styles.constructor_ingredients_secondary} custom-scroll`}
         >
-          <div>
-            {orderedIngredients.length > 0 &&
-            orderedIngredients.some((obj) => obj.type !== "bun") ? (
-              <div>
-                {orderedIngredients.map(
-                  (ingredient, index) =>
-                    ingredient.type !== "bun" &&
-                    renderIngredient(ingredient, index)
-                )}
-              </div>
-            ) : (
-              <div
-                className={`${styles.constructor_ingr_container} text text__type_main-default mt-5 mb-5`}
-              >
-                Выберете ингредиенты
-              </div>
-            )}
-          </div>
+          {orderedIngredients.length > 0 &&
+          orderedIngredients.some((obj) => obj.type !== "bun") ? (
+            <div className={styles.constructor_ingredients_container}>
+              {orderedIngredients.map(
+                (ingredient, index) =>
+                  ingredient.type !== "bun" &&
+                  renderIngredient(ingredient, index)
+              )}
+            </div>
+          ) : (
+            <div
+              className={`${styles.constructor_ingr_container} text text_type_main-default`}
+            >
+              Выберете ингредиенты
+            </div>
+          )}
         </div>
 
         <div>

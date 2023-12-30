@@ -14,9 +14,11 @@ function Modal(props) {
     <section className={styles.modal}>
       <ModalOverlay handleOnClose={props.handleOnClose} />
       <div className={styles.modal_container}>
-        <div className={`${styles.modal_close_icon} mt-15 mr-10`}>
-          <CloseIcon type="primary" onClick={props.handleOnClose} />
-        </div>
+        {!props.isLoading && (
+          <div className={`${styles.modal_close_icon} mt-15 mr-10`}>
+            <CloseIcon type="primary" onClick={props.handleOnClose} />
+          </div>
+        )}
         {props.children}
       </div>
     </section>,
@@ -27,6 +29,7 @@ function Modal(props) {
 Modal.propTypes = {
   children: PropTypes.object,
   handleOnClose: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 export default Modal;
