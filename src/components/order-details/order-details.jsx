@@ -5,7 +5,7 @@ import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 
 function OrderDetails() {
-  const orderNumber = useSelector((store) => store.order.orderInfo);
+  const orderNumber = useSelector((store) => store.order.order);
 
   return (
     <section className={styles.order_details_container}>

@@ -1,0 +1,6 @@
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(19, 19, 22, 1);
+  }
