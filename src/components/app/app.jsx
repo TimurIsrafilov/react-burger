@@ -27,6 +27,16 @@ import ProfileInformation from "../../components/profile-information/profile-inf
 import { loadIngredients } from "../../services/ingredients/actions";
 import { checkUserAuth } from "../../services/user/actions";
 import { OnlyAuth, OnlyUnAuth } from "../../utils/protected-route";
+import {
+  FORGOT_PASSWORD,
+  HOME,
+  INGREDIENTS_INGREDIENT_ID,
+  LOGIN,
+  PROFILE,
+  PROFILE_ORDERS,
+  REGISTER,
+  RESET_PASSWORD,
+} from "../../utils/constants";
 
 function App() {
   const navigate = useNavigate();
@@ -71,33 +81,33 @@ function App() {
       )}
 
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+        <Route path={HOME} element={<Home />} />
+        <Route path={LOGIN} element={<OnlyUnAuth component={<Login />} />} />
         <Route
-          path="/register"
+          path={REGISTER}
           element={<OnlyUnAuth component={<Register />} />}
         />
-        <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
+        <Route path={PROFILE} element={<OnlyAuth component={<Profile />} />}>
           <Route index element={<ProfileInformation />} />
-          <Route path="/profile/orders" element={<NotFound404 />} />
+          <Route path={PROFILE_ORDERS} element={<NotFound404 />} />
         </Route>
         <Route
-          path="/forgot-password"
+          path={FORGOT_PASSWORD}
           element={<OnlyUnAuth component={<ForgotPassword />} />}
         />
         <Route
-          path="/reset-password"
+          path={RESET_PASSWORD}
           element={
             confirmationPasswordReset ? (
               <OnlyUnAuth component={<ResetPassword />} />
             ) : (
-              <Navigate to="/forgot-password" replace />
+              <Navigate to={FORGOT_PASSWORD} replace />
             )
           }
         />
-        <Route path="/profile" element={<OnlyAuth component={<Profile />} />} />
+        <Route path={PROFILE} element={<OnlyAuth component={<Profile />} />} />
         <Route
-          path="/ingredients/:ingredientId"
+          path={INGREDIENTS_INGREDIENT_ID}
           element={<IngredientDetails />}
         />
         <Route path="*" element={<NotFound404 />} />
@@ -106,7 +116,7 @@ function App() {
       {state?.backgroundLocation && (
         <Routes>
           <Route
-            path="/ingredients/:ingredientId"
+            path={INGREDIENTS_INGREDIENT_ID}
             element={
               <Modal handleOnClose={handleOnClose}>
                 <IngredientDetails />

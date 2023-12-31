@@ -25,7 +25,6 @@ export const reducer = (state = initialState, action) => {
     case DELETE_USER_SUCCESS:
       return {
         ...state,
-        isAuthChecked: false,
         user: null,
         loading: false,
       };

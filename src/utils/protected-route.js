@@ -1,13 +1,24 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
+import Modal from "../components/modal/modal";
+import Preloader from "../components/preloader/preloader";
+
+import { LOGIN } from "./constants";
+
 const Protected = ({ onlyUnAuth = false, component }) => {
   const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
   const user = useSelector((store) => store.user.user);
   const location = useLocation();
 
+  const isUserLoading = useSelector((store) => store.user.loading);
+
   if (!isAuthChecked) {
-    return null;
+    return (
+      <Modal>
+        <Preloader isLoading={isUserLoading} />
+      </Modal>
+    );
   }
 
   if (onlyUnAuth && user) {
@@ -16,7 +27,7 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   }
 
   if (!onlyUnAuth && !user) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to={LOGIN} state={{ from: location }} />;
   }
 
   return component;

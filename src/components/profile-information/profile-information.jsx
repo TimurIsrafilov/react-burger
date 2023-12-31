@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./profile-information.module.css";
 
@@ -8,15 +8,21 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { updateUser } from "../../services/user/actions";
+
 function ProfileInformation() {
+  // const inputRef = useRef(null);
+
   const userStore = useSelector((store) => store.user.user);
   const userData = userStore ? userStore : {};
+
+  const dispatch = useDispatch();
 
   const [values, setValues] = useState(userData);
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
   const [isInputChanged, setisInputChanged] = useState(false);
 
-  const onChange = (e) => {
+  const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     setisInputChanged(true);
   };
@@ -25,19 +31,26 @@ function ProfileInformation() {
     setIsInputTypePassword(!isInputTypePassword);
   }
 
-  const inputRef = useRef(null);
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(updateUser(values));
+  }
+
+  function handleUndo() {
+    setValues(userData);
+  }
 
   return (
-    <form className={styles.inputs}>
+    <form onSubmit={handleSubmit} className={styles.inputs}>
       <Input
         type={"text"}
         placeholder={"Имя"}
-        onChange={onChange}
+        onChange={handleChange}
         icon={"EditIcon"}
         value={values.name || ""}
         name={"name"}
         error={false}
-        ref={inputRef}
+        // ref={inputRef}
         // onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -46,12 +59,12 @@ function ProfileInformation() {
       <Input
         type={"email"}
         placeholder={"Логин"}
-        onChange={onChange}
+        onChange={handleChange}
         icon={"EditIcon"}
         value={values.email || ""}
         name={"email"}
         error={false}
-        ref={inputRef}
+        // ref={inputRef}
         // onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -60,13 +73,13 @@ function ProfileInformation() {
       <Input
         type={isInputTypePassword ? "password" : "text"}
         placeholder={"Пароль"}
-        onChange={onChange}
+        onChange={handleChange}
         // icon={"EditIcon"}
         icon={"ShowIcon"}
         value={values.password || ""}
         name={"password"}
         error={false}
-        ref={inputRef}
+        // ref={inputRef}
         onIconClick={onPasswordIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -77,15 +90,16 @@ function ProfileInformation() {
         {isInputChanged && (
           <div>
             <Button
-              htmlType="button"
+              htmlType="reset"
               type="secondary"
               size="medium"
+              onClick={handleUndo}
               // extraClass="mb-20"
             >
               Отменить
             </Button>
             <Button
-              htmlType="button"
+              htmlType="submit"
               type="primary"
               size="medium"
               // extraClass="mb-20"

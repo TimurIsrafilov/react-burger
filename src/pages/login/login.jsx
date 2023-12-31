@@ -10,30 +10,28 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { loginUser } from "../../services/user/actions";
+import { useForm } from "../../hooks/useForm";
 
 function Login() {
-  const [values, setValues] = useState({});
+  // const inputRef = useRef(null);
+
+  const { values, handleChange } = useForm({});
+
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
   const dispatch = useDispatch();
-
-  function onChange(e) {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  }
 
   function onPasswordIconClick() {
     setIsInputTypePassword(!isInputTypePassword);
   }
 
-  function onSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     dispatch(loginUser(values));
   }
 
-  const inputRef = useRef(null);
-
   return (
-    <form className={styles.inputs_container}>
+    <form onSubmit={handleSubmit} className={styles.inputs_container}>
       <h2 className={`${styles.inputs_title} text text_type_main-medium mb-6`}>
         Вход
       </h2>
@@ -41,11 +39,11 @@ function Login() {
         <Input
           type={"email"}
           placeholder={"E-mail"}
-          onChange={onChange}
+          onChange={handleChange}
           value={values.email || ""}
           name={"email"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           // onIconClick={onIconClick}
           errorText={"Ошибка"}
           size={"default"}
@@ -54,25 +52,19 @@ function Login() {
         <Input
           type={isInputTypePassword ? "password" : "text"}
           placeholder={"Пароль"}
-          onChange={onChange}
+          onChange={handleChange}
           icon={"ShowIcon"}
           value={values.password || ""}
           name={"password"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           onIconClick={onPasswordIconClick}
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
         />
       </div>
-      <Button
-        htmlType="button"
-        type="primary"
-        onClick={onSubmit}
-        size="medium"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
         Войти
       </Button>
       <div className={`${styles.inputs_text_container} mb-4`}>

@@ -10,30 +10,28 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { createUser } from "../../services/user/actions";
+import { useForm } from "../../hooks/useForm";
 
 function Register() {
-  const [values, setValues] = useState({});
+  // const inputRef = useRef(null);
+
+  const { values, handleChange } = useForm({});
+
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
   const dispatch = useDispatch();
-
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
 
   function onPasswordIconClick() {
     setIsInputTypePassword(!isInputTypePassword);
   }
 
-  function onSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     dispatch(createUser(values));
   }
 
-  const inputRef = useRef(null);
-
   return (
-    <div className={styles.inputs_container}>
+    <form onSubmit={handleSubmit} className={styles.inputs_container}>
       <h2 className={`${styles.inputs_title} text text_type_main-medium mb-6`}>
         Регистрация
       </h2>
@@ -41,11 +39,11 @@ function Register() {
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={onChange}
+          onChange={handleChange}
           value={values.name || ""}
           name={"name"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           // onIconClick={onIconClick}
           errorText={"Ошибка"}
           size={"default"}
@@ -54,11 +52,11 @@ function Register() {
         <Input
           type={"email"}
           placeholder={"E-mail"}
-          onChange={onChange}
+          onChange={handleChange}
           value={values.email || ""}
           name={"email"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           // onIconClick={onIconClick}
           errorText={"Ошибка"}
           size={"default"}
@@ -67,25 +65,19 @@ function Register() {
         <Input
           type={isInputTypePassword ? "password" : "text"}
           placeholder={"Пароль"}
-          onChange={onChange}
+          onChange={handleChange}
           icon={"ShowIcon"}
           value={values.password || ""}
           name={"password"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           onIconClick={onPasswordIconClick}
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
         />
       </div>
-      <Button
-        htmlType="button"
-        type="primary"
-        onClick={onSubmit}
-        size="medium"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
         Зарегистрироваться
       </Button>
       <div className={`${styles.inputs_text_container} mb-4`}>
@@ -99,7 +91,7 @@ function Register() {
           Войти
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

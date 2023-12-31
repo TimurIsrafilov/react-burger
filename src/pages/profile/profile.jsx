@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 
 import { logoutUser } from "../../services/user/actions";
+import { ORDERS, PROFILE } from "../../utils/constants";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function Profile() {
       <div className={styles.profile_menu_container}>
         <div className={`${styles.items_container} mr-20`}>
           <NavLink
-            to="/profile"
+            to={PROFILE}
             className={({ isActive }) =>
               isActive
                 ? `${styles.item_link_active} text text_type_main-medium`
@@ -28,7 +29,7 @@ function Profile() {
             Профиль
           </NavLink>
           <NavLink
-            to="/orders"
+            to={ORDERS}
             className={({ isActive }) =>
               isActive
                 ? `${styles.item_link_active} text text_type_main-medium`

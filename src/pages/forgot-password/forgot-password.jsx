@@ -10,16 +10,17 @@ import {
 
 import api from "../../utils/api";
 
+import { useForm } from "../../hooks/useForm";
+import { RESET_PASSWORD } from "../../utils/constants";
+
 function ForgotPassword() {
+  // const inputRef = useRef(null);
+
   const navigate = useNavigate();
 
-  const [values, setValues] = useState({});
+  const { values, handleChange } = useForm({});
 
-  function onChange(e) {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  }
-
-  function onSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     handlePasswordForgot();
   }
@@ -28,15 +29,13 @@ function ForgotPassword() {
     api.passwordForgot(values).then((res) => {
       if (res) {
         localStorage.setItem("confirmationPasswordReset", res.success);
-        navigate("/reset-password", { replace: true });
+        navigate(RESET_PASSWORD, { replace: true });
       }
     });
   }
 
-  const inputRef = useRef(null);
-
   return (
-    <div className={styles.inputs_container}>
+    <form onSubmit={handleSubmit} className={styles.inputs_container}>
       <h2 className={"text text_type_main-medium mb-6"}>
         Восстановление пароля
       </h2>
@@ -44,24 +43,18 @@ function ForgotPassword() {
         <Input
           type={"email"}
           placeholder={"Укажите e-mail"}
-          onChange={onChange}
+          onChange={handleChange}
           value={values.email || ""}
           name={"email"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           // onIconClick={onIconClick}
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
         />
       </div>
-      <Button
-        htmlType="button"
-        type="primary"
-        onClick={onSubmit}
-        size="medium"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
         Восстановить
       </Button>
       <div className={`${styles.inputs_text_container} mb-4`}>
@@ -75,7 +68,7 @@ function ForgotPassword() {
           Войти
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

@@ -137,18 +137,7 @@ class Api {
       body: JSON.stringify({
         email: data.email,
       }),
-    })
-      .then(this._getResponseData)
-      .catch((error) => {
-        if (error.message === "jwt expired") {
-          fetchWithRefresh(`${this._baseUrl}/auth/user`, {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: localStorage.getItem("refreshToken"),
-            },
-          });
-        }
-      });
+    }).then(this._getResponseData);
   }
 
   // На экране /reset-password пользователь вводит новый пароль и код из имейла,
@@ -179,7 +168,8 @@ class Api {
   }
 
   // GET https://norma.nomoreparties.space/api/auth/user - эндпоинт получения данных о пользователе.
-  // Для получения данных о пользователе необходимо передать серверу токен из куков в поле authorization. Сервер вернёт такой ответ:
+  // Для получения данных о пользователе необходимо передать серверу токен из куков в поле authorization.
+  // Сервер вернёт такой ответ:
   // {
   //   "success": true,
   //   "user": {
@@ -210,8 +200,9 @@ class Api {
   }
 
   // PATCH https://norma.nomoreparties.space/api/auth/user - эндпоинт обновления данных о пользователе.
-  // Если пользователь отредактирует информацию на экране профиля и нажмёт «Сохранить», то серверу также потребуется
-  // поле authorization и поля с отредактированной информацией. Если всё хорошо — сервер вернёт обновлённого пользователя:
+  // Если пользователь отредактирует информацию на экране профиля и нажмёт «Сохранить», то серверу также
+  // потребуется поле authorization и поля с отредактированной информацией.
+  // Если всё хорошо — сервер вернёт обновлённого пользователя:
   // {
   //   "success": true,
   //   "user": {
@@ -220,7 +211,7 @@ class Api {
   //   }
   // }
 
-  updateUser(userData) {
+  changeUserData(userData) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: {

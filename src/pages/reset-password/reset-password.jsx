@@ -10,47 +10,46 @@ import {
 
 import api from "../../utils/api";
 
+import { useForm } from "../../hooks/useForm";
+import { LOGIN } from "../../utils/constants";
+
 function ResetPassword() {
+  // const inputRef = useRef(null);
+
   const navigate = useNavigate();
 
-  const [values, setValues] = useState({});
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({});
 
   function onPasswordIconClick() {
     setIsInputTypePassword(!isInputTypePassword);
   }
 
-  function onSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     api.passwordReset(values).then((res) => {
       if (res) {
         localStorage.removeItem("confirmationPasswordReset");
-        navigate("/login", { replace: true });
+        navigate(LOGIN, { replace: true });
       }
     });
   }
 
-  const inputRef = useRef(null);
-
   return (
-    <div className={styles.inputs_container}>
+    <form onSubmit={handleSubmit} className={styles.inputs_container}>
       <h2 className={`${styles.inputs_title} text text_type_main-medium mb-6`}>
         Восстановление пароля
       </h2>
-
       <Input
         type={isInputTypePassword ? "password" : "text"}
         placeholder={"Введите новый пароль"}
-        onChange={onChange}
+        onChange={handleChange}
         icon={"ShowIcon"}
         value={values.password || ""}
         name={"password"}
         error={false}
-        ref={inputRef}
+        // ref={inputRef}
         onIconClick={onPasswordIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -60,24 +59,18 @@ function ResetPassword() {
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
-          onChange={onChange}
+          onChange={handleChange}
           value={values.code || ""}
           name={"code"}
           error={false}
-          ref={inputRef}
+          // ref={inputRef}
           // onIconClick={onIconClick}
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
         />
       </div>
-      <Button
-        htmlType="button"
-        type="primary"
-        onClick={onSubmit}
-        size="medium"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
         Сохранить
       </Button>
       <div className={`${styles.inputs_text_container} mb-4`}>
@@ -91,7 +84,7 @@ function ResetPassword() {
           Войти
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

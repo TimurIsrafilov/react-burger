@@ -52,6 +52,24 @@ export const createUser = (userData) => (dispatch) => {
     });
 };
 
+export const updateUser = (userData) => (dispatch) => {
+  dispatch({ type: USER_LOADING });
+  return api
+    .changeUserData(userData)
+    .then((res) => {
+      dispatch({
+        type: ADD_USER_SUCCESS,
+        payload: res.user,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: USER_ERROR,
+        payload: error.message,
+      });
+    });
+};
+
 export const loginUser = (userData) => (dispatch) => {
   dispatch({ type: USER_LOADING });
   return api
