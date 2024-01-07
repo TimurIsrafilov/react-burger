@@ -28,11 +28,11 @@ function ConstructorComponent({ index, ingredient }) {
     dispatch(moveIngredient(dragIndex, hoverIndex));
   }
 
-  const [{ handlerId }, dropConstructor] = useDrop({
+  const [{ isOver }, dropConstructor] = useDrop({
     accept: "constructorIngredient",
     collect(monitor) {
       return {
-        handlerId: monitor.getHandlerId(),
+        isOver: monitor.isOver(),
       };
     },
     hover(item, monitor) {
@@ -82,19 +82,19 @@ function ConstructorComponent({ index, ingredient }) {
     type: "constructorIngredient",
     item: () => ({ index }),
     collect: (monitor) => ({
-      isDragging: monitor.isDragging,
+      isDragging: monitor.isDragging(),
     }),
   });
-
-  const opacity = isDragging ? 0 : 1;
 
   dragConstructor(dropConstructor(ref));
 
   return (
-    <div ref={ref} className={`${styles.constructor_component_container}`}>
-      <div
-        className={`${styles.constructor_component_shift}  "opacity=${opacity}"`}
-      >
+    <div
+      ref={ref}
+      className={`${styles.constructor_component_container}`}
+      style={isDragging || isOver ? { opacity: 0.2 } : { opacity: 1 }}
+    >
+      <div className={`${styles.constructor_component_shift}`}>
         {ingredient.type !== "bun" && <DragIcon type="primary" />}
       </div>
       <ConstructorElement

@@ -73,11 +73,14 @@ function BurgerConstructor() {
     return sum;
   }
 
-  const [, dropTarget] = useDrop({
+  const [{ isOver }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
       dispatch(addIngredient(item));
     },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
   });
 
   const renderTopIngredient = useCallback((ingredient, index) => {
@@ -147,6 +150,11 @@ function BurgerConstructor() {
       <div
         ref={dropTarget}
         className={`${styles.constructor_ingredients_container}`}
+        style={
+          !isOver
+            ? { backgroundColor: "" }
+            : { backgroundColor: "rgba(83, 70, 245, 0.3)" }
+        }
       >
         {orderedIngredients.length > 0 &&
         orderedIngredients.some((obj) => obj.type === "bun") ? (
@@ -160,6 +168,11 @@ function BurgerConstructor() {
         ) : (
           <div
             className={`${styles.constructor_bun_top_container} text text_type_main-default`}
+            style={
+              !isOver
+                ? { backgroundColor: "" }
+                : { backgroundColor: "rgba(123, 33, 97, 0.7)" }
+            }
           >
             Выберете булочку
           </div>
@@ -180,6 +193,11 @@ function BurgerConstructor() {
           ) : (
             <div
               className={`${styles.constructor_ingr_container} text text_type_main-default`}
+              style={
+                !isOver
+                  ? { backgroundColor: "" }
+                  : { backgroundColor: "rgba(104, 53, 218, 0.7)" }
+              }
             >
               Выберете ингредиенты
             </div>
@@ -199,6 +217,11 @@ function BurgerConstructor() {
           ) : (
             <div
               className={`${styles.constructor_bun_bottom_container} text text__type_main-default`}
+              style={
+                !isOver
+                  ? { backgroundColor: "" }
+                  : { backgroundColor: "rgba(123, 33, 97, 0.7)" }
+              }
             >
               Выберете булочку
             </div>
