@@ -187,9 +187,8 @@ class Api {
     })
       .then(this._getResponseData)
       .catch((error) => {
-        // if (error.message === "jwt expired") {
         if (error) {
-          fetchWithRefresh(`${this._baseUrl}/auth/user`, {
+          return fetchWithRefresh(`${this._baseUrl}/auth/user`, {
             headers: {
               "Content-Type": "application/json",
               authorization: localStorage.getItem("refreshToken"),
@@ -223,7 +222,18 @@ class Api {
         password: userData.password,
         name: userData.name,
       }),
-    }).then(this._getResponseData);
+    })
+      .then(this._getResponseData)
+      .catch((error) => {
+        if (error) {
+          return fetchWithRefresh(`${this._baseUrl}/auth/user`, {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: localStorage.getItem("refreshToken"),
+            },
+          });
+        }
+      });
   }
 }
 
@@ -271,7 +281,7 @@ export const fetchWithRefresh = async (url, options) => {
     const res = await fetch(url, options);
     return await checkReponse(res);
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if (err) {
       const refreshData = await refreshToken(); //обновляем токен
       if (!refreshData.success) {
         return Promise.reject(refreshData);

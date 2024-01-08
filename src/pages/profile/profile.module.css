@@ -1,9 +1,8 @@
 .profile_container {
     display: flex;
     align-self: start;
-    /* justify-content: start; */
     align-items: center;
-    height: 80vh;
+    height: 50vh;
 }
 
 .profile_menu_container {
