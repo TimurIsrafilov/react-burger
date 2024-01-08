@@ -1,24 +1,23 @@
-import { SHOW_INGREDIENTS, CLOSE_INGREDIENTS } from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  showIngredient: null,
-};
+export const ingredientSlice = createSlice({
+  name: "ingredient",
+  initialState: {
+    showIngredient: null,
+  },
+  reducers: {
+    showIngredient: {
+      reducer: (state, action) => {
+        state.showIngredient = action.payload;
+      },
+    },
+    closeIngredient: {
+      reducer: (state) => {
+        state.showIngredient = null;
+      },
+    },
+  },
+});
 
-export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SHOW_INGREDIENTS: {
-      return {
-        ...state,
-        showIngredient: action.payload,
-      };
-    }
-    case CLOSE_INGREDIENTS: {
-      return {
-        ...state,
-        showIngredient: null,
-      };
-    }
-    default:
-      return state;
-  }
-};
+export const reducer = ingredientSlice.reducer;
+export const { showIngredient, closeIngredient } = ingredientSlice.actions;

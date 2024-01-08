@@ -1,22 +1,18 @@
-import {
-  ADD_INGREDIENTS,
-  DELETE_INGREDIENTS,
-  MOVE_INGREDIENTS,
-} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  bun: null,
-  orderedIngredients: [],
-};
+export const constructorSlice = createSlice({
+  name: "burger-components",
+  initialState: {
+    bun: null,
+    orderedIngredients: [],
+  },
 
-export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_INGREDIENTS: {
-      return {
-        ...state,
-        bun:
-          action.payload.item.type === "bun" ? action.payload.item.type : null,
-        orderedIngredients:
+  reducers: {
+    addIngredient: {
+      reducer: (state, action) => {
+        state.bun =
+          action.payload.item.type === "bun" ? action.payload.item.type : null;
+        state.orderedIngredients =
           action.payload.item.type === "bun"
             ? [
                 ...state.orderedIngredients.filter(
@@ -27,33 +23,33 @@ export const reducer = (state = initialState, action) => {
             : [
                 ...state.orderedIngredients,
                 { ...action.payload.item, uniqueId: action.payload.uniqueId },
-              ],
-      };
-    }
+              ];
+      },
+    },
 
-    case DELETE_INGREDIENTS: {
-      return {
-        ...state,
-        orderedIngredients: state.orderedIngredients.filter(
+    deleteIngredient: {
+      reducer: (state, action) => {
+        state.orderedIngredients = state.orderedIngredients.filter(
           (ingredient) => ingredient.uniqueId !== action.payload
-        ),
-      };
-    }
+        );
+      },
+    },
 
-    case MOVE_INGREDIENTS: {
-      const ingredients = [...state.orderedIngredients];
-      ingredients.splice(
-        action.payload.dragIndex,
-        0,
-        ingredients.splice(action.payload.hoverIndex, 1)[0]
-      );
-      return {
-        ...state,
-        orderedIngredients: ingredients,
-      };
-    }
+    moveIngredient: {
+      reducer: (state, action) => {
+        const ingredients = state.orderedIngredients;
+        ingredients.splice(
+          action.payload.dragIndex,
+          0,
+          ingredients.splice(action.payload.hoverIndex, 1)[0]
+        );
 
-    default:
-      return state;
-  }
-};
+        state.orderedIngredients = ingredients;
+      },
+    },
+  },
+});
+
+export const reducer = constructorSlice.reducer;
+export const { addIngredient, deleteIngredient, moveIngredient } =
+  constructorSlice.actions;

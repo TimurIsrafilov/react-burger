@@ -11,7 +11,7 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import OrderDetails from "../../components/order-details/order-details";
 import Modal from "../../components/modal/modal";
 
-import { closeOrder } from "../../services/order/actions";
+import { closeOrder } from "../../services/order/reducer";
 
 function Home() {
   const dispatch = useDispatch();

@@ -25,6 +25,7 @@ import Preloader from "../preloader/preloader";
 import ProfileInformation from "../../components/profile-information/profile-information";
 
 import { loadIngredients } from "../../services/ingredients/actions";
+import { closeIngredient } from "../../services/ingredient/reducer";
 import { checkUserAuth } from "../../services/user/actions";
 import { OnlyAuth, OnlyUnAuth } from "../../utils/protected-route";
 import {
@@ -46,6 +47,7 @@ function App() {
 
   const handleOnClose = () => {
     navigate(-1);
+    dispatch(closeIngredient());
   };
 
   const isIngredientsLoading = useSelector(

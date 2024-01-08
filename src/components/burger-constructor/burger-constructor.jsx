@@ -2,6 +2,8 @@ import { useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { useDrop } from "react-dnd";
 
 import {
@@ -18,7 +20,7 @@ import ConstructorComponent from "../constructor-component/constructor-component
 import {
   addIngredient,
   moveIngredient,
-} from "../../services/components/actions";
+} from "../../services/components/reducer";
 
 import { loadOrder } from "../../services/order/actions";
 
@@ -30,7 +32,7 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
 
   function handleOnMoveIngredient(dragIndex, hoverIndex) {
-    dispatch(moveIngredient(dragIndex, hoverIndex));
+    dispatch(moveIngredient({ dragIndex, hoverIndex }));
   }
 
   const orderedIngredients = useSelector(
@@ -76,6 +78,7 @@ function BurgerConstructor() {
   const [{ isOver }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
+      item.uniqueId = uuidv4();
       dispatch(addIngredient(item));
     },
     collect: (monitor) => ({

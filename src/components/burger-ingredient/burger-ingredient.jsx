@@ -9,7 +9,7 @@ import styles from "./burger-ingredient.module.css";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { showIngredient } from "../../services/ingredient/actions";
+import { showIngredient } from "../../services/ingredient/reducer";
 
 function BurgerIngredient(props) {
   const ref = useRef(null);

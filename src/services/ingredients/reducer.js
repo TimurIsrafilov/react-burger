@@ -1,38 +1,28 @@
-import {
-  LOAD_INGREDIENTS_SUCCESS,
-  INGREDIENTS_LOADING,
-  INGREDIENTS_ERROR,
-} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { loadIngredients } from "./actions";
 
-const initialState = {
-  ingredients: [],
-  loading: false,
-  error: null,
-};
+const ingredientsSlice = createSlice({
+  name: "ingredients",
+  initialState: {
+    ingredients: [],
+    loading: false,
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadIngredients.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadIngredients.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loadIngredients.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ingredients = action.payload.data;
+      });
+  },
+});
 
-export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_INGREDIENTS_SUCCESS:
-      return {
-        ...state,
-        ingredients: action.payload,
-        loading: false,
-      };
-    case INGREDIENTS_LOADING: {
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    }
-    case INGREDIENTS_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    }
-    default:
-      return state;
-  }
-};
+export const reducer = ingredientsSlice.reducer;

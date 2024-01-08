@@ -1,45 +1,36 @@
-import {
-  LOAD_ORDER_SUCCESS,
-  CLOSE_ORDER,
-  ORDER_LOADING,
-  ORDER_ERROR,
-} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { loadOrder } from "./actions";
 
-const initialState = {
-  order: null,
-  loading: false,
-  error: null,
-};
+const orderSlice = createSlice({
+  name: "order",
+  initialState: {
+    order: null,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    closeOrder: {
+      reducer: (state) => {
+        state.order = null;
+      },
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadOrder.pending, (state) => {
+        // state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loadOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.order = action.payload;
+      });
+  },
+});
 
-export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_ORDER_SUCCESS:
-      return {
-        ...state,
-        order: action.payload,
-        loading: false,
-      };
-    case CLOSE_ORDER: {
-      return {
-        ...state,
-        order: null,
-      };
-    }
-    case ORDER_LOADING: {
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    }
-    case ORDER_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    }
-    default:
-      return state;
-  }
-};
+export const reducer = orderSlice.reducer;
+export const { closeOrder } = orderSlice.actions;

@@ -9,9 +9,10 @@ import {
 
 import styles from "./constructor-component.module.css";
 
-import { deleteIngredient } from "../../services/components/actions";
-
-import { moveIngredient } from "../../services/components/actions";
+import {
+  deleteIngredient,
+  moveIngredient,
+} from "../../services/components/reducer";
 
 function ConstructorComponent({ index, ingredient }) {
   const ref = useRef(null);
@@ -25,7 +26,7 @@ function ConstructorComponent({ index, ingredient }) {
   }
 
   function handleOnMoveIngredient(dragIndex, hoverIndex) {
-    dispatch(moveIngredient(dragIndex, hoverIndex));
+    dispatch(moveIngredient({ dragIndex, hoverIndex }));
   }
 
   const [{ isOver }, dropConstructor] = useDrop({
