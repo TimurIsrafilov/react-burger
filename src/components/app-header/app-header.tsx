@@ -9,7 +9,7 @@ import {
 
 import styles from "./app-header.module.css";
 
-function AppHeader() {
+function AppHeader(): React.JSX.Element {
   return (
     <header className={styles.header}>
       <div className={`${styles.navbar} mt-4 mb-4`}>

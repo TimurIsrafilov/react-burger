@@ -4,6 +4,6 @@ import api from "../../utils/api";
 export const loadIngredients = createAsyncThunk(
   "ingredients/loadIngredients",
   async () => {
-    return api.getingredients();
+    return api.getIngredients();
   }
 );

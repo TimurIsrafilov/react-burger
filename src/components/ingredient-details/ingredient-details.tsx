@@ -4,14 +4,16 @@ import { useSelector } from "react-redux";
 
 import styles from "./ingredient-details.module.css";
 
-function IngredientDetails() {
-  const { ingredientId } = useParams();
+import { TypeIngredienInfo } from "../../utils/types";
 
+function IngredientDetails(): React.JSX.Element {
+  const { ingredientId } = useParams();
+  //@ts-ignore
   const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
 
   const ingredientToShow =
     ingredientsSet.length > 0 &&
-    ingredientsSet.filter((ingredient) => ingredient._id === ingredientId)[0];
+    ingredientsSet.filter((i: TypeIngredienInfo) => i._id === ingredientId)[0];
 
   return (
     <section className={styles.ingredient_details_container}>

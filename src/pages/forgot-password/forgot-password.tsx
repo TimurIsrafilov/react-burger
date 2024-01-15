@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import styles from "./reset-password.module.css";
+import styles from "./forgot-password.module.css";
 
 import {
   Input,
@@ -11,57 +11,47 @@ import {
 import api from "../../utils/api";
 
 import { useForm } from "../../hooks/useForm";
-import { LOGIN } from "../../utils/constants";
+import { RESET_PASSWORD } from "../../utils/constants";
 
-function ResetPassword() {
+type TypeUseForm = {
+  email: string,
+}
+
+function ForgotPassword(): React.JSX.Element {
   // const inputRef = useRef(null);
 
   const navigate = useNavigate();
 
-  const [isInputTypePassword, setIsInputTypePassword] = useState(true);
+  const { values, handleChange } = useForm<TypeUseForm>({
+    email: "",
+  });
 
-  const { values, handleChange } = useForm({});
-
-  function onPasswordIconClick() {
-    setIsInputTypePassword(!isInputTypePassword);
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    handlePasswordForgot();
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    api.passwordReset(values).then((res) => {
+  function handlePasswordForgot() {
+    api.passwordForgot(values).then((res) => {
       if (res) {
-        localStorage.removeItem("confirmationPasswordReset");
-        navigate(LOGIN, { replace: true });
+        localStorage.setItem("confirmationPasswordReset", `${res.success}`);
+        navigate(RESET_PASSWORD, { replace: true });
       }
     });
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles.inputs_container}>
-      <h2 className={`${styles.inputs_title} text text_type_main-medium mb-6`}>
+      <h2 className={"text text_type_main-medium mb-6"}>
         Восстановление пароля
       </h2>
-      <Input
-        type={isInputTypePassword ? "password" : "text"}
-        placeholder={"Введите новый пароль"}
-        onChange={handleChange}
-        icon={"ShowIcon"}
-        value={values.password || ""}
-        name={"password"}
-        error={false}
-        // ref={inputRef}
-        onIconClick={onPasswordIconClick}
-        errorText={"Ошибка"}
-        size={"default"}
-        extraClass="mb-6"
-      />
       <div className={styles.inputs}>
         <Input
-          type={"text"}
-          placeholder={"Введите код из письма"}
+          type={"email"}
+          placeholder={"Укажите e-mail"}
           onChange={handleChange}
-          value={values.code || ""}
-          name={"code"}
+          value={values.email || ""}
+          name={"email"}
           error={false}
           // ref={inputRef}
           // onIconClick={onIconClick}
@@ -71,7 +61,7 @@ function ResetPassword() {
         />
       </div>
       <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
-        Сохранить
+        Восстановить
       </Button>
       <div className={`${styles.inputs_text_container} mb-4`}>
         <p className={`${styles.inputs_text} text text_type_main-default`}>
@@ -88,4 +78,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default ForgotPassword;

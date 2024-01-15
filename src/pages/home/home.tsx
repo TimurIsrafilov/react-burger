@@ -13,12 +13,13 @@ import Modal from "../../components/modal/modal";
 
 import { closeOrder } from "../../services/order/reducer";
 
-function Home() {
+function Home(): React.JSX.Element {
   const dispatch = useDispatch();
-
+  //@ts-ignore
   const isOrdertModalOpen = useSelector((store) => store.order.order);
 
   function handleOnClose() {
+    //@ts-ignore
     dispatch(closeOrder());
   }
 
@@ -31,7 +32,7 @@ function Home() {
         </main>
         {isOrdertModalOpen && (
           <Modal handleOnClose={handleOnClose}>
-            <OrderDetails handleOnClose={handleOnClose} />
+            <OrderDetails />
           </Modal>
         )}
       </DndProvider>

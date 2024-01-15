@@ -4,7 +4,8 @@ import styles from "./order-details.module.css";
 
 import { useSelector } from "react-redux";
 
-function OrderDetails() {
+function OrderDetails(): React.JSX.Element {
+  //@ts-ignore
   const orderNumber = useSelector((store) => store.order.order);
 
   return (

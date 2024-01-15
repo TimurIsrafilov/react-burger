@@ -8,17 +8,19 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-function BurgerIngredients() {
+import { TypeIngredienInfo } from "../../utils/types"
+
+function BurgerIngredients(): React.JSX.Element {
   const location = useLocation();
 
   const [current, setCurrent] = useState("one");
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [scrollTop, setScrollTop] = useState(0);
 
-  const handleScroll = (event) => {
-    setScrollTop(event.currentTarget.scrollTop);
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    setScrollTop(e.currentTarget.scrollTop);
   };
 
   useEffect(() => {
@@ -29,6 +31,7 @@ function BurgerIngredients() {
     } else if (scrollTop > 750) setCurrent("three");
   }, [scrollTop]);
 
+  //@ts-ignore
   const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
 
   return (
@@ -61,7 +64,7 @@ function BurgerIngredients() {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient) =>
+              (ingredient: TypeIngredienInfo) =>
                 ingredient.type === "bun" && (
                   <Link
                     className={styles.ingredients_link}
@@ -86,7 +89,7 @@ function BurgerIngredients() {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient) =>
+              (ingredient: TypeIngredienInfo) =>
                 ingredient.type === "sauce" && (
                   <Link
                     className={styles.ingredients_link}
@@ -111,7 +114,7 @@ function BurgerIngredients() {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient) =>
+              (ingredient: TypeIngredienInfo) =>
                 ingredient.type === "main" && (
                   <Link
                     className={styles.ingredients_link}

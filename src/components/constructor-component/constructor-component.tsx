@@ -13,23 +13,48 @@ import {
   deleteIngredient,
   moveIngredient,
 } from "../../services/components/reducer";
+import { TypeIngredienInfo } from "../../utils/types";
 
-function ConstructorComponent({ index, ingredient }) {
-  const ref = useRef(null);
+type TypeDragObject = {
+  index: number;
+}
+
+type TypeDragCollectedProps = {
+  isDragging: boolean;
+}
+
+type TypeDropCollectedProps = {
+  isOver: boolean;
+}
+
+type TypeUniqueIngredienInfo = TypeIngredienInfo & {
+  uniqueId: string;
+};
+
+type TypeConstructorComponentData = {
+  index: number,
+  ingredient: TypeUniqueIngredienInfo
+}
+
+function ConstructorComponent({ index, ingredient }: TypeConstructorComponentData): React.JSX.Element {
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
 
   const uniqueId = ingredient.uniqueId;
 
-  function deleteIngr(uniqueId) {
+  function deleteIngr(uniqueId: string) {
+    //@ts-ignore
     dispatch(deleteIngredient(uniqueId));
   }
 
-  function handleOnMoveIngredient(dragIndex, hoverIndex) {
+  function handleOnMoveIngredient(dragIndex: number, hoverIndex: number) {
+    //@ts-ignore
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   }
 
-  const [{ isOver }, dropConstructor] = useDrop({
+  const [{ isOver }, dropConstructor] = useDrop<TypeDragObject, unknown, TypeDropCollectedProps>({
     accept: "constructorIngredient",
     collect(monitor) {
       return {
@@ -57,7 +82,7 @@ function ConstructorComponent({ index, ingredient }) {
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
       // Get pixels to the top
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       // Only perform the move when the mouse has crossed half of the items height
       // When dragging downwards, only move when the cursor is below 50%
       // When dragging upwards, only move when the cursor is above 50%
@@ -79,7 +104,7 @@ function ConstructorComponent({ index, ingredient }) {
     },
   });
 
-  const [{ isDragging }, dragConstructor] = useDrag({
+  const [{ isDragging }, dragConstructor] = useDrag<TypeDragObject, unknown, TypeDragCollectedProps>({
     type: "constructorIngredient",
     item: () => ({ index }),
     collect: (monitor) => ({
@@ -99,13 +124,9 @@ function ConstructorComponent({ index, ingredient }) {
         {ingredient.type !== "bun" && <DragIcon type="primary" />}
       </div>
       <ConstructorElement
-        ingredient={ingredient}
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        index={index}
-        uniqueId={uniqueId}
-        handleOnMoveIngredient={handleOnMoveIngredient}
         handleClose={() => deleteIngr(uniqueId)}
       />
     </div>

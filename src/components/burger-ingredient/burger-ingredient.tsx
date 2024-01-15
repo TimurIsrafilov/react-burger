@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 import { useRef } from "react";
 import { useDrag } from "react-dnd";
 
@@ -11,22 +9,34 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { showIngredient } from "../../services/ingredient/reducer";
 
-function BurgerIngredient(props) {
-  const ref = useRef(null);
+import { TypeIngredienInfo } from "../../utils/types"
+
+interface IntBurgerIngredientProps {
+  ingredient: TypeIngredienInfo
+}
+
+interface ObjectAccInterface {
+  [key: string]: number;
+}
+
+function BurgerIngredient({ ingredient }: IntBurgerIngredientProps): React.JSX.Element {
+
+  const ref = useRef<HTMLImageElement>(null);
 
   const orderedIngredients = useSelector(
+    //@ts-ignore
     (store) => store.components.orderedIngredients
   );
 
   const orderedIngredientsNumber = orderedIngredients.reduce(function (
-    acc,
-    curr
+    acc: ObjectAccInterface,
+    curr: TypeIngredienInfo
   ) {
-    return acc[curr._id] ? ++acc[curr._id] : (acc[curr._id] = 1), acc;
+    return acc[curr._id] ? ++acc[curr._id] : (acc[curr._id] = 1), acc
   },
-  {});
+    {});
 
-  const myFunc = (thisObj, property, type) => {
+  const myFunc = (thisObj: ObjectAccInterface, property: string, type: string) => {
     if (type === "bun") {
       const orderedIngredientCounty = thisObj[property];
       return orderedIngredientCounty + 1;
@@ -38,17 +48,18 @@ function BurgerIngredient(props) {
 
   const orderedIngredientCounty = myFunc(
     orderedIngredientsNumber,
-    props.ingredient._id,
-    props.ingredient.type
+    ingredient._id,
+    ingredient.type
   );
 
   const dispatch = useDispatch();
 
   const onIngredientClick = () => {
+    //@ts-ignore
     dispatch(showIngredient(item));
   };
 
-  const item = props.ingredient;
+  const item: TypeIngredienInfo = ingredient;
 
   const [, drag] = useDrag(() => ({
     type: "ingredient",
@@ -70,24 +81,20 @@ function BurgerIngredient(props) {
         <img
           ref={drag}
           className={styles.ingredient_picture}
-          src={props.ingredient.image}
-          alt={props.ingredient.name}
+          src={ingredient.image}
+          alt={ingredient.name}
           onClick={onIngredientClick}
         />
       </div>
       <div className={`${styles.ingredient_value} mt-1 mb-4`}>
         <div className="text text_type_digits-default mr-3">
-          {props.ingredient.price}
+          {ingredient.price}
         </div>
         <CurrencyIcon type="primary" />
       </div>
-      <p className="text text_type_main-default">{props.ingredient.name}</p>
+      <p className="text text_type_main-default">{ingredient.name}</p>
     </section>
   );
 }
-
-BurgerIngredient.propTypes = {
-  ingredient: PropTypes.object,
-};
 
 export default BurgerIngredient;

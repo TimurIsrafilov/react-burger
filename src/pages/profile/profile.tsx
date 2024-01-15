@@ -6,11 +6,11 @@ import styles from "./profile.module.css";
 import { logoutUser } from "../../services/user/actions";
 import { ORDERS, PROFILE } from "../../utils/constants";
 
-function Profile() {
+function Profile(): React.JSX.Element {
   const dispatch = useDispatch();
 
-  function onSubmit(e) {
-    e.preventDefault();
+  function onSubmit() {
+    //@ts-ignore
     dispatch(logoutUser());
   }
 

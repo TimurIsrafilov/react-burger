@@ -1,20 +1,32 @@
+import { TypeIngredienData, TypeOrderData, TypeServerReply, TypeUserData, TypeUserInfo } from "./types";
+
+type TypeApiData = {
+  baseUrl: string,
+}
+
+type TypePasswordResetData = {
+  password: string,
+  code: string;
+}
+
 class Api {
-  constructor({ baseUrl }) {
+  _baseUrl: string;
+
+  constructor({ baseUrl }: TypeApiData) {
     this._baseUrl = baseUrl;
     // this._headers = headers;
   }
 
-  _getResponseData(res) {
+  _getResponseData<T>(res: Response): Promise<T> {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   }
 
-  getingredients() {
-    return fetch(`${this._baseUrl}/ingredients`, {}).then(
-      this._getResponseData
-    );
+  getIngredients(): Promise<TypeIngredienData> {
+    return fetch(`${this._baseUrl}/ingredients`, {
+    }).then(this._getResponseData<TypeIngredienData>);
   }
 
-  getOrderNumber(ingredientIds) {
+  getOrderNumber(ingredientIds: Array<string>): Promise<TypeOrderData> {
     return fetch(`${this._baseUrl}/orders`, {
       method: "POST",
       headers: {
@@ -23,7 +35,7 @@ class Api {
       body: JSON.stringify({
         ingredients: ingredientIds,
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<TypeOrderData>);
   }
 
   // Для реализации этой функциональности потребуется создать пользователя.
@@ -46,18 +58,18 @@ class Api {
   //   "refreshToken": ""
   // }
 
-  register(userData) {
+  register({ email, name, password }: TypeUserInfo): Promise<TypeUserData> {
     return fetch(`${this._baseUrl}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: userData.email,
-        password: userData.password,
-        name: userData.name,
+        email: email,
+        password: password,
+        name: name,
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<TypeUserData>);
   }
 
   // POST https://norma.nomoreparties.space/api/auth/login - эндпоинт для авторизации.
@@ -77,17 +89,17 @@ class Api {
   //   }
   // }
 
-  login(userData) {
+  login({ email, password }: Pick<TypeUserInfo, "email" | "password">): Promise<TypeUserData> {
     return fetch(`${this._baseUrl}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: userData.email,
-        password: userData.password,
+        email: email,
+        password: password,
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<TypeUserData>);
   }
 
   // Для выхода из системы или обновления токена используется именно refreshToken,
@@ -103,7 +115,7 @@ class Api {
   //   "message": "Successful logout"
   // }
 
-  logout() {
+  logout(): Promise<Pick<TypeServerReply, "success" | "message">> {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: "POST",
       headers: {
@@ -112,7 +124,7 @@ class Api {
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
   }
 
   // На экране /forgot-password пользователь вводит адрес электронной почты и нажимает
@@ -128,16 +140,16 @@ class Api {
   //   "message": "Reset email sent"
   // }
 
-  passwordForgot(data) {
+  passwordForgot({ email }: Pick<TypeUserInfo, "email">): Promise<Pick<TypeServerReply, "success" | "message">> {
     return fetch(`${this._baseUrl}/password-reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: data.email,
+        email: email,
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
   }
 
   // На экране /reset-password пользователь вводит новый пароль и код из имейла,
@@ -154,17 +166,17 @@ class Api {
   //   "message": "Password successfully reset"
   // }
 
-  passwordReset(data) {
+  passwordReset({ password, code }: TypePasswordResetData): Promise<Pick<TypeServerReply, "success" | "message">> {
     return fetch(`${this._baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        password: data.password,
-        token: data.code,
+        password: password,
+        token: code,
       }),
-    }).then(this._getResponseData);
+    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
   }
 
   // GET https://norma.nomoreparties.space/api/auth/user - эндпоинт получения данных о пользователе.
@@ -178,24 +190,21 @@ class Api {
   //   }
   // }
 
-  getUser() {
+  getUser(): Promise<Pick<TypeUserData, "success" | "user">> {
     return fetch(`${this._baseUrl}/auth/user`, {
       headers: {
         "Content-Type": "application/json",
-        authorization: localStorage.getItem("accessToken"),
+        authorization: `${localStorage.getItem("accessToken")}`,
       },
     })
-      .then(this._getResponseData)
-      .catch((error) => {
-        if (error) {
-          return fetchWithRefresh(`${this._baseUrl}/auth/user`, {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: localStorage.getItem("refreshToken"),
-            },
-          });
-        }
-      });
+      .then((res: Response) => {
+        return res.ok ? res.json() : fetchWithRefresh(`${this._baseUrl}/auth/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `${localStorage.getItem("refreshToken")}`,
+          }
+        })
+      })
   }
 
   // PATCH https://norma.nomoreparties.space/api/auth/user - эндпоинт обновления данных о пользователе.
@@ -210,30 +219,20 @@ class Api {
   //   }
   // }
 
-  changeUserData(userData) {
+  changeUserData({ email, name, password }: TypeUserInfo): Promise<Pick<TypeUserData, "success" | "user">> {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        authorization: localStorage.getItem("accessToken"),
+        authorization: `${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify({
-        email: userData.email,
-        password: userData.password,
-        name: userData.name,
+        email: email,
+        password: password,
+        name: name,
       }),
     })
-      .then(this._getResponseData)
-      .catch((error) => {
-        if (error) {
-          return fetchWithRefresh(`${this._baseUrl}/auth/user`, {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: localStorage.getItem("refreshToken"),
-            },
-          });
-        }
-      });
+      .then(this._getResponseData<Pick<TypeUserData, "success" | "user">>)
   }
 }
 
@@ -260,11 +259,11 @@ export default api;
 //   "refreshToken": ""
 // }
 
-const checkReponse = (res) => {
+const checkReponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<Pick<TypeUserData, "success" | "accessToken" | "refreshToken">> => {
   return fetch("https://norma.nomoreparties.space/api/auth/token", {
     method: "POST",
     headers: {
@@ -273,26 +272,31 @@ export const refreshToken = () => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkReponse);
+  }).then(checkReponse<Pick<TypeUserData, "success" | "accessToken" | "refreshToken">>);
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async <T>(url: string, options: RequestInit): Promise<T> => {
   try {
     const res = await fetch(url, options);
-    return await checkReponse(res);
-  } catch (err) {
+    return await checkReponse<T>(res);
+  } catch (err: unknown) {
     if (err) {
-      const refreshData = await refreshToken(); //обновляем токен
+      const refreshData = await refreshToken();
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
+
+      const headersInit: HeadersInit = {};
+      options.headers = headersInit;
       options.headers.authorization = refreshData.accessToken;
-      const res = await fetch(url, options); //повторяем запрос
-      return await checkReponse(res);
+
+      const res = await fetch(url, options);
+      return await checkReponse<T>(res);
     } else {
       return Promise.reject(err);
     }
   }
 };
+

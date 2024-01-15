@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./profile-information.module.css";
@@ -10,35 +10,43 @@ import {
 
 import { updateUser } from "../../services/user/actions";
 
-function ProfileInformation() {
-  // const inputRef = useRef(null);
+import { useForm } from "../../hooks/useForm";
 
+type TypeUseForm = {
+  name: string,
+  email: string,
+  password: string,
+}
+
+function ProfileInformation(): React.JSX.Element {
+  // const inputRef = useRef(null);
+  //@ts-ignore
   const userStore = useSelector((store) => store.user.user);
   const userData = userStore ? userStore : {};
 
   const dispatch = useDispatch();
 
-  const [values, setValues] = useState(userData);
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
-  const [isInputChanged, setisInputChanged] = useState(false);
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-    setisInputChanged(true);
-  };
+  const { values, handleChange, isInputChanged, resetForm } = useForm<TypeUseForm>({
+    name: userData.name,
+    email: userData.email,
+    password: userData.password,
+  });
 
-  function onPasswordIconClick() {
+  const onPasswordIconClick = () => {
     setIsInputTypePassword(!isInputTypePassword);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(updateUser(values));
   }
 
-  function handleUndo() {
-    setValues(userData);
-  }
+  useEffect(() => {
+    resetForm()
+  }, [resetForm])
 
   return (
     <form onSubmit={handleSubmit} className={styles.inputs}>
@@ -93,8 +101,8 @@ function ProfileInformation() {
               htmlType="reset"
               type="secondary"
               size="medium"
-              onClick={handleUndo}
-              // extraClass="mb-20"
+              onClick={resetForm}
+            // extraClass="mb-20"
             >
               Отменить
             </Button>
@@ -102,7 +110,7 @@ function ProfileInformation() {
               htmlType="submit"
               type="primary"
               size="medium"
-              // extraClass="mb-20"
+            // extraClass="mb-20"
             >
               Сохранить
             </Button>{" "}

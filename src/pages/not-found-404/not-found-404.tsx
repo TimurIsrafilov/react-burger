@@ -1,6 +1,6 @@
 import styles from "./not-found-404.module.css";
 
-function NotFound404() {
+function NotFound404(): React.JSX.Element {
   return (
     <div className={styles.error}>
       <h2 className={`${styles.error_text} text text_type_main-medium mt-20`}>

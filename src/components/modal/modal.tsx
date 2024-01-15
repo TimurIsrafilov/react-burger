@@ -1,5 +1,4 @@
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -7,29 +6,29 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 
 import styles from "./modal.module.css";
 
-const portal = document.getElementById("portal");
+const portal = document.getElementById("portal") as HTMLElement;
 
-function Modal(props) {
+type TypeModalProps = {
+  children: React.ReactNode;
+  handleOnClose: () => void;
+  isLoading?: boolean;
+}
+
+function Modal({ children, handleOnClose, isLoading }: TypeModalProps): React.JSX.Element {
   return ReactDOM.createPortal(
     <section className={styles.modal}>
-      <ModalOverlay handleOnClose={props.handleOnClose} />
+      <ModalOverlay handleOnClose={handleOnClose} />
       <div className={styles.modal_container}>
-        {!props.isLoading && (
+        {!isLoading && (
           <div className={`${styles.modal_close_icon} mt-15 mr-10`}>
-            <CloseIcon type="primary" onClick={props.handleOnClose} />
+            <CloseIcon type="primary" onClick={handleOnClose} />
           </div>
         )}
-        {props.children}
+        {children}
       </div>
     </section>,
     portal
   );
 }
-
-Modal.propTypes = {
-  children: PropTypes.object,
-  handleOnClose: PropTypes.func,
-  isLoading: PropTypes.bool,
-};
 
 export default Modal;

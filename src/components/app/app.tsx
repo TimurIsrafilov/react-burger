@@ -22,7 +22,7 @@ import NotFound404 from "../../pages/not-found-404/not-found-404";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import Preloader from "../preloader/preloader";
-import ProfileInformation from "../../components/profile-information/profile-information";
+import ProfileInformation from "../profile-information/profile-information";
 
 import { loadIngredients } from "../../services/ingredients/actions";
 import { closeIngredient } from "../../services/ingredient/reducer";
@@ -39,7 +39,7 @@ import {
   RESET_PASSWORD,
 } from "../../utils/constants";
 
-function App() {
+function App(): React.JSX.Element {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -47,13 +47,15 @@ function App() {
 
   const handleOnClose = () => {
     navigate(-1);
+    //@ts-ignore
     dispatch(closeIngredient());
   };
 
-  const isIngredientsLoading = useSelector(
-    (store) => store.ingredients.loading
-  );
+  //@ts-ignore
+  const isIngredientsLoading = useSelector((store) => store.ingredients.loading);
+  //@ts-ignore
   const isOrderLoading = useSelector((store) => store.order.loading);
+  //@ts-ignore
   const isUserLoading = useSelector((store) => store.user.loading);
   const isLoading = isIngredientsLoading || isOrderLoading || isUserLoading;
 
@@ -66,10 +68,12 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(loadIngredients());
   }, []);
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(checkUserAuth());
   }, []);
 
@@ -77,7 +81,7 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       {isLoading && (
-        <Modal isLoading={isLoading}>
+        <Modal handleOnClose={handleOnClose} isLoading={isLoading}>
           <Preloader />
         </Modal>
       )}
