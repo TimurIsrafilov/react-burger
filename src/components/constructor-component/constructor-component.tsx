@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 
 import {
@@ -14,47 +13,52 @@ import {
   moveIngredient,
 } from "../../services/components/reducer";
 import { TypeIngredienInfo } from "../../utils/types";
+import { useAppDispatch } from "../../hooks/hooks";
 
 type TypeDragObject = {
   index: number;
-}
+};
 
 type TypeDragCollectedProps = {
   isDragging: boolean;
-}
+};
 
 type TypeDropCollectedProps = {
   isOver: boolean;
-}
+};
 
 type TypeUniqueIngredienInfo = TypeIngredienInfo & {
   uniqueId: string;
 };
 
 type TypeConstructorComponentData = {
-  index: number,
-  ingredient: TypeUniqueIngredienInfo
-}
+  index: number;
+  ingredient: TypeUniqueIngredienInfo;
+};
 
-function ConstructorComponent({ index, ingredient }: TypeConstructorComponentData): React.JSX.Element {
-
+function ConstructorComponent({
+  index,
+  ingredient,
+}: TypeConstructorComponentData): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const uniqueId = ingredient.uniqueId;
 
   function deleteIngr(uniqueId: string) {
-    //@ts-ignore
     dispatch(deleteIngredient(uniqueId));
   }
 
   function handleOnMoveIngredient(dragIndex: number, hoverIndex: number) {
-    //@ts-ignore
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   }
 
-  const [{ isOver }, dropConstructor] = useDrop<TypeDragObject, unknown, TypeDropCollectedProps>({
+  const [{ isOver }, dropConstructor] = useDrop<
+    TypeDragObject,
+    unknown,
+    TypeDropCollectedProps
+  >({
     accept: "constructorIngredient",
     collect(monitor) {
       return {
@@ -104,7 +108,11 @@ function ConstructorComponent({ index, ingredient }: TypeConstructorComponentDat
     },
   });
 
-  const [{ isDragging }, dragConstructor] = useDrag<TypeDragObject, unknown, TypeDragCollectedProps>({
+  const [{ isDragging }, dragConstructor] = useDrag<
+    TypeDragObject,
+    unknown,
+    TypeDragCollectedProps
+  >({
     type: "constructorIngredient",
     item: () => ({ index }),
     collect: (monitor) => ({

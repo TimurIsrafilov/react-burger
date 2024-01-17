@@ -7,7 +7,7 @@ import reportWebVitals from './report-web-vitals';
 
 import { configureStore } from "../src/services/store";
 import { Provider } from "react-redux";
-
+//@ts-ignore
 const store = configureStore();
 
 const root = ReactDOM.createRoot(

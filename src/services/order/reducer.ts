@@ -1,18 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadOrder } from "./actions";
+import type { RootState } from "../store";
+
+import { TypeOrderData } from "../../utils/types";
+
+interface IntOrderState {
+  order: TypeOrderData | null;
+  loading: boolean;
+  error: unknown;
+}
+
+const initialState: IntOrderState = {
+  order: null,
+  loading: false,
+  error: null,
+};
 
 const orderSlice = createSlice({
   name: "order",
-  initialState: {
-    order: null,
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
-    closeOrder: {
-      reducer: (state) => {
-        state.order = null;
-      },
+    closeOrder: (state) => {
+      state.order = null;
     },
   },
   extraReducers: (builder) => {
@@ -34,3 +43,7 @@ const orderSlice = createSlice({
 
 export const reducer = orderSlice.reducer;
 export const { closeOrder } = orderSlice.actions;
+
+export const selectOrder = (state: RootState) => state.order.order;
+export const selectLoading = (state: RootState) => state.order.loading;
+export const selectError = (state: RootState) => state.order.error;

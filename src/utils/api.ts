@@ -1,13 +1,19 @@
-import { TypeIngredienData, TypeOrderData, TypeServerReply, TypeUserData, TypeUserInfo } from "./types";
+import {
+  TypeIngredienData,
+  TypeOrderData,
+  TypeServerReply,
+  TypeUserData,
+  TypeUserInfo,
+} from "./types";
 
 type TypeApiData = {
-  baseUrl: string,
-}
+  baseUrl: string;
+};
 
 type TypePasswordResetData = {
-  password: string,
+  password: string;
   code: string;
-}
+};
 
 class Api {
   _baseUrl: string;
@@ -22,8 +28,9 @@ class Api {
   }
 
   getIngredients(): Promise<TypeIngredienData> {
-    return fetch(`${this._baseUrl}/ingredients`, {
-    }).then(this._getResponseData<TypeIngredienData>);
+    return fetch(`${this._baseUrl}/ingredients`, {}).then(
+      this._getResponseData<TypeIngredienData>
+    );
   }
 
   getOrderNumber(ingredientIds: Array<string>): Promise<TypeOrderData> {
@@ -89,7 +96,10 @@ class Api {
   //   }
   // }
 
-  login({ email, password }: Pick<TypeUserInfo, "email" | "password">): Promise<TypeUserData> {
+  login({
+    email,
+    password,
+  }: Pick<TypeUserInfo, "email" | "password">): Promise<TypeUserData> {
     return fetch(`${this._baseUrl}/auth/login`, {
       method: "POST",
       headers: {
@@ -124,7 +134,9 @@ class Api {
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
-    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
+    }).then(
+      this._getResponseData<Pick<TypeServerReply, "success" | "message">>
+    );
   }
 
   // На экране /forgot-password пользователь вводит адрес электронной почты и нажимает
@@ -140,7 +152,11 @@ class Api {
   //   "message": "Reset email sent"
   // }
 
-  passwordForgot({ email }: Pick<TypeUserInfo, "email">): Promise<Pick<TypeServerReply, "success" | "message">> {
+  passwordForgot({
+    email,
+  }: Pick<TypeUserInfo, "email">): Promise<
+    Pick<TypeServerReply, "success" | "message">
+  > {
     return fetch(`${this._baseUrl}/password-reset`, {
       method: "POST",
       headers: {
@@ -149,7 +165,9 @@ class Api {
       body: JSON.stringify({
         email: email,
       }),
-    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
+    }).then(
+      this._getResponseData<Pick<TypeServerReply, "success" | "message">>
+    );
   }
 
   // На экране /reset-password пользователь вводит новый пароль и код из имейла,
@@ -166,7 +184,12 @@ class Api {
   //   "message": "Password successfully reset"
   // }
 
-  passwordReset({ password, code }: TypePasswordResetData): Promise<Pick<TypeServerReply, "success" | "message">> {
+  passwordReset({
+    password,
+    code,
+  }: TypePasswordResetData): Promise<
+    Pick<TypeServerReply, "success" | "message">
+  > {
     return fetch(`${this._baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -176,7 +199,9 @@ class Api {
         password: password,
         token: code,
       }),
-    }).then(this._getResponseData<Pick<TypeServerReply, "success" | "message">>);
+    }).then(
+      this._getResponseData<Pick<TypeServerReply, "success" | "message">>
+    );
   }
 
   // GET https://norma.nomoreparties.space/api/auth/user - эндпоинт получения данных о пользователе.
@@ -196,15 +221,16 @@ class Api {
         "Content-Type": "application/json",
         authorization: `${localStorage.getItem("accessToken")}`,
       },
-    })
-      .then((res: Response) => {
-        return res.ok ? res.json() : fetchWithRefresh(`${this._baseUrl}/auth/user`, {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `${localStorage.getItem("refreshToken")}`,
-          }
-        })
-      })
+    }).then((res: Response) => {
+      return res.ok
+        ? res.json()
+        : fetchWithRefresh(`${this._baseUrl}/auth/user`, {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `${localStorage.getItem("refreshToken")}`,
+            },
+          });
+    });
   }
 
   // PATCH https://norma.nomoreparties.space/api/auth/user - эндпоинт обновления данных о пользователе.
@@ -219,7 +245,11 @@ class Api {
   //   }
   // }
 
-  changeUserData({ email, name, password }: TypeUserInfo): Promise<Pick<TypeUserData, "success" | "user">> {
+  changeUserData({
+    email,
+    name,
+    password,
+  }: TypeUserInfo): Promise<Pick<TypeUserData, "success" | "user">> {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: {
@@ -231,8 +261,7 @@ class Api {
         password: password,
         name: name,
       }),
-    })
-      .then(this._getResponseData<Pick<TypeUserData, "success" | "user">>)
+    }).then(this._getResponseData<Pick<TypeUserData, "success" | "user">>);
   }
 }
 
@@ -263,7 +292,9 @@ const checkReponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const refreshToken = (): Promise<Pick<TypeUserData, "success" | "accessToken" | "refreshToken">> => {
+export const refreshToken = (): Promise<
+  Pick<TypeUserData, "success" | "accessToken" | "refreshToken">
+> => {
   return fetch("https://norma.nomoreparties.space/api/auth/token", {
     method: "POST",
     headers: {
@@ -272,10 +303,15 @@ export const refreshToken = (): Promise<Pick<TypeUserData, "success" | "accessTo
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkReponse<Pick<TypeUserData, "success" | "accessToken" | "refreshToken">>);
+  }).then(
+    checkReponse<Pick<TypeUserData, "success" | "accessToken" | "refreshToken">>
+  );
 };
 
-export const fetchWithRefresh = async <T>(url: string, options: RequestInit): Promise<T> => {
+export const fetchWithRefresh = async <T>(
+  url: string,
+  options: RequestInit
+): Promise<T> => {
   try {
     const res = await fetch(url, options);
     return await checkReponse<T>(res);
@@ -299,4 +335,3 @@ export const fetchWithRefresh = async <T>(url: string, options: RequestInit): Pr
     }
   }
 };
-

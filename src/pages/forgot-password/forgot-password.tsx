@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./forgot-password.module.css";
@@ -14,8 +14,8 @@ import { useForm } from "../../hooks/useForm";
 import { RESET_PASSWORD } from "../../utils/constants";
 
 type TypeUseForm = {
-  email: string,
-}
+  email: string;
+};
 
 function ForgotPassword(): React.JSX.Element {
   // const inputRef = useRef(null);

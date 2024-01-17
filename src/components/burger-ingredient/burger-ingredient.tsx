@@ -5,38 +5,40 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 import styles from "./burger-ingredient.module.css";
 
-import { useDispatch, useSelector } from "react-redux";
-
 import { showIngredient } from "../../services/ingredient/reducer";
-
-import { TypeIngredienInfo } from "../../utils/types"
+import { TypeIngredienInfo } from "../../utils/types";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 interface IntBurgerIngredientProps {
-  ingredient: TypeIngredienInfo
+  ingredient: TypeIngredienInfo;
 }
 
 interface ObjectAccInterface {
   [key: string]: number;
 }
 
-function BurgerIngredient({ ingredient }: IntBurgerIngredientProps): React.JSX.Element {
-
+function BurgerIngredient({
+  ingredient,
+}: IntBurgerIngredientProps): React.JSX.Element {
   const ref = useRef<HTMLImageElement>(null);
 
-  const orderedIngredients = useSelector(
-    //@ts-ignore
-    (store) => store.components.orderedIngredients
+  const orderedIngredients = useAppSelector(
+    (state) => state.components.orderedIngredients
   );
 
   const orderedIngredientsNumber = orderedIngredients.reduce(function (
     acc: ObjectAccInterface,
     curr: TypeIngredienInfo
   ) {
-    return acc[curr._id] ? ++acc[curr._id] : (acc[curr._id] = 1), acc
+    return acc[curr._id] ? ++acc[curr._id] : (acc[curr._id] = 1), acc;
   },
-    {});
+  {});
 
-  const myFunc = (thisObj: ObjectAccInterface, property: string, type: string) => {
+  const myFunc = (
+    thisObj: ObjectAccInterface,
+    property: string,
+    type: string
+  ) => {
     if (type === "bun") {
       const orderedIngredientCounty = thisObj[property];
       return orderedIngredientCounty + 1;
@@ -52,10 +54,9 @@ function BurgerIngredient({ ingredient }: IntBurgerIngredientProps): React.JSX.E
     ingredient.type
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onIngredientClick = () => {
-    //@ts-ignore
     dispatch(showIngredient(item));
   };
 

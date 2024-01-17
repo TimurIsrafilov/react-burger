@@ -10,11 +10,15 @@ const portal = document.getElementById("portal") as HTMLElement;
 
 type TypeModalProps = {
   children: React.ReactNode;
-  handleOnClose: () => void;
+  handleOnClose?: () => void;
   isLoading?: boolean;
-}
+};
 
-function Modal({ children, handleOnClose, isLoading }: TypeModalProps): React.JSX.Element {
+function Modal({
+  children,
+  handleOnClose,
+  isLoading,
+}: TypeModalProps): React.JSX.Element {
   return ReactDOM.createPortal(
     <section className={styles.modal}>
       <ModalOverlay handleOnClose={handleOnClose} />

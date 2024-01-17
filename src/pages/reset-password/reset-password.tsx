@@ -14,9 +14,9 @@ import { useForm } from "../../hooks/useForm";
 import { LOGIN } from "../../utils/constants";
 
 type TypeUseForm = {
-  password: string,
-  code: string,
-}
+  password: string;
+  code: string;
+};
 
 function ResetPassword(): React.JSX.Element {
   // const inputRef = useRef(null);

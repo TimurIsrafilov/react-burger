@@ -2,11 +2,10 @@ import done from "../../images/done.svg";
 
 import styles from "./order-details.module.css";
 
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/hooks";
 
 function OrderDetails(): React.JSX.Element {
-  //@ts-ignore
-  const orderNumber = useSelector((store) => store.order.order);
+  const orderNumber = useAppSelector((state) => state.order.order);
 
   return (
     <section className={styles.order_details_container}>

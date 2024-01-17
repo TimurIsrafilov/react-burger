@@ -9,7 +9,7 @@ import { ORDERS, PROFILE } from "../../utils/constants";
 function Profile(): React.JSX.Element {
   const dispatch = useDispatch();
 
-  function onSubmit() {
+  function handleOnClick() {
     //@ts-ignore
     dispatch(logoutUser());
   }
@@ -39,7 +39,7 @@ function Profile(): React.JSX.Element {
             История заказов
           </NavLink>
 
-          <button onClick={onSubmit} className={styles.item_button}>
+          <button onClick={handleOnClick} className={styles.item_button}>
             <p className={"text text_type_main-medium"}>Выход</p>
           </button>
 

@@ -13,10 +13,10 @@ import { createUser } from "../../services/user/actions";
 import { useForm } from "../../hooks/useForm";
 
 type TypeUseForm = {
-  name: string,
-  email: string,
-  password: string,
-}
+  name: string;
+  email: string;
+  password: string;
+};
 
 function Register(): React.JSX.Element {
   // const inputRef = useRef(null);

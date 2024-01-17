@@ -13,9 +13,9 @@ import { loginUser } from "../../services/user/actions";
 import { useForm } from "../../hooks/useForm";
 
 type TypeUseForm = {
-  email: string,
-  password: string,
-}
+  email: string;
+  password: string;
+};
 
 function Login(): React.JSX.Element {
   // const inputRef = useRef(null);

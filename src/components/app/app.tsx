@@ -6,7 +6,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import styles from "./app.module.css";
 
@@ -27,7 +27,7 @@ import ProfileInformation from "../profile-information/profile-information";
 import { loadIngredients } from "../../services/ingredients/actions";
 import { closeIngredient } from "../../services/ingredient/reducer";
 import { checkUserAuth } from "../../services/user/actions";
-import { OnlyAuth, OnlyUnAuth } from "../../utils/protected-route";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import {
   FORGOT_PASSWORD,
   HOME,
@@ -38,8 +38,11 @@ import {
   REGISTER,
   RESET_PASSWORD,
 } from "../../utils/constants";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 function App(): React.JSX.Element {
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -47,14 +50,13 @@ function App(): React.JSX.Element {
 
   const handleOnClose = () => {
     navigate(-1);
-    //@ts-ignore
     dispatch(closeIngredient());
   };
 
-  //@ts-ignore
-  const isIngredientsLoading = useSelector((store) => store.ingredients.loading);
-  //@ts-ignore
-  const isOrderLoading = useSelector((store) => store.order.loading);
+  const isIngredientsLoading = useAppSelector(
+    (state) => state.ingredients.loading
+  );
+  const isOrderLoading = useAppSelector((state) => state.order.loading);
   //@ts-ignore
   const isUserLoading = useSelector((store) => store.user.loading);
   const isLoading = isIngredientsLoading || isOrderLoading || isUserLoading;
@@ -65,15 +67,11 @@ function App(): React.JSX.Element {
     ? true
     : false;
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    //@ts-ignore
     dispatch(loadIngredients());
   }, []);
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(checkUserAuth());
   }, []);
 
@@ -81,7 +79,7 @@ function App(): React.JSX.Element {
     <div className={styles.app}>
       <AppHeader />
       {isLoading && (
-        <Modal handleOnClose={handleOnClose} isLoading={isLoading}>
+        <Modal isLoading={isLoading}>
           <Preloader />
         </Modal>
       )}

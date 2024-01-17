@@ -13,6 +13,10 @@ export type TypeIngredienInfo = {
     _id: string,
 }
 
+export type TypeUniqueIngredienInfo = TypeIngredienInfo & {
+    uniqueId: string;
+  };
+
 export type TypeIngredienData = {
     success: boolean,
     data: TypeIngredienInfo
@@ -31,7 +35,7 @@ export type TypeUserData = {
     user: TypeUserInfo,
 }
 
-type TypeOrderInfo = {
+export type TypeOrderInfo = {
     number: number,
 }
 

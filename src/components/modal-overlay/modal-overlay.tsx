@@ -3,14 +3,16 @@ import { useEffect } from "react";
 import styles from "./modal-overlay.module.css";
 
 type TypeModalOverlayProps = {
-  handleOnClose: () => void;
-}
+  handleOnClose?: () => void;
+};
 
-function ModalOverlay({ handleOnClose }: TypeModalOverlayProps): React.JSX.Element {
+function ModalOverlay({
+  handleOnClose,
+}: TypeModalOverlayProps): React.JSX.Element {
   useEffect(() => {
-    const handleEsc = (e: { key: string }) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        handleOnClose();
+        if (handleOnClose) handleOnClose();
       }
     };
 

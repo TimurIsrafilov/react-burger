@@ -9,14 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { updateUser } from "../../services/user/actions";
-
 import { useForm } from "../../hooks/useForm";
 
 type TypeUseForm = {
-  name: string,
-  email: string,
-  password: string,
-}
+  name: string;
+  email: string;
+  password: string;
+};
 
 function ProfileInformation(): React.JSX.Element {
   // const inputRef = useRef(null);
@@ -28,25 +27,26 @@ function ProfileInformation(): React.JSX.Element {
 
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
-  const { values, handleChange, isInputChanged, resetForm } = useForm<TypeUseForm>({
-    name: userData.name,
-    email: userData.email,
-    password: userData.password,
-  });
+  const { values, handleChange, isInputChanged, resetForm } =
+    useForm<TypeUseForm>({
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+    });
 
   const onPasswordIconClick = () => {
     setIsInputTypePassword(!isInputTypePassword);
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //@ts-ignore
     dispatch(updateUser(values));
-  }
+  };
 
   useEffect(() => {
-    resetForm()
-  }, [resetForm])
+    resetForm();
+  }, [resetForm]);
 
   return (
     <form onSubmit={handleSubmit} className={styles.inputs}>
@@ -102,7 +102,7 @@ function ProfileInformation(): React.JSX.Element {
               type="secondary"
               size="medium"
               onClick={resetForm}
-            // extraClass="mb-20"
+              // extraClass="mb-20"
             >
               Отменить
             </Button>
@@ -110,7 +110,7 @@ function ProfileInformation(): React.JSX.Element {
               htmlType="submit"
               type="primary"
               size="medium"
-            // extraClass="mb-20"
+              // extraClass="mb-20"
             >
               Сохранить
             </Button>{" "}

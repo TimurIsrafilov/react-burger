@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import styles from "./burger-ingredients.module.css";
 
@@ -8,7 +7,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { TypeIngredienInfo } from "../../utils/types"
+import { TypeIngredienInfo } from "../../utils/types";
+import { useAppSelector } from "../../hooks/hooks";
 
 function BurgerIngredients(): React.JSX.Element {
   const location = useLocation();
@@ -31,8 +31,9 @@ function BurgerIngredients(): React.JSX.Element {
     } else if (scrollTop > 750) setCurrent("three");
   }, [scrollTop]);
 
-  //@ts-ignore
-  const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
+  const ingredientsSet = useAppSelector(
+    (state) => state.ingredients.ingredients
+  );
 
   return (
     <section className={`${styles.ingredients} custom-scroll mb-10`}>

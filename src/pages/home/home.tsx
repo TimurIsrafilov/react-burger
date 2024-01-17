@@ -1,5 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
-
 import styles from "./home.module.css";
 
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -13,13 +11,14 @@ import Modal from "../../components/modal/modal";
 
 import { closeOrder } from "../../services/order/reducer";
 
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+
 function Home(): React.JSX.Element {
-  const dispatch = useDispatch();
-  //@ts-ignore
-  const isOrdertModalOpen = useSelector((store) => store.order.order);
+  const dispatch = useAppDispatch();
+
+  const isOrdertModalOpen = useAppSelector((state) => state.order.order);
 
   function handleOnClose() {
-    //@ts-ignore
     dispatch(closeOrder());
   }
 

@@ -1,9 +1,0 @@
-export const FORGOT_PASSWORD = "/forgot-password";
-export const HOME = "/";
-export const INGREDIENTS_INGREDIENT_ID = "/ingredients/:ingredientId";
-export const LOGIN = "/login";
-export const PROFILE = "/profile";
-export const ORDERS = "/orders";
-export const REGISTER = "/register";
-export const RESET_PASSWORD = "/reset-password";
-export const PROFILE_ORDERS = "/profile/orders";

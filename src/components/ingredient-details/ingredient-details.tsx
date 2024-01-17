@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
 import styles from "./ingredient-details.module.css";
 
 import { TypeIngredienInfo } from "../../utils/types";
+import { useAppSelector } from "../../hooks/hooks";
 
 function IngredientDetails(): React.JSX.Element {
   const { ingredientId } = useParams();
-  //@ts-ignore
-  const ingredientsSet = useSelector((store) => store.ingredients.ingredients);
+
+  const ingredientsSet = useAppSelector(
+    (state) => state.ingredients.ingredients
+  );
 
   const ingredientToShow =
     ingredientsSet.length > 0 &&
