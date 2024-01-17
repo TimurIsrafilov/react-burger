@@ -13,8 +13,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 720px;
-    width: 720px;
+    min-height: 720px;
+    min-width: 720px;
     background-color: rgba(28, 28, 33, 1);
     position: fixed;
     border-radius: 40px;

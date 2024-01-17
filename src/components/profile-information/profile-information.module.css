@@ -1,0 +1,8 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs_button_container {
+    height: 56px;
+}

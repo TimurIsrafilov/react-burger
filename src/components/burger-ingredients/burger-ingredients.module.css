@@ -35,3 +35,8 @@
     row-gap: 32px;
     column-gap: 24px;
 }
+
+.ingredients_link {
+    text-decoration: none;
+    color: rgba(242, 242, 243, 1);
+}
