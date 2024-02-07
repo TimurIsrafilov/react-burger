@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadIngredients } from "./actions";
 import type { RootState } from "../store";
 
-import { TypeIngredienInfo } from "../../utils/types";
+import { TypeIngredienInfo } from "../../types/types";
 
 interface IntIngredientsState {
   ingredients: TypeIngredienInfo | Array<TypeIngredienInfo>;

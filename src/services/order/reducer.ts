@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadOrder } from "./actions";
 import type { RootState } from "../store";
 
-import { TypeOrderData } from "../../utils/types";
+import { TypeOrderData } from "../../types/types";
 
 interface IntOrderState {
   order: TypeOrderData | null;

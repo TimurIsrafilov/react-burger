@@ -12,7 +12,7 @@ import {
   deleteIngredient,
   moveIngredient,
 } from "../../services/components/reducer";
-import { TypeIngredienInfo } from "../../utils/types";
+import { TypeIngredienInfo } from "../../types/types";
 import { useAppDispatch } from "../../hooks/hooks";
 
 type TypeDragObject = {

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 import styles from "./ingredient-details.module.css";
 
-import { TypeIngredienInfo } from "../../utils/types";
+import { TypeIngredienInfo } from "../../types/types";
 import { useAppSelector } from "../../hooks/hooks";
 
 function IngredientDetails(): React.JSX.Element {

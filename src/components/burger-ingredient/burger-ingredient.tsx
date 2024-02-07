@@ -5,8 +5,8 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 import styles from "./burger-ingredient.module.css";
 
-import { showIngredient } from "../../services/ingredient/reducer";
-import { TypeIngredienInfo } from "../../utils/types";
+// import { showIngredient } from "../../services/ingredient/reducer";
+import { TypeIngredienInfo } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 interface IntBurgerIngredientProps {
@@ -56,9 +56,9 @@ function BurgerIngredient({
 
   const dispatch = useAppDispatch();
 
-  const onIngredientClick = () => {
-    dispatch(showIngredient(item));
-  };
+  // const onIngredientClick = () => {
+  //   dispatch(showIngredient(item));
+  // };
 
   const item: TypeIngredienInfo = ingredient;
 
@@ -84,7 +84,7 @@ function BurgerIngredient({
           className={styles.ingredient_picture}
           src={ingredient.image}
           alt={ingredient.name}
-          onClick={onIngredientClick}
+          // onClick={onIngredientClick}
         />
       </div>
       <div className={`${styles.ingredient_value} mt-1 mb-4`}>

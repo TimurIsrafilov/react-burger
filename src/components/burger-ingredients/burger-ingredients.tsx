@@ -7,8 +7,9 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { TypeIngredienInfo } from "../../utils/types";
+import { TypeIngredienInfo } from "../../types/types";
 import { useAppSelector } from "../../hooks/hooks";
+import { INGREDIENTS } from "../../utils/constants";
 
 function BurgerIngredients(): React.JSX.Element {
   const location = useLocation();
@@ -70,7 +71,7 @@ function BurgerIngredients(): React.JSX.Element {
                   <Link
                     className={styles.ingredients_link}
                     key={ingredient._id}
-                    to={`/ingredients/${ingredient._id}`}
+                    to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
                   >
                     <BurgerIngredient
@@ -95,7 +96,7 @@ function BurgerIngredients(): React.JSX.Element {
                   <Link
                     className={styles.ingredients_link}
                     key={ingredient._id}
-                    to={`/ingredients/${ingredient._id}`}
+                    to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
                   >
                     <BurgerIngredient
@@ -120,7 +121,7 @@ function BurgerIngredients(): React.JSX.Element {
                   <Link
                     className={styles.ingredients_link}
                     key={ingredient._id}
-                    to={`/ingredients/${ingredient._id}`}
+                    to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
                   >
                     <BurgerIngredient

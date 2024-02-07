@@ -40,7 +40,7 @@ function AppHeader(): React.JSX.Element {
             }
           </NavLink>
 
-          <NavLink to="/orders-history" className={`${styles.menu_item} mr-5`}>
+          <NavLink to="/feed" className={`${styles.menu_item} mr-5`}>
             {({ isActive }) =>
               isActive ? (
                 <div className={`${styles.menu_item} mr-5`}>

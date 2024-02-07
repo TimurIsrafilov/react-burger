@@ -4,7 +4,7 @@ import {
   TypeServerReply,
   TypeUserData,
   TypeUserInfo,
-} from "./types";
+} from "../types/types";
 
 type TypeApiData = {
   baseUrl: string;
@@ -27,8 +27,18 @@ class Api {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   }
 
+  // Получить ингредиенты можно, обратившись к нашему API:
+  // https://norma.nomoreparties.space/api/ingredients
+
   getIngredients(): Promise<TypeIngredienData> {
     return fetch(`${this._baseUrl}/ingredients`, {}).then(
+      this._getResponseData<TypeIngredienData>
+    );
+  }
+
+  // GET https://norma.nomoreparties.space/api/orders/{номер заказа}
+  getOrderByNumber(orderNumber: string | undefined): any {
+    return fetch(`${this._baseUrl}/orders/${orderNumber}`, {}).then(
       this._getResponseData<TypeIngredienData>
     );
   }
@@ -38,6 +48,7 @@ class Api {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify({
         ingredients: ingredientIds,

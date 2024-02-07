@@ -19,7 +19,7 @@ import ConstructorComponent from "../constructor-component/constructor-component
 
 import { addIngredient } from "../../services/components/reducer";
 import { loadOrder } from "../../services/order/actions";
-import { TypeIngredienInfo } from "../../utils/types";
+import { TypeIngredienInfo } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 type TypeDragObject = {
