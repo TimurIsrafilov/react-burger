@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import styles from "./register.module.css";
 
@@ -11,11 +10,12 @@ import {
 
 import { createUser } from "../../services/user/actions";
 import { useForm } from "../../hooks/useForm";
+import { useAppDispatch } from "../../hooks/hooks";
 
 type TypeUseForm = {
   name: string;
   email: string;
-  password: string;
+  password?: string;
 };
 
 function Register(): React.JSX.Element {
@@ -29,7 +29,7 @@ function Register(): React.JSX.Element {
 
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function onPasswordIconClick() {
     setIsInputTypePassword(!isInputTypePassword);
@@ -37,7 +37,6 @@ function Register(): React.JSX.Element {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    //@ts-ignore
     dispatch(createUser(values));
   }
 

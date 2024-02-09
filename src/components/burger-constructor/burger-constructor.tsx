@@ -1,9 +1,6 @@
 import { useRef, useCallback, useMemo } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { v4 as uuidv4 } from "uuid";
-
 import { useDrop } from "react-dnd";
 
 import {
@@ -46,8 +43,7 @@ function BurgerConstructor(): React.JSX.Element {
     (state) => state.components.orderedIngredients
   );
 
-  //@ts-ignore
-  const isUserLogged = useSelector((store) => store.user.user);
+  const isUserLogged = useAppSelector((state) => state.user.user);
 
   const handleOrder = () => {
     if (isUserLogged) {
@@ -63,7 +59,7 @@ function BurgerConstructor(): React.JSX.Element {
       orderedIngredientsForPurshase.map((i: { _id: string }) =>
         orderedIngredientsById.push(i._id)
       );
-      //@ts-ignore
+
       dispatch(loadOrder(orderedIngredientsById));
     } else {
       navigate("/login", { replace: true });

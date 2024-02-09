@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 
 import styles from "./profile-information.module.css";
 
@@ -10,6 +9,7 @@ import {
 
 import { updateUser } from "../../services/user/actions";
 import { useForm } from "../../hooks/useForm";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 type TypeUseForm = {
   name: string;
@@ -19,11 +19,11 @@ type TypeUseForm = {
 
 function ProfileInformation(): React.JSX.Element {
   // const inputRef = useRef(null);
-  //@ts-ignore
-  const userStore = useSelector((store) => store.user.user);
+
+  const userStore = useAppSelector((state) => state.user.user);
   const userData = userStore ? userStore : {};
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
@@ -40,7 +40,6 @@ function ProfileInformation(): React.JSX.Element {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(updateUser(values));
   };
 

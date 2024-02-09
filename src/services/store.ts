@@ -1,4 +1,4 @@
-import { configureStore as createStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { reducer } from "./reducer";
 import { socketMiddleware } from "./middleware/socket-middleware";
 
@@ -44,103 +44,21 @@ const liveAllOrdersMiddleware = socketMiddleware({
   onMessage: LiveAllOrdersWsMessage,
 });
 
-//@ts-ignore
-export const configureStore = (initialState) => {
-  //@ts-ignore
-  const store = createStore({
-    reducer,
-    //@ts-ignore
-    initialState,
-    middleware: (getDefaultMiddleware) =>
-      // getDefaultMiddleware({ serializableCheck: false }).concat(
-      getDefaultMiddleware().concat(liveUserOrdersMiddleware, liveAllOrdersMiddleware),
-  });
+export const store: any = configureStore({
+  reducer,
 
-  // export const store = configureStore({
-  //   reducer,
-  //   middleware: (getDefaultMiddleware) => {
-  //     return getDefaultMiddleware().concat(liveUserOrdersMiddleware);
-  //   }
-  // });
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      liveUserOrdersMiddleware,
+      liveAllOrdersMiddleware
+    );
+  },
+});
 
-  return store;
-};
-//@ts-ignore
 export type RootState = ReturnType<typeof store.getState>;
-//@ts-ignore
+
 export type AppDispatch = typeof store.dispatch;
 
-export type AppActions = TypeLiveUserOrderActions;
+export type AppUserActions = TypeLiveUserOrderActions;
 
-
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState,unknown, AppActions>;
-
-// export type AppDispatch<ReturnType = void> = (action: AppActions | AppThunk<ReturnType>) => ReturnType;
-
-// export type RootState = ReturnType<typeof reducer>;
-
-// import { combineReducers } from "redux";
-// import { liveTableReducer } from "./live-table/reducer";
-// import { ThunkAction, configureStore } from "@reduxjs/toolkit";
-// import { socketMiddleware } from "./middleware/socket-middleware";
-
-// import {
-//   connect as LiveTableWsConnect,
-//   disconnect as LiveTableWsDisconnect,
-//   wsOpen as LiveTableWsOpen,
-//   wsClose as LiveTableWsClose,
-//   wsMessage as LiveTableWsMessage,
-//   wsError as LiveTableWsError,
-//   wsConnecting as LiveTableWsConnecting,
-//   TLiveTableActions,
-// } from "./live-table/actions";
-
-// import {
-//   TypedUseSelectorHook,
-//   useDispatch as dispatchHook,
-//   useSelector as selectorHook
-// } from "react-redux";
-
-// import type {} from "redux-thunk/extend-redux";
-
-// const reducer = combineReducers({
-//   liveTable: liveTableReducer
-// });
-
-// export type RootState = ReturnType<typeof reducer>;
-
-// const liveTableMiddleware = socketMiddleware({
-//   wsConnect: LiveTableWsConnect,
-//   wsDisconnect: LiveTableWsDisconnect,
-//   wsConnecting: LiveTableWsConnecting,
-//   onOpen: LiveTableWsOpen,
-//   onError: LiveTableWsError,
-//   onClose: LiveTableWsClose,
-//   onMessage: LiveTableWsMessage,
-// });
-
-// // const liveTableMiddleware2 = socketMiddleware({
-// //   wsConnect: LiveTableWsConnectProfile,
-// //   wsDisconnect: LiveTableWsDisconnect,
-// //   wsConnecting: LiveTableWsConnecting,
-// //   onOpen: LiveTableWsOpen,
-// //   onError: LiveTableWsError,
-// //   onClose: LiveTableWsClose,
-// //   onMessage: LiveTableWsMessage,
-// // });
-
-// export const store = configureStore({
-//   reducer,
-//   middleware: (getDefaultMiddleware) => {
-//     return getDefaultMiddleware().concat(liveTableMiddleware);
-//   }
-// });
-
-// export type AppActions = TLiveTableActions;
-
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState,unknown, AppActions>;
-
-// export type AppDispatch<ReturnType = void> = (action: AppActions | AppThunk<ReturnType>) => ReturnType;
-
-// export const useDispatch: () => AppDispatch = dispatchHook;
-// export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
+export type AppAllActions = TypeLiveAllOrdersActions;

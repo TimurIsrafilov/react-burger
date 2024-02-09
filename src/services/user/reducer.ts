@@ -1,3 +1,4 @@
+import { TypeUserData, TypeUserInfo } from "../../types/types";
 import {
   ADD_USER_SUCCESS,
   DELETE_USER_SUCCESS,
@@ -7,14 +8,21 @@ import {
   SET_USER,
 } from "./actions";
 
-const initialState = {
+interface IntUserState {
+  user: TypeUserInfo | null;
+  isAuthChecked: boolean;
+  loading: boolean;
+  error: unknown;
+}
+
+const initialState: IntUserState = {
   user: null,
   isAuthChecked: false,
   loading: false,
   error: null,
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case ADD_USER_SUCCESS:
       return {

@@ -1,55 +1,21 @@
-import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import styles from "./order-full-details.module.css";
 
-import { TypeLiveOrderData, TypeLiveOrdersData } from "../../types/live-order-types";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import {
-  TypeIngredienInfo,
-  TypeOrderInfo,
-  TypeUniqueIngredienInfo,
-} from "../../types/types";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { TypeIngredienInfo, TypeOrderInfo } from "../../types/types";
+import { useEffect } from "react";
 import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  connect as liveOrderConnect,
-  disconnect as liveOrderDisconnect,
-} from "../../services/live-user-orders/actions";
-
-import {
-  connect as liveOrdersConnect,
-  disconnect as liveOrdersDisconnect,
-} from "../../services/live-all-orders/actions";
-
-import {
-  FEED,
-  FORGOT_PASSWORD,
-  HOME,
-  INGREDIENTS,
-  INGREDIENT_ID,
-  LOGIN,
-  ORDERS,
-  PROFILE,
-  REGISTER,
-  RESET_PASSWORD,
-  LIVE_ORDER_SERVER_URL,
-  LIVE_ORDERS_SERVER_URL,
-} from "../../utils/constants";
-import Preloader from "../preloader/preloader";
-import Modal from "../modal/modal";
-import api from "../../utils/api";
 import { loadOrderToShow } from "../../services/order-to-show/actions";
 
 function OrderFullDetails(): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   const orderNumber = window.location.pathname.split("/").pop();
-  const currentPath = window.location.pathname.split("/").slice(-2, -1)[0];
 
   const ingredientsSet = useAppSelector(
     (state) => state.ingredients.ingredients
@@ -77,7 +43,6 @@ function OrderFullDetails(): React.JSX.Element {
 
   useEffect(() => {
     if (!orderToShow) {
-      //@ts-ignore
       dispatch(loadOrderToShow(orderNumber));
     }
   }, []);
@@ -108,6 +73,7 @@ function OrderFullDetails(): React.JSX.Element {
   const orderIngredientsFullInfo: any[] = [];
   //@ts-ignore
   orderToShowUnicueItems.forEach((ingredient: string | number) => {
+    //@ts-ignore
     ingredientsSet.forEach((item: { _id: any }) => {
       if (item._id === ingredient) {
         orderIngredientsFullInfo.push({

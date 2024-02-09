@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 import Modal from "../modal/modal";
 import Preloader from "../preloader/preloader";
 
 import { LOGIN } from "../../utils/constants";
+import { useAppSelector } from "../../hooks/hooks";
 
 type TypeProtectedComponentData = {
   onlyUnAuth?: boolean;
@@ -15,13 +15,12 @@ const Protected = ({
   onlyUnAuth = false,
   component,
 }: TypeProtectedComponentData): React.JSX.Element => {
-  // @ts-ignore
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-  // @ts-ignore
-  const user = useSelector((store) => store.user.user);
+
   const location = useLocation();
-  // @ts-ignore
-  const isUserLoading = useSelector((store) => store.user.loading);
+
+  const user = useAppSelector((state) => state.user.user);
+  const isAuthChecked = useAppSelector((state) => state.user.isAuthChecked);
+  const isUserLoading = useAppSelector((state) => state.user.loading);
 
   if (!isAuthChecked) {
     return (

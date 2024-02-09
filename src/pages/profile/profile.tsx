@@ -1,22 +1,19 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import styles from "./profile.module.css";
 
 import { logoutUser } from "../../services/user/actions";
 import { ORDERS, PROFILE } from "../../utils/constants";
+import { useAppDispatch } from "../../hooks/hooks";
 
 function Profile(): React.JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function handleOnClick() {
-    //@ts-ignore
     dispatch(logoutUser());
   }
 
   const currentUrl = window.location.pathname.split("/").pop();
-
-  
 
   return (
     <div className={styles.profile_container}>

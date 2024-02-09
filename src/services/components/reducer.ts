@@ -24,13 +24,12 @@ export const constructorSlice = createSlice({
     addIngredient: (state, action) => {
       state.bun =
         action.payload.item.type === "bun" ? action.payload.item.type : null;
-    //@ts-ignore
-      state.orderedIngredients =
-        action.payload.item.type === "bun"
+        //@ts-ignore
+        state.orderedIngredients = action.payload.item.type === "bun"
           ? [
               ...state.orderedIngredients.filter(
-              //@ts-ignore
-                (element) => element.type !== action.payload.item.type
+                (element: TypeUniqueIngredienInfo) =>
+                  element.type !== action.payload.item.type
               ),
               { ...action.payload.item, uniqueId: action.payload.uniqueId },
             ]
@@ -42,8 +41,8 @@ export const constructorSlice = createSlice({
 
     deleteIngredient: (state, action) => {
       state.orderedIngredients = state.orderedIngredients.filter(
-      //@ts-ignore
-        (ingredient) => ingredient.uniqueId !== action.payload
+        (ingredient: TypeUniqueIngredienInfo) =>
+          ingredient.uniqueId !== action.payload
       );
     },
 
@@ -64,5 +63,4 @@ export const reducer = constructorSlice.reducer;
 export const { addIngredient, deleteIngredient, moveIngredient } =
   constructorSlice.actions;
 
-export const selectOrderedIngredients = (state: RootState) =>
-  state.burgercomponents.orderedIngredients;
+export const selectOrderedIngredients = (state: RootState) => state.burgercomponents.orderedIngredients;

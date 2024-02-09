@@ -24,7 +24,7 @@ export type TypeIngredienData = {
 
 export type TypeUserInfo = {
     email: string,
-    name: string,
+    name?: string,
     password?: string,
 }
 
@@ -34,6 +34,7 @@ export type TypeUserData = {
     refreshToken: string,
     user: TypeUserInfo,
 }
+
 
 export type TypeOrderInfo = {
     number: number,
@@ -52,3 +53,29 @@ export type TypeServerReply = {
     email: string,
     password: string,
 }
+
+export enum WebsocketStatus {
+    CONNECTING = "CONNECTING...",
+    ONLINE = "ONLINE",
+    OFFLINE = "OFFLINE",
+  }
+  
+  export type TypeLiveOrderData = {
+    ingredients: Array<string>;
+    _id: string;
+    owner?: string;
+    status: string;
+    name: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+  
+  export type TypeLiveOrdersData = {
+    success: boolean;
+    orders: Array<TypeLiveOrderData>;
+    total?: number;
+    totalToday?: number;
+  };
+  
+//   export type LiveOrders = Array<TypeLiveOrdersData>;

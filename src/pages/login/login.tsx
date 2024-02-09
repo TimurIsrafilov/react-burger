@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import styles from "./login.module.css";
 
@@ -11,6 +10,7 @@ import {
 
 import { loginUser } from "../../services/user/actions";
 import { useForm } from "../../hooks/useForm";
+import { useAppDispatch } from "../../hooks/hooks";
 
 type TypeUseForm = {
   email: string;
@@ -27,7 +27,7 @@ function Login(): React.JSX.Element {
 
   const [isInputTypePassword, setIsInputTypePassword] = useState(true);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function onPasswordIconClick(): void {
     setIsInputTypePassword(!isInputTypePassword);
@@ -35,7 +35,6 @@ function Login(): React.JSX.Element {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    //@ts-ignore
     dispatch(loginUser(values));
   }
 

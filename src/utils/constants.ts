@@ -10,5 +10,5 @@ export const REGISTER: string = "/register";
 export const RESET_PASSWORD: string = "/reset-password";
 export const NUMBER: string = "/:number";
 
-export const LIVE_ORDER_SERVER_URL: string = "wss://norma.nomoreparties.space/orders";
-export const LIVE_ORDERS_SERVER_URL: string = "wss://norma.nomoreparties.space/orders/all";
+export const LIVE_USER_ORDERS_SERVER_URL: string = "wss://norma.nomoreparties.space/orders";
+export const LIVE_ALL_ORDERS_SERVER_URL: string = "wss://norma.nomoreparties.space/orders/all";

@@ -27,7 +27,7 @@ import Preloader from "../preloader/preloader";
 import ProfileInformation from "../profile-information/profile-information";
 
 import { loadIngredients } from "../../services/ingredients/actions";
-// import { closeIngredient } from "../../services/ingredient/reducer";
+
 import { checkUserAuth } from "../../services/user/actions";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import {
@@ -41,22 +41,14 @@ import {
   PROFILE,
   REGISTER,
   RESET_PASSWORD,
-  LIVE_ORDER_SERVER_URL,
-  LIVE_ORDERS_SERVER_URL,
   NUMBER,
 } from "../../utils/constants";
 
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
-import {
-  connect as liveOrderConnect,
-  disconnect as liveOrderDisconnect,
-} from "../../services/live-user-orders/actions";
+import { disconnect as liveOrderDisconnect } from "../../services/live-user-orders/actions";
 
-import {
-  connect as liveOrdersConnect,
-  disconnect as liveOrdersDisconnect,
-} from "../../services/live-all-orders/actions";
+import { disconnect as liveOrdersDisconnect } from "../../services/live-all-orders/actions";
 
 function App(): React.JSX.Element {
   const dispatch = useAppDispatch();
@@ -68,39 +60,22 @@ function App(): React.JSX.Element {
 
   const handleOnClose = () => {
     navigate(-1);
-    // dispatch(closeIngredient());
   };
 
   const isIngredientsLoading = useAppSelector(
     (state) => state.ingredients.loading
   );
   const isOrderLoading = useAppSelector((state) => state.order.loading);
-  //@ts-ignore
-  const isUserLoading = useSelector((store) => store.user.loading);
+  const isUserLoading = useAppSelector((state) => state.user.loading);
   const isLoading = isIngredientsLoading || isOrderLoading || isUserLoading;
 
-  const ordersInfo = useAppSelector((state) => state.liveuserorder.live_user_orders);
+  const ordersInfo = useAppSelector((state) => state.liveuserorder.orders_data);
 
   const confirmationPasswordReset = localStorage.getItem(
     "confirmationPasswordReset"
   )
     ? true
     : false;
-
-  // const currentUrl = window.location.pathname.split("/").pop();
-
-  // const orderSocketInfo = useAppSelector((state) => state.liveuserorder.status);
-  // const ordersSocketInfo = useAppSelector((state) => state.liveallorders.status);
-
-  // if (currentUrl === "orders" && orderSocketInfo === "OFFLINE") {
-  //   dispatch(liveOrderConnect(LIVE_ORDER_SERVER_URL));
-  // } else if (currentUrl !== "orders" && orderSocketInfo === "ONLINE") {
-  //   dispatch(liveOrderDisconnect());
-  // } else if (currentUrl === "feed" && ordersSocketInfo === "OFFLINE") {
-  //   dispatch(liveOrdersConnect(LIVE_ORDERS_SERVER_URL));
-  // } else if (currentUrl !== "feed" && ordersSocketInfo === "ONLINE") {
-  //   dispatch(liveOrdersDisconnect());
-  // }
 
   useEffect(() => {
     dispatch(loadIngredients());
@@ -113,12 +88,18 @@ function App(): React.JSX.Element {
   const currentUrl = window.location.pathname.split("/").pop();
 
   const orderSocketInfo = useAppSelector((state) => state.liveuserorder.status);
-  const ordersSocketInfo = useAppSelector((state) => state.liveallorders.status);
+  const ordersSocketInfo = useAppSelector(
+    (state) => state.liveallorders.status
+  );
 
   useEffect(() => {
-    if ((currentUrl !== "orders" && orderSocketInfo === "ONLINE")) {dispatch(liveOrderDisconnect())};
-    if ((currentUrl !== "feed" && ordersSocketInfo === "ONLINE")) {dispatch(liveOrdersDisconnect())};
-  }, [currentUrl])
+    if (currentUrl !== "orders" && orderSocketInfo === "ONLINE") {
+      dispatch(liveOrderDisconnect());
+    }
+    if (currentUrl !== "feed" && ordersSocketInfo === "ONLINE") {
+      dispatch(liveOrdersDisconnect());
+    }
+  }, [currentUrl]);
 
   return (
     <div className={styles.app}>
@@ -166,7 +147,10 @@ function App(): React.JSX.Element {
           element={<IngredientDetails />}
         />
         <Route path={`${FEED}${NUMBER}`} element={<OrderFullDetails />} />
-        <Route path={`${PROFILE}${ORDERS}${NUMBER}`} element={<OrderFullDetails />} />
+        <Route
+          path={`${PROFILE}${ORDERS}${NUMBER}`}
+          element={<OrderFullDetails />}
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 

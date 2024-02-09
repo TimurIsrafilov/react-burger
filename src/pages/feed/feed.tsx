@@ -1,48 +1,28 @@
+import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+
 import Orders from "../../components/orders/orders";
 
 import styles from "./feed.module.css";
 
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
-import {
-  connect as liveOrderConnect,
-  disconnect as liveOrderDisconnect,
-} from "../../services/live-user-orders/actions";
+import { connect as liveOrdersConnect } from "../../services/live-all-orders/actions";
 
-import {
-  connect as liveOrdersConnect,
-  disconnect as liveOrdersDisconnect,
-} from "../../services/live-all-orders/actions";
+import { FEED, LIVE_ALL_ORDERS_SERVER_URL } from "../../utils/constants";
 
-import {
-  FEED,
-  FORGOT_PASSWORD,
-  HOME,
-  INGREDIENTS,
-  INGREDIENT_ID,
-  LOGIN,
-  ORDERS,
-  PROFILE,
-  REGISTER,
-  RESET_PASSWORD,
-  LIVE_ORDER_SERVER_URL,
-  LIVE_ORDERS_SERVER_URL,
-  NUMBER,
-} from "../../utils/constants";
-import { useMatch } from "react-router";
-import { useEffect } from "react";
+import { TypeLiveOrderData } from "../../types/types";
 
-function Feed() {
-  const ordersInfo = useAppSelector((state) => state.liveallorders.live_all_orders);
+function Feed(): React.JSX.Element {
+  const ordersInfo = useAppSelector((state) => state.liveallorders.orders_data);
 
   const commonOrders = ordersInfo.orders;
 
-  const commonOrdersDone = [];
-  const commonOrdersInProgress = [];
+  const commonOrdersDone: Array<number> = [];
+  const commonOrdersInProgress: Array<number> = [];
 
   const arrayCheck = commonOrders
-    ? commonOrders.forEach((i) => {
+    ? commonOrders.forEach((i: TypeLiveOrderData) => {
         if (i.status === "done") {
           commonOrdersDone.push(i.number);
         } else commonOrdersInProgress.push(i.number);
@@ -52,41 +32,17 @@ function Feed() {
   const dispatch = useAppDispatch();
 
   const currentUrl = window.location.pathname.split("/").pop();
-  // const currentUrl = window.location.pathname.split("/").includes("feed");
   const currentPath = window.location.pathname.split("/").includes("feed");
 
-  const orderSocketInfo = useAppSelector((state) => state.liveuserorder.status);
-  const ordersSocketInfo = useAppSelector((state) => state.liveallorders.status);
+  const ordersSocketInfo = useAppSelector(
+    (state) => state.liveallorders.status
+  );
 
-  // if (currentUrl === "feed" && ordersSocketInfo === "OFFLINE") {
-  //   dispatch(liveOrdersConnect(LIVE_ORDERS_SERVER_URL));
-  // } else if (currentUrl !== "feed" && ordersSocketInfo === "ONLINE") {
-  //   dispatch(liveOrdersDisconnect());
-  // }
-  // const match = useMatch (FEED)
-  
-  // if (match    && ordersSocketInfo === "OFFLINE") {
-  //   dispatch(liveOrderConnect(LIVE_ORDER_SERVER_URL));
-  // } else if (match.pathname !== FEED && ordersSocketInfo === "ONLINE") {
-  //   dispatch(liveOrderDisconnect());
-  // }
-
-// if (currentUrl === "feed" && ordersSocketInfo === "OFFLINE") {
-//     dispatch(liveOrdersConnect(LIVE_ORDERS_SERVER_URL));
-//   } else if (currentUrl !== "feed" && ordersSocketInfo === "ONLINE") {
-//     dispatch(liveOrdersDisconnect());
-//   }
-
-
-useEffect(() => {
-  if (currentPath  && ordersSocketInfo === "OFFLINE") {dispatch(liveOrdersConnect(LIVE_ORDERS_SERVER_URL))};
-},[currentUrl] )
-
-
-// useEffect(() => {
-//   if ((currentUrl !== "feed" && ordersSocketInfo === "ONLINE")) {dispatch(liveOrdersDisconnect())};
-// }, [currentUrl])
-  
+  useEffect(() => {
+    if (currentPath && ordersSocketInfo === "OFFLINE") {
+      dispatch(liveOrdersConnect(LIVE_ALL_ORDERS_SERVER_URL));
+    }
+  }, [currentUrl]);
 
   return ordersInfo ? (
     <section className={styles.feed_container}>

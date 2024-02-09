@@ -1,42 +1,43 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { TypeLiveOrdersData, WebsocketStatus } from "../../types/live-order-types"
+import {
+  WebsocketStatus,
+  TypeLiveOrderData,
+  TypeLiveOrdersData,
+} from "../../types/types";
 import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
 
-export type TLiveUserOrderStore = {
+export type TypeLiveUserOrderStore = {
   status: WebsocketStatus;
-  live_user_orders: TypeLiveOrdersData;
+  orders: Array<TypeLiveOrderData>;
+  orders_data: TypeLiveOrdersData | {};
   connectionError: string;
-}
+};
 
-const initialState: TLiveUserOrderStore = {
+const initialState: TypeLiveUserOrderStore = {
   status: WebsocketStatus.OFFLINE,
-  //@ts-ignore
-  live_user_orders: {},
-  connectionError: "",
   orders: [],
+  orders_data: {},
+  connectionError: "",
 };
 
 export const liveUserOrdersReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(wsConnecting, state => {
+    .addCase(wsConnecting, (state) => {
       state.status = WebsocketStatus.CONNECTING;
     })
-    .addCase(wsOpen, state => {
+    .addCase(wsOpen, (state) => {
       state.status = WebsocketStatus.ONLINE;
     })
-    .addCase(wsClose, state => {
+    .addCase(wsClose, (state) => {
       state.status = WebsocketStatus.OFFLINE;
     })
     .addCase(wsError, (state, action) => {
       state.connectionError = action.payload;
     })
     .addCase(wsMessage, (state, action) => {
-          //@ts-ignore
-      state.live_user_orders = action.payload;
-              //@ts-ignore
+      state.orders_data = action.payload;
       state.orders = action.payload.orders;
-    })
+    });
 });
-
 
 export const reducer = liveUserOrdersReducer;

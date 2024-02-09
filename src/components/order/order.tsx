@@ -1,14 +1,17 @@
-import { useRef, useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import styles from "./order.module.css";
 
-import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TypeIngredienInfo } from "../../types/types";
-import { TypeLiveOrderData } from "../../types/live-order-types";
-//@ts-ignore
-function Order({ order }: TypeLiveOrderData): React.JSX.Element {
+import { TypeIngredienInfo, TypeLiveOrderData } from "../../types/types";
+
+interface IntOrderProps {
+  order: TypeLiveOrderData;
+}
+
+function Order({ order }: IntOrderProps): React.JSX.Element {
   const now = new Date();
   const currentDate = now.toISOString();
   const orderDate = order.createdAt;

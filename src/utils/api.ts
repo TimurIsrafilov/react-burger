@@ -1,5 +1,6 @@
 import {
   TypeIngredienData,
+  TypeLiveOrdersData,
   TypeOrderData,
   TypeServerReply,
   TypeUserData,
@@ -37,9 +38,11 @@ class Api {
   }
 
   // GET https://norma.nomoreparties.space/api/orders/{номер заказа}
-  getOrderByNumber(orderNumber: string | undefined): any {
+  getOrderByNumber(
+    orderNumber: string | undefined
+  ): Promise<TypeLiveOrdersData> {
     return fetch(`${this._baseUrl}/orders/${orderNumber}`, {}).then(
-      this._getResponseData<TypeIngredienData>
+      this._getResponseData<TypeLiveOrdersData>
     );
   }
 

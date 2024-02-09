@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadOrderToShow } from "./actions";
 import type { RootState } from "../store";
 
-import { TypeOrderData } from "../../types/types";
+import { TypeLiveOrderData } from "../../types/types";
 
 interface IntOrderToShowState {
-  order_to_show: TypeOrderData | null;
+  order_to_show: TypeLiveOrderData | null;
   loading: boolean;
   error: unknown;
 }
@@ -44,6 +44,7 @@ const orderToShowSlice = createSlice({
 export const reducer = orderToShowSlice.reducer;
 export const { closeOrderToShow } = orderToShowSlice.actions;
 
-export const selectOrder = (state: RootState) => state.order_to_show.order_to_show;
+export const selectOrder = (state: RootState) =>
+  state.order_to_show.order_to_show;
 export const selectLoading = (state: RootState) => state.order_to_show.loading;
 export const selectError = (state: RootState) => state.order_to_show.error;
