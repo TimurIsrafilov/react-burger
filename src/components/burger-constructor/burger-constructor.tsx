@@ -16,7 +16,7 @@ import ConstructorComponent from "../constructor-component/constructor-component
 
 import { addIngredient } from "../../services/components/reducer";
 import { loadOrder } from "../../services/order/actions";
-import { TypeIngredienInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 type TypeDragObject = {
@@ -28,7 +28,7 @@ type TypeDropCollectedProps = {
   isOver: boolean;
 };
 
-type TypeUniqueIngredienInfo = TypeIngredienInfo & {
+type TypeUniqueIngredientInfo = TypeIngredientInfo & {
   uniqueId: string;
 };
 
@@ -48,10 +48,10 @@ function BurgerConstructor(): React.JSX.Element {
   const handleOrder = () => {
     if (isUserLogged) {
       const bun = orderedIngredients.find(
-        (i: TypeIngredienInfo) => i.type === "bun"
+        (i: TypeIngredientInfo) => i.type === "bun"
       );
       const orderedIngredientsForPurshase = orderedIngredients.filter(
-        (i: { type: string }) => i.type !== "bun"
+        (i: TypeIngredientInfo) => i.type !== "bun"
       );
       orderedIngredientsForPurshase.push(bun);
       orderedIngredientsForPurshase.unshift(bun);
@@ -96,7 +96,7 @@ function BurgerConstructor(): React.JSX.Element {
     }),
   });
 
-  const renderTopIngredient = useCallback((ingredient: TypeIngredienInfo) => {
+  const renderTopIngredient = useCallback((ingredient: TypeIngredientInfo) => {
     return (
       <div
         className={`${styles.constructor_ingredient_container}`}
@@ -118,7 +118,7 @@ function BurgerConstructor(): React.JSX.Element {
   }, []);
 
   const renderIngredient = useCallback(
-    (ingredient: TypeUniqueIngredienInfo, index: number) => {
+    (ingredient: TypeUniqueIngredientInfo, index: number) => {
       return (
         <ConstructorComponent
           ingredient={ingredient}
@@ -131,7 +131,7 @@ function BurgerConstructor(): React.JSX.Element {
   );
 
   const renderBottomIngredient = useCallback(
-    (ingredient: TypeIngredienInfo) => {
+    (ingredient: TypeIngredientInfo) => {
       return (
         <div
           className={`${styles.constructor_ingredient_container}`}
@@ -166,11 +166,11 @@ function BurgerConstructor(): React.JSX.Element {
       >
         {orderedIngredients.length > 0 &&
         orderedIngredients.some(
-          (obj: TypeIngredienInfo) => obj.type === "bun"
+          (obj: TypeIngredientInfo) => obj.type === "bun"
         ) ? (
           <div>
             {orderedIngredients.map(
-              (ingredient: TypeIngredienInfo, index: number) =>
+              (ingredient: TypeIngredientInfo, index: number) =>
                 ingredient.type === "bun" && renderTopIngredient(ingredient)
             )}
           </div>
@@ -192,11 +192,11 @@ function BurgerConstructor(): React.JSX.Element {
         >
           {orderedIngredients.length > 0 &&
           orderedIngredients.some(
-            (obj: TypeIngredienInfo) => obj.type !== "bun"
+            (obj: TypeIngredientInfo) => obj.type !== "bun"
           ) ? (
             <div className={styles.constructor_ingredients_container}>
               {orderedIngredients.map(
-                (ingredient: TypeUniqueIngredienInfo, index: number) =>
+                (ingredient: TypeUniqueIngredientInfo, index: number) =>
                   ingredient.type !== "bun" &&
                   renderIngredient(ingredient, index)
               )}
@@ -218,11 +218,11 @@ function BurgerConstructor(): React.JSX.Element {
         <div>
           {orderedIngredients.length > 0 &&
           orderedIngredients.some(
-            (obj: TypeIngredienInfo) => obj.type === "bun"
+            (obj: TypeIngredientInfo) => obj.type === "bun"
           ) ? (
             <div>
               {orderedIngredients.map(
-                (ingredient: TypeIngredienInfo, index: number) =>
+                (ingredient: TypeIngredientInfo, index: number) =>
                   ingredient.type === "bun" &&
                   renderBottomIngredient(ingredient)
               )}

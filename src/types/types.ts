@@ -1,4 +1,4 @@
-export type TypeIngredienInfo = {
+export type TypeIngredientInfo = {
     calories: number,
     carbohydrates: number,
     fat: number,
@@ -13,13 +13,13 @@ export type TypeIngredienInfo = {
     _id: string,
 }
 
-export type TypeUniqueIngredienInfo = TypeIngredienInfo & {
+export type TypeUniqueIngredientInfo = TypeIngredientInfo & {
     uniqueId: string;
   };
 
 export type TypeIngredienData = {
     success: boolean,
-    data: TypeIngredienInfo
+    data: TypeIngredientInfo
 }
 
 export type TypeUserInfo = {
@@ -33,6 +33,11 @@ export type TypeUserData = {
     accessToken: string,
     refreshToken: string,
     user: TypeUserInfo,
+}
+
+export type TypeUserLogout = {
+  success: boolean,
+  message: string,
 }
 
 
@@ -72,8 +77,8 @@ export enum WebsocketStatus {
   };
   
   export type TypeLiveOrdersData = {
-    success: boolean;
-    orders: Array<TypeLiveOrderData>;
+    success?: boolean;
+    orders?: Array<TypeLiveOrderData>;
     total?: number;
     totalToday?: number;
   };

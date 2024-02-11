@@ -18,7 +18,7 @@ export type TypeWsAction = {
 
 const RECONNECT_PERIOD = 5000;
 
-export const socketMiddleware: any = (
+export const socketMiddleware = (
   wsActions: TypeWsAction,
   withTokenRefresh = false
 ): Middleware<{}, RootState> => {
@@ -44,8 +44,10 @@ export const socketMiddleware: any = (
       if (wsConnect.match(action)) {
         socket = new WebSocket(
           action.payload +
-            //@ts-ignore
-            `?token=${localStorage.getItem("accessToken").slice(7)}`
+            (localStorage.getItem("accessToken")
+              ? //@ts-ignore
+                `?token=${localStorage.getItem("accessToken").slice(7)}`
+              : "")
         );
 
         url = action.payload;

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { reducer } from "./reducer";
 import { socketMiddleware } from "./middleware/socket-middleware";
 
@@ -23,6 +23,9 @@ import {
   wsMessage as LiveAllOrdersWsMessage,
   TypeLiveAllOrdersActions,
 } from "./live-all-orders/actions";
+import { TypeUserActions } from "./user/actions";
+import type {} from "redux-thunk/extend-redux";
+import { TypeIngredientActions } from "./components/actions";
 
 const liveUserOrdersMiddleware = socketMiddleware({
   wsConnect: LiveUserOrderWsConnect,
@@ -44,7 +47,7 @@ const liveAllOrdersMiddleware = socketMiddleware({
   onMessage: LiveAllOrdersWsMessage,
 });
 
-export const store: any = configureStore({
+export const store = configureStore({
   reducer,
 
   middleware: (getDefaultMiddleware) => {
@@ -55,10 +58,21 @@ export const store: any = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof reducer>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppActions =
+  | TypeLiveUserOrderActions
+  | TypeLiveAllOrdersActions
+  | TypeUserActions
+  | TypeIngredientActions;
 
-export type AppUserActions = TypeLiveUserOrderActions;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AppActions
+>;
 
-export type AppAllActions = TypeLiveAllOrdersActions;
+export type AppDispatch<TReturnType = void> = (
+  action: AppActions | AppThunk<TReturnType>
+) => TReturnType;

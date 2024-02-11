@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./order-full-details.module.css";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { TypeIngredienInfo, TypeOrderInfo } from "../../types/types";
+import { TypeIngredientInfo, TypeOrderInfo } from "../../types/types";
 import { useEffect } from "react";
 import {
   CurrencyIcon,
@@ -101,7 +101,7 @@ function OrderFullDetails(): React.JSX.Element {
     orderFullStatusDone = "";
   }
 
-  type TypeNumberedIngredienInfo = TypeIngredienInfo & {
+  type TypeNumberedIngredientInfo = TypeIngredientInfo & {
     number: number;
   };
 
@@ -123,7 +123,7 @@ function OrderFullDetails(): React.JSX.Element {
       <p className="text text_type_main-medium mt-5 ml-15">Состав:</p>
       <ul className={`${styles.order_full_details_items} custom-scroll`}>
         {orderIngredientsFullInfo.map(
-          (ingredient: TypeNumberedIngredienInfo, index: number) => (
+          (ingredient: TypeNumberedIngredientInfo, index: number) => (
             <li className={styles.order_full_ingredient_details} key={uuidv4()}>
               <div className={styles.order_full_details}>
                 <div className={styles.order_full_ingredient_picture_container}>

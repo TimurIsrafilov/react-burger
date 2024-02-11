@@ -7,7 +7,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { TypeIngredienInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector } from "../../hooks/hooks";
 import { INGREDIENTS } from "../../utils/constants";
 
@@ -66,7 +66,7 @@ function BurgerIngredients(): React.JSX.Element {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient: TypeIngredienInfo) =>
+              (ingredient: TypeIngredientInfo) =>
                 ingredient.type === "bun" && (
                   <Link
                     className={styles.ingredients_link}
@@ -91,7 +91,7 @@ function BurgerIngredients(): React.JSX.Element {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient: TypeIngredienInfo) =>
+              (ingredient: TypeIngredientInfo) =>
                 ingredient.type === "sauce" && (
                   <Link
                     className={styles.ingredients_link}
@@ -116,7 +116,7 @@ function BurgerIngredients(): React.JSX.Element {
           </h3>
           <div className={styles.ingredients_cards}>
             {ingredientsSet.map(
-              (ingredient: TypeIngredienInfo) =>
+              (ingredient: TypeIngredientInfo) =>
                 ingredient.type === "main" && (
                   <Link
                     className={styles.ingredients_link}

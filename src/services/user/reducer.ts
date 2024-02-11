@@ -6,6 +6,7 @@ import {
   USER_ERROR,
   USER_AUTH_CHECKED,
   SET_USER,
+  TypeUserActions,
 } from "./actions";
 
 interface IntUserState {
@@ -22,7 +23,7 @@ const initialState: IntUserState = {
   error: null,
 };
 
-export const reducer = (state = initialState, action: any) => {
+export const reducer = (state = initialState, action: TypeUserActions) => {
   switch (action.type) {
     case ADD_USER_SUCCESS:
       return {

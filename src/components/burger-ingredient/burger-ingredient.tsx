@@ -5,11 +5,11 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 import styles from "./burger-ingredient.module.css";
 
-import { TypeIngredienInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 interface IntBurgerIngredientProps {
-  ingredient: TypeIngredienInfo;
+  ingredient: TypeIngredientInfo;
 }
 
 interface ObjectAccInterface {
@@ -27,7 +27,7 @@ function BurgerIngredient({
 
   const orderedIngredientsNumber = orderedIngredients.reduce(function (
     acc: ObjectAccInterface,
-    curr: TypeIngredienInfo
+    curr: TypeIngredientInfo
   ) {
     return acc[curr._id] ? ++acc[curr._id] : (acc[curr._id] = 1), acc;
   },
@@ -55,7 +55,7 @@ function BurgerIngredient({
 
   const dispatch = useAppDispatch();
 
-  const item: TypeIngredienInfo = ingredient;
+  const item: TypeIngredientInfo = ingredient;
 
   const [, drag] = useDrag(() => ({
     type: "ingredient",

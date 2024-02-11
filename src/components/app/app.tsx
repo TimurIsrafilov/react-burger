@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Routes,
   Route,
@@ -6,7 +6,6 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import styles from "./app.module.css";
 

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 import styles from "./ingredient-details.module.css";
 
-import { TypeIngredienInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector } from "../../hooks/hooks";
 
 function IngredientDetails(): React.JSX.Element {
@@ -14,7 +14,7 @@ function IngredientDetails(): React.JSX.Element {
 
   const ingredientToShow =
     ingredientsSet.length > 0 &&
-    ingredientsSet.filter((i: TypeIngredienInfo) => i._id === ingredientId)[0];
+    ingredientsSet.filter((i: TypeIngredientInfo) => i._id === ingredientId)[0];
 
   return (
     <section className={styles.ingredient_details_container}>

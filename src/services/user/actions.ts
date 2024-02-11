@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { TypeUserData, TypeUserInfo } from "../../types/types";
+import { TypeUserData, TypeUserInfo, TypeUserLogout } from "../../types/types";
 import api from "../../utils/api";
-import { AppDispatch } from "../store";
+import { AppThunk } from "../store";
 
 export const ADD_USER_SUCCESS = "ADD_USER_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
@@ -10,17 +10,57 @@ export const USER_ERROR = "USERS_ERROR";
 export const SET_USER = "SET_USER";
 export const USER_AUTH_CHECKED = "USER_AUTH_CHECKED";
 
-export const setAuthChecked = (value: boolean) => (dispatch: any) => {
-  dispatch({ type: USER_AUTH_CHECKED, payload: value });
+type TypeAddUserSuccessAction = {
+  type: typeof ADD_USER_SUCCESS;
+  payload: TypeUserInfo;
 };
 
-export const setUser = (userData: TypeUserInfo | null) => ({
+type TypeDeleteUserSuccessAction = {
+  type: typeof DELETE_USER_SUCCESS;
+  payload: TypeUserLogout;
+};
+
+type TypeUserLoadingAction = {
+  type: typeof USER_LOADING;
+  // payload: boolean;
+};
+
+type TypeUserErrorAction = {
+  type: typeof USER_ERROR;
+  payload: string;
+};
+
+type TypeSetUserAction = {
+  type: typeof SET_USER;
+  payload: TypeUserData;
+};
+
+type TypeUserAuthCheckedAction = {
+  type: typeof USER_AUTH_CHECKED;
+  payload: boolean;
+};
+
+export type TypeUserActions =
+  | TypeAddUserSuccessAction
+  | TypeDeleteUserSuccessAction
+  | TypeUserLoadingAction
+  | TypeUserErrorAction
+  | TypeSetUserAction
+  | TypeUserAuthCheckedAction;
+
+export const setAuthChecked =
+  (value: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch({ type: USER_AUTH_CHECKED, payload: value });
+  };
+
+export const setUser = (userData: TypeUserInfo | any) => ({
   type: SET_USER,
   payload: userData,
 });
 
-export const getUser = () => {
-  return (dispatch: any) => {
+export const getUser = (): AppThunk => {
+  return (dispatch) => {
     return api
       .getUser()
       .then((res) => {
@@ -35,53 +75,57 @@ export const getUser = () => {
   };
 };
 
-export const createUser = (userData: TypeUserInfo) => (dispatch: any) => {
-  dispatch({
-    type: USER_LOADING,
-  });
-  return api
-    .register(userData)
-    .then((res) => {
-      dispatch({
-        type: ADD_USER_SUCCESS,
-        payload: res.user,
-      });
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-    })
-    .catch((error) => {
-      dispatch({
-        type: USER_ERROR,
-        payload: error.message,
-      });
+export const createUser =
+  (userData: TypeUserInfo): AppThunk =>
+  (dispatch) => {
+    dispatch({
+      type: USER_LOADING,
     });
-};
+    return api
+      .register(userData)
+      .then((res) => {
+        dispatch({
+          type: ADD_USER_SUCCESS,
+          payload: res.user,
+        });
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+      })
+      .catch((error) => {
+        dispatch({
+          type: USER_ERROR,
+          payload: error.message,
+        });
+      });
+  };
 
-export const updateUser = (values: TypeUserInfo) => (dispatch: any) => {
-  dispatch({
-    type: USER_LOADING,
-  });
-  return api
-    .changeUserData(values)
-    .then((res) => {
-      dispatch({
-        type: ADD_USER_SUCCESS,
-        payload: res.user,
-      });
-    })
-    .catch((error) => {
-      dispatch({
-        type: USER_ERROR,
-        payload: error.message,
-      });
+export const updateUser =
+  (userData: TypeUserInfo): AppThunk =>
+  (dispatch) => {
+    dispatch({
+      type: USER_LOADING,
     });
-};
+    return api
+      .changeUserData(userData)
+      .then((res) => {
+        dispatch({
+          type: ADD_USER_SUCCESS,
+          payload: res.user,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: USER_ERROR,
+          payload: error.message,
+        });
+      });
+  };
 
-export const loginUser = (values: TypeUserInfo) => {
-  return (dispatch: any) => {
+export const loginUser = (userData: TypeUserInfo): AppThunk => {
+  return (dispatch) => {
     dispatch({ type: USER_LOADING });
     return api
-      .login(values)
+      .login(userData)
       .then((res) => {
         dispatch({
           type: ADD_USER_SUCCESS,
@@ -100,7 +144,7 @@ export const loginUser = (values: TypeUserInfo) => {
   };
 };
 
-export const logoutUser = () => (dispatch: any) => {
+export const logoutUser = (): AppThunk => (dispatch) => {
   dispatch({ type: USER_LOADING });
   return api
     .logout()
@@ -119,8 +163,8 @@ export const logoutUser = () => (dispatch: any) => {
     });
 };
 
-export const checkUserAuth = () => {
-  return (dispatch: any) => {
+export const checkUserAuth = (): AppThunk => {
+  return (dispatch) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(getUser())
         .catch(() => {

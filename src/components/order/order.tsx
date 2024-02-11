@@ -5,7 +5,7 @@ import styles from "./order.module.css";
 
 import { useAppSelector } from "../../hooks/hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TypeIngredienInfo, TypeLiveOrderData } from "../../types/types";
+import { TypeIngredientInfo, TypeLiveOrderData } from "../../types/types";
 
 interface IntOrderProps {
   order: TypeLiveOrderData;
@@ -45,7 +45,7 @@ function Order({ order }: IntOrderProps): React.JSX.Element {
 
   const orderIngredientsFullInfo: any[] = [];
   orderIngredients.forEach((ingredient: string) => {
-    ingredientsSet.forEach((item: TypeIngredienInfo) => {
+    ingredientsSet.forEach((item: TypeIngredientInfo) => {
       if (item._id === ingredient) {
         orderIngredientsFullInfo.push(item);
       }

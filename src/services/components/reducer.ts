@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
-import { TypeUniqueIngredienInfo } from "../../types/types";
+import { TypeUniqueIngredientInfo } from "../../types/types";
 
 interface IntOrderedIngredientState {
   bun: string | null;
-  orderedIngredients: Array<TypeUniqueIngredienInfo>;
+  orderedIngredients: Array<TypeUniqueIngredientInfo>;
 }
 
 const initialState: IntOrderedIngredientState = {
@@ -21,27 +21,31 @@ export const constructorSlice = createSlice({
   },
 
   reducers: {
-    addIngredient: (state, action) => {
+    addIngredient: (state, action: PayloadAction<TypeUniqueIngredientInfo>) => {
       state.bun =
+
         action.payload.item.type === "bun" ? action.payload.item.type : null;
-        //@ts-ignore
+
         state.orderedIngredients = action.payload.item.type === "bun"
           ? [
               ...state.orderedIngredients.filter(
-                (element: TypeUniqueIngredienInfo) =>
+                (element: TypeUniqueIngredientInfo) =>
+      
                   element.type !== action.payload.item.type
               ),
+        
               { ...action.payload.item, uniqueId: action.payload.uniqueId },
             ]
           : [
               ...state.orderedIngredients,
+       
               { ...action.payload.item, uniqueId: action.payload.uniqueId },
             ];
     },
 
     deleteIngredient: (state, action) => {
       state.orderedIngredients = state.orderedIngredients.filter(
-        (ingredient: TypeUniqueIngredienInfo) =>
+        (ingredient: TypeUniqueIngredientInfo) =>
           ingredient.uniqueId !== action.payload
       );
     },
@@ -59,8 +63,11 @@ export const constructorSlice = createSlice({
   },
 });
 
+type TConstructorActionCreators = typeof constructorSlice.actions;
+type TBurgerConstructorActions = ReturnType<TConstructorActionCreators[keyof TConstructorActionCreators]>;
+
 export const reducer = constructorSlice.reducer;
 export const { addIngredient, deleteIngredient, moveIngredient } =
   constructorSlice.actions;
-
+   //@ts-ignore
 export const selectOrderedIngredients = (state: RootState) => state.burgercomponents.orderedIngredients;

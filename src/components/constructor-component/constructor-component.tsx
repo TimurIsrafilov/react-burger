@@ -12,7 +12,7 @@ import {
   deleteIngredient,
   moveIngredient,
 } from "../../services/components/reducer";
-import { TypeIngredienInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 import { useAppDispatch } from "../../hooks/hooks";
 
 type TypeDragObject = {
@@ -27,13 +27,13 @@ type TypeDropCollectedProps = {
   isOver: boolean;
 };
 
-type TypeUniqueIngredienInfo = TypeIngredienInfo & {
+type TypeUniqueIngredientInfo = TypeIngredientInfo & {
   uniqueId: string;
 };
 
 type TypeConstructorComponentData = {
   index: number;
-  ingredient: TypeUniqueIngredienInfo;
+  ingredient: TypeUniqueIngredientInfo;
 };
 
 function ConstructorComponent({
