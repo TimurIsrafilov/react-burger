@@ -41,12 +41,11 @@ export const socketMiddleware = (
     return (next) => (action) => {
       const { dispatch } = store;
 
+      const token = localStorage.getItem("accessToken");
+
       if (wsConnect.match(action)) {
         socket = new WebSocket(
-          action.payload +
-            (localStorage.getItem("accessToken")
-              ? `?token=${localStorage.getItem("accessToken")?.slice(7)}`
-              : "")
+          action.payload + (token ? `?token=${token?.slice(7)}` : "")
         );
 
         url = action.payload;
