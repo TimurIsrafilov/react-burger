@@ -3,9 +3,14 @@ import done from "../../images/done.svg";
 import styles from "./order-details.module.css";
 
 import { useAppSelector } from "../../hooks/hooks";
+import { selectOrder } from "../../services/order/reducer";
 
-function OrderDetails(): React.JSX.Element {
-  const orderNumber = useAppSelector((state) => state.order.order);
+function OrderDetails(): React.JSX.Element | null {
+  const orderNumber = useAppSelector(selectOrder);
+
+  if (!orderNumber) {
+    return null;
+  }
 
   return (
     <section className={styles.order_details_container}>

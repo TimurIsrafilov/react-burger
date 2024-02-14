@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 import { TypeUniqueIngredientInfo } from "../../types/types";
 
 interface IntOrderedIngredientState {
-  bun: string | null;
+  bun: TypeUniqueIngredientInfo | null;
   orderedIngredients: Array<TypeUniqueIngredientInfo>;
 }
 
@@ -15,32 +15,15 @@ const initialState: IntOrderedIngredientState = {
 
 export const constructorSlice = createSlice({
   name: "burgercomponents",
-  initialState: {
-    bun: null,
-    orderedIngredients: [],
-  },
+  initialState,
 
   reducers: {
-    addIngredient: (state, action: PayloadAction<TypeUniqueIngredientInfo>) => {
-      state.bun =
-
-        action.payload.item.type === "bun" ? action.payload.item.type : null;
-
-        state.orderedIngredients = action.payload.item.type === "bun"
-          ? [
-              ...state.orderedIngredients.filter(
-                (element: TypeUniqueIngredientInfo) =>
-      
-                  element.type !== action.payload.item.type
-              ),
-        
-              { ...action.payload.item, uniqueId: action.payload.uniqueId },
-            ]
-          : [
-              ...state.orderedIngredients,
-       
-              { ...action.payload.item, uniqueId: action.payload.uniqueId },
-            ];
+    addIngredient: (state, action) => {
+      if (action.payload.type === "bun") {
+        state.bun = action.payload;
+      } else {
+        state.orderedIngredients.push(action.payload);
+      }
     },
 
     deleteIngredient: (state, action) => {
@@ -63,11 +46,15 @@ export const constructorSlice = createSlice({
   },
 });
 
-type TConstructorActionCreators = typeof constructorSlice.actions;
-type TBurgerConstructorActions = ReturnType<TConstructorActionCreators[keyof TConstructorActionCreators]>;
+type TypeConstructorActionCreators = typeof constructorSlice.actions;
+export type TypeBurgerConstructorActions = ReturnType<
+  TypeConstructorActionCreators[keyof TypeConstructorActionCreators]
+>;
 
 export const reducer = constructorSlice.reducer;
 export const { addIngredient, deleteIngredient, moveIngredient } =
   constructorSlice.actions;
-   //@ts-ignore
-export const selectOrderedIngredients = (state: RootState) => state.burgercomponents.orderedIngredients;
+
+export const selectOrderedIngredients = (state: RootState) =>
+  state.components.orderedIngredients;
+export const selectedBun = (state: RootState) => state.components.bun;

@@ -9,14 +9,14 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import OrderDetails from "../../components/order-details/order-details";
 import Modal from "../../components/modal/modal";
 
-import { closeOrder } from "../../services/order/reducer";
+import { closeOrder, selectOrder } from "../../services/order/reducer";
 
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 function Home(): React.JSX.Element {
   const dispatch = useAppDispatch();
 
-  const isOrdertModalOpen = useAppSelector((state) => state.order.order);
+  const isOrdertModalOpen = useAppSelector(selectOrder);
 
   function handleOnClose() {
     dispatch(closeOrder());

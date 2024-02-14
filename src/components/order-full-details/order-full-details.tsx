@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./order-full-details.module.css";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { TypeIngredientInfo, TypeOrderInfo } from "../../types/types";
+import { TypeIngredientInfo, TypeLiveOrderData } from "../../types/types";
 import { useEffect } from "react";
 import {
   CurrencyIcon,
@@ -12,7 +12,11 @@ import {
 
 import { loadOrderToShow } from "../../services/order-to-show/actions";
 
-function OrderFullDetails(): React.JSX.Element {
+interface IntOrderToShowById {
+  [index: string]: number;
+}
+
+function OrderFullDetails(): React.JSX.Element | null {
   const dispatch = useAppDispatch();
 
   const orderNumber = window.location.pathname.split("/").pop();
@@ -23,7 +27,7 @@ function OrderFullDetails(): React.JSX.Element {
 
   let orderToShow = useAppSelector((state) => {
     let orderToShow = state.liveuserorder.orders.filter(
-      (i: TypeOrderInfo) => i.number === Number(orderNumber)
+      (i: TypeLiveOrderData) => i.number === Number(orderNumber)
     )[0];
 
     if (orderToShow) {
@@ -31,14 +35,14 @@ function OrderFullDetails(): React.JSX.Element {
     }
 
     orderToShow = state.liveallorders.orders.filter(
-      (i: TypeOrderInfo) => i.number === Number(orderNumber)
+      (i: TypeLiveOrderData) => i.number === Number(orderNumber)
     )[0];
 
     if (orderToShow) {
       return orderToShow;
     }
 
-    return state.ordertoshow.order_to_show;
+    return state.ordertoshow.ordertoshow;
   });
 
   useEffect(() => {
@@ -48,37 +52,34 @@ function OrderFullDetails(): React.JSX.Element {
   }, []);
 
   if (!orderToShow) {
-    //@ts-ignore
     return null;
   }
 
-  const orderToShowById = {};
+  const orderToShowById: IntOrderToShowById = {};
 
   for (const num of orderToShow.ingredients) {
-    //@ts-ignore
     orderToShowById[num] = orderToShowById[num] ? orderToShowById[num] + 1 : 1;
   }
 
-  const orderToShowUnicueItems = orderToShow.ingredients.reduce(
-    (acc: string | any[], item: any) => {
+  const orderToShowUniqueItems = orderToShow.ingredients.reduce(
+    (acc: string[], item: string) => {
       if (acc.includes(item)) {
         return acc;
       }
-      //@ts-ignore
+
       return [...acc, item];
     },
     []
   );
 
   const orderIngredientsFullInfo: any[] = [];
-  //@ts-ignore
-  orderToShowUnicueItems.forEach((ingredient: string | number) => {
-    //@ts-ignore
+
+  orderToShowUniqueItems.forEach((ingredient: string) => {
     ingredientsSet.forEach((item: { _id: any }) => {
       if (item._id === ingredient) {
         orderIngredientsFullInfo.push({
           ...item,
-          //@ts-ignore
+
           number: orderToShowById[ingredient],
         });
       }

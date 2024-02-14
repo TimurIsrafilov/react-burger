@@ -6,6 +6,7 @@ import styles from "./order.module.css";
 import { useAppSelector } from "../../hooks/hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TypeIngredientInfo, TypeLiveOrderData } from "../../types/types";
+import { selectIngredients } from "../../services/ingredients/reducer";
 
 interface IntOrderProps {
   order: TypeLiveOrderData;
@@ -39,9 +40,7 @@ function Order({ order }: IntOrderProps): React.JSX.Element {
   } else orderInfo = `${Math.floor(dataMsDelta)} дней назад, ${orderTime}`;
 
   const orderIngredients = order.ingredients;
-  const ingredientsSet = useAppSelector(
-    (state) => state.ingredients.ingredients
-  );
+  const ingredientsSet = useAppSelector(selectIngredients);
 
   const orderIngredientsFullInfo: any[] = [];
   orderIngredients.forEach((ingredient: string) => {

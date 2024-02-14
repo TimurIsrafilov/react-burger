@@ -26,7 +26,6 @@ import Preloader from "../preloader/preloader";
 import ProfileInformation from "../profile-information/profile-information";
 
 import { loadIngredients } from "../../services/ingredients/actions";
-
 import { checkUserAuth } from "../../services/user/actions";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import {
@@ -44,10 +43,10 @@ import {
 } from "../../utils/constants";
 
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-
 import { disconnect as liveOrderDisconnect } from "../../services/live-user-orders/actions";
-
 import { disconnect as liveOrdersDisconnect } from "../../services/live-all-orders/actions";
+import { selectOrderLoading } from "../../services/order/reducer";
+import { selectIngredientsLoading } from "../../services/ingredients/reducer";
 
 function App(): React.JSX.Element {
   const dispatch = useAppDispatch();
@@ -61,14 +60,12 @@ function App(): React.JSX.Element {
     navigate(-1);
   };
 
-  const isIngredientsLoading = useAppSelector(
-    (state) => state.ingredients.loading
-  );
-  const isOrderLoading = useAppSelector((state) => state.order.loading);
+  const isIngredientsLoading = useAppSelector(selectIngredientsLoading);
+  const isOrderLoading = useAppSelector(selectOrderLoading);
   const isUserLoading = useAppSelector((state) => state.user.loading);
   const isLoading = isIngredientsLoading || isOrderLoading || isUserLoading;
 
-  const ordersInfo = useAppSelector((state) => state.liveuserorder.orders_data);
+  const ordersInfo = useAppSelector((state) => state.liveuserorder.ordersdata);
 
   const confirmationPasswordReset = localStorage.getItem(
     "confirmationPasswordReset"

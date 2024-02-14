@@ -14,9 +14,9 @@ import { FEED, LIVE_ALL_ORDERS_SERVER_URL } from "../../utils/constants";
 import { TypeLiveOrderData } from "../../types/types";
 
 function Feed(): React.JSX.Element {
-  const ordersInfo = useAppSelector((state) => state.liveallorders.orders_data);
+  const ordersInfo = useAppSelector((state) => state.liveallorders.ordersdata);
 
-  const commonOrders = ordersInfo.orders;
+  const commonOrders = ordersInfo?.orders;
 
   const commonOrdersDone: Array<number> = [];
   const commonOrdersInProgress: Array<number> = [];

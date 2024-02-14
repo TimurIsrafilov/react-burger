@@ -6,7 +6,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./burger-ingredient.module.css";
 
 import { TypeIngredientInfo } from "../../types/types";
-import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/hooks";
 
 interface IntBurgerIngredientProps {
   ingredient: TypeIngredientInfo;
@@ -53,13 +53,11 @@ function BurgerIngredient({
     ingredient.type
   );
 
-  const dispatch = useAppDispatch();
-
   const item: TypeIngredientInfo = ingredient;
 
   const [, drag] = useDrag(() => ({
     type: "ingredient",
-    item: { item },
+    item: item,
   }));
 
   return (

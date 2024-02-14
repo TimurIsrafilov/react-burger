@@ -1,17 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { loadOrderToShow } from "./actions";
 import type { RootState } from "../store";
 
 import { TypeLiveOrderData } from "../../types/types";
 
 interface IntOrderToShowState {
-  order_to_show: TypeLiveOrderData | null;
+  ordertoshow: TypeLiveOrderData | null;
   loading: boolean;
   error: unknown;
 }
 
 const initialState: IntOrderToShowState = {
-  order_to_show: null,
+  ordertoshow: null,
   loading: false,
   error: null,
 };
@@ -21,7 +21,7 @@ const orderToShowSlice = createSlice({
   initialState,
   reducers: {
     closeOrderToShow: (state) => {
-      state.order_to_show = null;
+      state.ordertoshow = null;
     },
   },
   extraReducers: (builder) => {
@@ -36,7 +36,7 @@ const orderToShowSlice = createSlice({
       })
       .addCase(loadOrderToShow.fulfilled, (state, action) => {
         state.loading = false;
-        state.order_to_show = action.payload.orders[0];
+        state.ordertoshow = action.payload.orders?.[0] ?? null;
       });
   },
 });
@@ -44,7 +44,6 @@ const orderToShowSlice = createSlice({
 export const reducer = orderToShowSlice.reducer;
 export const { closeOrderToShow } = orderToShowSlice.actions;
 
-export const selectOrder = (state: RootState) =>
-  state.order_to_show.order_to_show;
-export const selectLoading = (state: RootState) => state.order_to_show.loading;
-export const selectError = (state: RootState) => state.order_to_show.error;
+export const selectOrder = (state: RootState) => state.ordertoshow.ordertoshow;
+export const selectLoading = (state: RootState) => state.ordertoshow.loading;
+export const selectError = (state: RootState) => state.ordertoshow.error;

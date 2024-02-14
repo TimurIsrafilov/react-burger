@@ -45,8 +45,7 @@ export const socketMiddleware = (
         socket = new WebSocket(
           action.payload +
             (localStorage.getItem("accessToken")
-              ? //@ts-ignore
-                `?token=${localStorage.getItem("accessToken").slice(7)}`
+              ? `?token=${localStorage.getItem("accessToken")?.slice(7)}`
               : "")
         );
 

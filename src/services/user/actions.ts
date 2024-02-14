@@ -1,7 +1,6 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { TypeUserData, TypeUserInfo, TypeUserLogout } from "../../types/types";
+import { TypeUserInfo, TypeUserLogout } from "../../types/types";
 import api from "../../utils/api";
-import { AppThunk } from "../store";
+import { AppDispatch, AppThunk } from "../store";
 
 export const ADD_USER_SUCCESS = "ADD_USER_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
@@ -22,7 +21,6 @@ type TypeDeleteUserSuccessAction = {
 
 type TypeUserLoadingAction = {
   type: typeof USER_LOADING;
-  // payload: boolean;
 };
 
 type TypeUserErrorAction = {
@@ -32,7 +30,7 @@ type TypeUserErrorAction = {
 
 type TypeSetUserAction = {
   type: typeof SET_USER;
-  payload: TypeUserData;
+  payload: TypeUserInfo | null;
 };
 
 type TypeUserAuthCheckedAction = {
@@ -48,19 +46,18 @@ export type TypeUserActions =
   | TypeSetUserAction
   | TypeUserAuthCheckedAction;
 
-export const setAuthChecked =
-  (value: boolean): AppThunk =>
-  (dispatch) => {
-    dispatch({ type: USER_AUTH_CHECKED, payload: value });
-  };
+export const setAuthChecked = (value: boolean): TypeUserAuthCheckedAction => ({
+  type: USER_AUTH_CHECKED,
+  payload: value,
+});
 
-export const setUser = (userData: TypeUserInfo | any) => ({
+export const setUser = (userData: TypeUserInfo | null): TypeSetUserAction => ({
   type: SET_USER,
   payload: userData,
 });
 
-export const getUser = (): AppThunk => {
-  return (dispatch) => {
+export const getUser = (): AppThunk<Promise<unknown>> => {
+  return (dispatch: AppDispatch) => {
     return api
       .getUser()
       .then((res) => {

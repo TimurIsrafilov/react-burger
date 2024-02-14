@@ -4,17 +4,18 @@ import styles from "./ingredient-details.module.css";
 
 import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector } from "../../hooks/hooks";
+import { selectIngredients } from "../../services/ingredients/reducer";
 
-function IngredientDetails(): React.JSX.Element {
+function IngredientDetails(): React.JSX.Element | null {
   const { ingredientId } = useParams();
 
-  const ingredientsSet = useAppSelector(
-    (state) => state.ingredients.ingredients
-  );
+  const ingredientsSet = useAppSelector(selectIngredients);
 
-  const ingredientToShow =
-    ingredientsSet.length > 0 &&
-    ingredientsSet.filter((i: TypeIngredientInfo) => i._id === ingredientId)[0];
+  const ingredientToShow = ingredientsSet.find((i) => i._id === ingredientId);
+
+  if (!ingredientToShow) {
+    return null;
+  }
 
   return (
     <section className={styles.ingredient_details_container}>

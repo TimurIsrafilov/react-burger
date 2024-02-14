@@ -14,15 +14,14 @@ import styles from "./burger-constructor.module.css";
 
 import ConstructorComponent from "../constructor-component/constructor-component";
 
-import { addIngredient } from "../../services/components/reducer";
+import {
+  addIngredient,
+  selectOrderedIngredients,
+  selectedBun,
+} from "../../services/components/reducer";
 import { loadOrder } from "../../services/order/actions";
 import { TypeIngredientInfo } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-
-type TypeDragObject = {
-  index: number;
-  uniqueId: string;
-};
 
 type TypeDropCollectedProps = {
   isOver: boolean;
@@ -39,26 +38,22 @@ function BurgerConstructor(): React.JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const orderedIngredients = useAppSelector(
-    (state) => state.components.orderedIngredients
-  );
+  const orderedIngredients = useAppSelector(selectOrderedIngredients);
+
+  const bun = useAppSelector(selectedBun);
 
   const isUserLogged = useAppSelector((state) => state.user.user);
 
   const handleOrder = () => {
     if (isUserLogged) {
-      const bun = orderedIngredients.find(
-        (i: TypeIngredientInfo) => i.type === "bun"
-      );
-      const orderedIngredientsForPurshase = orderedIngredients.filter(
-        (i: TypeIngredientInfo) => i.type !== "bun"
-      );
-      orderedIngredientsForPurshase.push(bun);
-      orderedIngredientsForPurshase.unshift(bun);
-      const orderedIngredientsById: string[] = [];
-      orderedIngredientsForPurshase.map((i: { _id: string }) =>
+      if (!bun) {
+        return;
+      }
+      const orderedIngredientsById = [bun._id];
+      orderedIngredients.map((i: { _id: string }) =>
         orderedIngredientsById.push(i._id)
       );
+      orderedIngredientsById.push(bun._id);
 
       dispatch(loadOrder(orderedIngredientsById));
     } else {
@@ -66,30 +61,30 @@ function BurgerConstructor(): React.JSX.Element {
     }
   };
 
-  const summa = useMemo(() => suma(), [orderedIngredients]);
-
-  function suma() {
+  const summa = useMemo(() => {
     let sum = 0;
 
     for (let i = 0; i < orderedIngredients.length; i++) {
       if (orderedIngredients[i].type !== "bun") {
         sum += orderedIngredients[i].price;
-      } else {
-        sum += orderedIngredients[i].price * 2;
       }
     }
+
+    if (bun) {
+      sum += bun.price * 2;
+    }
+
     return sum;
-  }
+  }, [orderedIngredients, bun]);
 
   const [{ isOver }, dropTarget] = useDrop<
-    TypeDragObject,
+    TypeIngredientInfo,
     unknown,
     TypeDropCollectedProps
   >({
     accept: "ingredient",
     drop(item) {
-      item.uniqueId = uuidv4();
-      dispatch(addIngredient(item));
+      dispatch(addIngredient({ ...item, uniqueId: uuidv4() }));
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -164,16 +159,8 @@ function BurgerConstructor(): React.JSX.Element {
             : { backgroundColor: "rgba(83, 70, 245, 0.3)" }
         }
       >
-        {orderedIngredients.length > 0 &&
-        orderedIngredients.some(
-          (obj: TypeIngredientInfo) => obj.type === "bun"
-        ) ? (
-          <div>
-            {orderedIngredients.map(
-              (ingredient: TypeIngredientInfo, index: number) =>
-                ingredient.type === "bun" && renderTopIngredient(ingredient)
-            )}
-          </div>
+        {bun ? (
+          renderTopIngredient(bun)
         ) : (
           <div
             className={`${styles.constructor_bun_top_container} text text_type_main-default`}
@@ -190,14 +177,10 @@ function BurgerConstructor(): React.JSX.Element {
         <div
           className={`${styles.constructor_ingredients_secondary} custom-scroll`}
         >
-          {orderedIngredients.length > 0 &&
-          orderedIngredients.some(
-            (obj: TypeIngredientInfo) => obj.type !== "bun"
-          ) ? (
+          {orderedIngredients.length > 0 ? (
             <div className={styles.constructor_ingredients_container}>
               {orderedIngredients.map(
                 (ingredient: TypeUniqueIngredientInfo, index: number) =>
-                  ingredient.type !== "bun" &&
                   renderIngredient(ingredient, index)
               )}
             </div>
@@ -216,17 +199,8 @@ function BurgerConstructor(): React.JSX.Element {
         </div>
 
         <div>
-          {orderedIngredients.length > 0 &&
-          orderedIngredients.some(
-            (obj: TypeIngredientInfo) => obj.type === "bun"
-          ) ? (
-            <div>
-              {orderedIngredients.map(
-                (ingredient: TypeIngredientInfo, index: number) =>
-                  ingredient.type === "bun" &&
-                  renderBottomIngredient(ingredient)
-              )}
-            </div>
+          {bun ? (
+            renderBottomIngredient(bun)
           ) : (
             <div
               className={`${styles.constructor_bun_bottom_container} text text__type_main-default`}
@@ -252,11 +226,7 @@ function BurgerConstructor(): React.JSX.Element {
           type="primary"
           size="large"
           onClick={handleOrder}
-          disabled={
-            orderedIngredients.some((i: { type: string }) => i.type === "bun")
-              ? false
-              : true
-          }
+          disabled={bun ? false : true}
         >
           Оформить заказ
         </Button>

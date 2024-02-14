@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { loadIngredients } from "./actions";
 import type { RootState } from "../store";
 
-import { TypeIngredienData, TypeIngredientInfo } from "../../types/types";
+import { TypeIngredientInfo } from "../../types/types";
 
 interface IntIngredientsState {
-  ingredients: TypeIngredientInfo | Array<TypeIngredientInfo>;
+  ingredients: Array<TypeIngredientInfo>;
   loading: boolean;
   error: unknown;
 }
@@ -30,7 +30,7 @@ const ingredientsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(loadIngredients.fulfilled, (state, action: PayloadAction<TypeIngredienData>) => {
+      .addCase(loadIngredients.fulfilled, (state, action) => {
         state.loading = false;
         state.ingredients = action.payload.data;
       });
@@ -41,5 +41,7 @@ export const reducer = ingredientsSlice.reducer;
 
 export const selectIngredients = (state: RootState) =>
   state.ingredients.ingredients;
-export const selectLoading = (state: RootState) => state.ingredients.loading;
-export const selectError = (state: RootState) => state.ingredients.error;
+export const selectIngredientsLoading = (state: RootState) =>
+  state.ingredients.loading;
+export const selectIngredientsError = (state: RootState) =>
+  state.ingredients.error;

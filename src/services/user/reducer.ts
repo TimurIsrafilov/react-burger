@@ -1,4 +1,4 @@
-import { TypeUserData, TypeUserInfo } from "../../types/types";
+import { TypeUserInfo } from "../../types/types";
 import {
   ADD_USER_SUCCESS,
   DELETE_USER_SUCCESS,
@@ -23,7 +23,7 @@ const initialState: IntUserState = {
   error: null,
 };
 
-export const reducer = (state = initialState, action: TypeUserActions) => {
+export const reducer = (state = initialState, action: TypeUserActions): IntUserState => {
   switch (action.type) {
     case ADD_USER_SUCCESS:
       return {

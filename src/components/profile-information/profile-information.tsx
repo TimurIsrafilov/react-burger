@@ -20,8 +20,7 @@ type TypeUseForm = {
 function ProfileInformation(): React.JSX.Element {
   // const inputRef = useRef(null);
 
-  const userStore = useAppSelector((state) => state.user.user);
-  const userData = userStore ? userStore : {};
+  const userData = useAppSelector((state) => state.user.user);
 
   const dispatch = useAppDispatch();
 
@@ -29,9 +28,9 @@ function ProfileInformation(): React.JSX.Element {
 
   const { values, handleChange, isInputChanged, resetForm } =
     useForm<TypeUseForm>({
-      name: userData.name,
-      email: userData.email,
-      password: userData.password,
+      name: userData?.name ?? "",
+      email: userData?.email ?? "",
+      password: userData?.password ?? "",
     });
 
   const onPasswordIconClick = () => {

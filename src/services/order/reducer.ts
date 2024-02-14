@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { loadOrder } from "./actions";
 import type { RootState } from "../store";
 
@@ -44,6 +44,8 @@ const orderSlice = createSlice({
 export const reducer = orderSlice.reducer;
 export const { closeOrder } = orderSlice.actions;
 
+export type TypeOrderActions = ReturnType<typeof closeOrder>;
+
 export const selectOrder = (state: RootState) => state.order.order;
-export const selectLoading = (state: RootState) => state.order.loading;
-export const selectError = (state: RootState) => state.order.error;
+export const selectOrderLoading = (state: RootState) => state.order.loading;
+export const selectOrderError = (state: RootState) => state.order.error;

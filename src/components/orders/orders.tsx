@@ -14,11 +14,11 @@ import { TypeLiveOrderData, TypeLiveOrdersData } from "../../types/types";
 
 interface IntOrdersProps {
   path: string;
-  ordersInfo: TypeLiveOrdersData;
+  ordersInfo: TypeLiveOrdersData | null;
 }
 
 function Orders({ path, ordersInfo }: IntOrdersProps): React.JSX.Element {
-  const orders = ordersInfo.orders;
+  const orders = ordersInfo?.orders;
 
   const dispatch = useAppDispatch();
   const location = useLocation();

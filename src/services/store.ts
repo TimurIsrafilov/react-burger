@@ -23,9 +23,12 @@ import {
   wsMessage as LiveAllOrdersWsMessage,
   TypeLiveAllOrdersActions,
 } from "./live-all-orders/actions";
-import { TypeUserActions } from "./user/actions";
+
 import type {} from "redux-thunk/extend-redux";
+import { TypeUserActions } from "./user/actions";
 import { TypeIngredientActions } from "./components/actions";
+import { TypeBurgerConstructorActions } from "./components/reducer";
+import { TypeOrderActions } from "./order/reducer";
 
 const liveUserOrdersMiddleware = socketMiddleware({
   wsConnect: LiveUserOrderWsConnect,
@@ -64,7 +67,9 @@ export type AppActions =
   | TypeLiveUserOrderActions
   | TypeLiveAllOrdersActions
   | TypeUserActions
-  | TypeIngredientActions;
+  | TypeIngredientActions
+  | TypeBurgerConstructorActions
+  | TypeOrderActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,

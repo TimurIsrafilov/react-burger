@@ -15,7 +15,6 @@ const Protected = ({
   onlyUnAuth = false,
   component,
 }: TypeProtectedComponentData): React.JSX.Element => {
-
   const location = useLocation();
 
   const user = useAppSelector((state) => state.user.user);

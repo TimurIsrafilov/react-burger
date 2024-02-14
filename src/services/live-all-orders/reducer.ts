@@ -9,14 +9,14 @@ import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
 export type TypeLiveAllOrdersStore = {
   status: WebsocketStatus;
   orders: Array<TypeLiveOrderData>;
-  orders_data: TypeLiveOrdersData | {};
+  ordersdata: TypeLiveOrdersData | null;
   connectionError: string;
 };
 
 const initialState: TypeLiveAllOrdersStore = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
-  orders_data: {},
+  ordersdata: null,
   connectionError: "",
 };
 
@@ -35,7 +35,7 @@ export const liveAllOrdersReducer = createReducer(initialState, (builder) => {
       state.connectionError = action.payload;
     })
     .addCase(wsMessage, (state, action) => {
-      state.orders_data = action.payload;
+      state.ordersdata = action.payload;
       state.orders = action.payload.orders;
     });
 });

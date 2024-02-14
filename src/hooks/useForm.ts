@@ -1,10 +1,10 @@
 import { ChangeEvent, useCallback, useState } from "react";
 
 type TypeUseForm<T> = {
-  values: T,
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  isInputChanged: boolean
-  resetForm: () => void,
+  values: T;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  isInputChanged: boolean;
+  resetForm: () => void;
 };
 
 export function useForm<T>(inputValues: T): TypeUseForm<T> {
@@ -21,8 +21,7 @@ export function useForm<T>(inputValues: T): TypeUseForm<T> {
   const resetForm = useCallback(() => {
     setValues(inputValues);
     setisInputChanged(false);
-  }, [setValues]
-  )
+  }, [setValues]);
 
   return { values, handleChange, isInputChanged, resetForm };
 }
