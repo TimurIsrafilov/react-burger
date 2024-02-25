@@ -56,6 +56,7 @@ function Login(): React.JSX.Element {
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
+          data-testid="email_input"
         />
         <Input
           type={isInputTypePassword ? "password" : "text"}
@@ -70,6 +71,7 @@ function Login(): React.JSX.Element {
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
+          data-testid="password_input"
         />
       </div>
       <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">

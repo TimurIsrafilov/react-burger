@@ -24,7 +24,10 @@ function Modal({
       <ModalOverlay handleOnClose={handleOnClose} />
       <div className={styles.modal_container}>
         {!isLoading && (
-          <div className={`${styles.modal_close_icon} mt-15 mr-10`}>
+          <div
+            className={`${styles.modal_close_icon} mt-15 mr-10`}
+            data-testid="close_button"
+          >
             <CloseIcon type="primary" onClick={handleOnClose} />
           </div>
         )}

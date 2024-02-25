@@ -151,6 +151,7 @@ function BurgerConstructor(): React.JSX.Element {
   return (
     <section className={`${styles.constructor_container} `}>
       <div
+        data-testid="drop_target"
         ref={dropTarget}
         className={`${styles.constructor_ingredients_container}`}
         style={
@@ -227,6 +228,7 @@ function BurgerConstructor(): React.JSX.Element {
           size="large"
           onClick={handleOrder}
           disabled={bun ? false : true}
+          data-testid="submit_button"
         >
           Оформить заказ
         </Button>

@@ -72,6 +72,7 @@ function BurgerIngredients(): React.JSX.Element {
                     key={ingredient._id}
                     to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
+                    data-testid={`type_${ingredient.type}`}
                   >
                     <BurgerIngredient
                       ingredient={ingredient}
@@ -97,6 +98,7 @@ function BurgerIngredients(): React.JSX.Element {
                     key={ingredient._id}
                     to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
+                    data-testid={`type_${ingredient.type}`}
                   >
                     <BurgerIngredient
                       ingredient={ingredient}
@@ -122,6 +124,7 @@ function BurgerIngredients(): React.JSX.Element {
                     key={ingredient._id}
                     to={`${INGREDIENTS}/${ingredient._id}`}
                     state={{ backgroundLocation: location }}
+                    data-testid={`type_${ingredient.type}`}
                   >
                     <BurgerIngredient
                       ingredient={ingredient}
