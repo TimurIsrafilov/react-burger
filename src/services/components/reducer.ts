@@ -58,3 +58,5 @@ export const { addIngredient, deleteIngredient, moveIngredient } =
 export const selectOrderedIngredients = (state: RootState) =>
   state.components.orderedIngredients;
 export const selectedBun = (state: RootState) => state.components.bun;
+
+export default reducer;

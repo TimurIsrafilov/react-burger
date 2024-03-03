@@ -10,13 +10,13 @@ interface IntOrderToShowState {
   error: unknown;
 }
 
-const initialState: IntOrderToShowState = {
+export const initialState: IntOrderToShowState = {
   ordertoshow: null,
   loading: false,
   error: null,
 };
 
-const orderToShowSlice = createSlice({
+export const orderToShowSlice = createSlice({
   name: "order-to-show",
   initialState,
   reducers: {
@@ -47,3 +47,5 @@ export const { closeOrderToShow } = orderToShowSlice.actions;
 export const selectOrder = (state: RootState) => state.ordertoshow.ordertoshow;
 export const selectLoading = (state: RootState) => state.ordertoshow.loading;
 export const selectError = (state: RootState) => state.ordertoshow.error;
+
+export default reducer;

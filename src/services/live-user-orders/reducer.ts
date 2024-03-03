@@ -5,6 +5,7 @@ import {
   TypeLiveOrdersData,
 } from "../../types/types";
 import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
+import { defaultMaxListeners } from "events";
 
 export type TypeLiveUserOrderStore = {
   status: WebsocketStatus;
@@ -41,3 +42,5 @@ export const liveUserOrdersReducer = createReducer(initialState, (builder) => {
 });
 
 export const reducer = liveUserOrdersReducer;
+
+export default reducer;

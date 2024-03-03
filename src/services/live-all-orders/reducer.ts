@@ -41,3 +41,5 @@ export const liveAllOrdersReducer = createReducer(initialState, (builder) => {
 });
 
 export const reducer = liveAllOrdersReducer;
+
+export default reducer;

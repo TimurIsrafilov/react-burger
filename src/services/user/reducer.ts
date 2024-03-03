@@ -16,14 +16,17 @@ interface IntUserState {
   error: unknown;
 }
 
-const initialState: IntUserState = {
+export const initialState: IntUserState = {
   user: null,
   isAuthChecked: false,
   loading: false,
   error: null,
 };
 
-export const reducer = (state = initialState, action: TypeUserActions): IntUserState => {
+export const reducer = (
+  state = initialState,
+  action: TypeUserActions
+): IntUserState => {
   switch (action.type) {
     case ADD_USER_SUCCESS:
       return {
@@ -63,3 +66,5 @@ export const reducer = (state = initialState, action: TypeUserActions): IntUserS
       return state;
   }
 };
+
+export default reducer;
