@@ -1,0 +1,65 @@
+.order_full_details_container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    max-width: 720px;
+}
+
+.order_full_status {
+    color: rgba(0, 204, 204, 1);
+}
+
+.order_full_details_items {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 400px;
+    margin: 30px 30px 0 20px;
+}
+
+
+.order_full_ingredient_details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+    list-style: none;
+}
+
+
+.order_full_details {
+    display: flex;
+    align-items: center;
+}
+
+.order_full_ingredient_picture_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid rgba(196, 61, 208, 1);
+    height: 76px;
+    width: 76px;
+    position: relative;
+    background-color: rgba(19, 19, 22, 1);
+}
+
+.order_full_value_name {
+    max-width: 280px;
+}
+
+.order_full_value_details {
+    display: flex;
+    margin: 0 20px 0 0;
+}
+
+.order_full_data_value_details {
+    display: flex;
+    margin: 50px 30px 20px 0;
+    justify-content: space-between;
+}
+
+.order_full_totalvalue_details {
+    display: flex;
+    align-items: center;
+}

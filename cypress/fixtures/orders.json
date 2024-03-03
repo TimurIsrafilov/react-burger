@@ -1,0 +1,91 @@
+{
+    "success": true,
+    "name": "Краторный space традиционный-галактический антарианский бургер",
+    "order": {
+        "ingredients": [
+            {
+                "_id": "643d69a5c3f7b9001cfa093c",
+                "name": "Краторная булка N-200i",
+                "type": "bun",
+                "proteins": 80,
+                "fat": 24,
+                "carbohydrates": 53,
+                "calories": 420,
+                "price": 1255,
+                "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa0943",
+                "name": "Соус фирменный Space Sauce",
+                "type": "sauce",
+                "proteins": 50,
+                "fat": 22,
+                "carbohydrates": 11,
+                "calories": 14,
+                "price": 80,
+                "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa0945",
+                "name": "Соус с шипами Антарианского плоскоходца",
+                "type": "sauce",
+                "proteins": 101,
+                "fat": 99,
+                "carbohydrates": 100,
+                "calories": 100,
+                "price": 88,
+                "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa0944",
+                "name": "Соус традиционный галактический",
+                "type": "sauce",
+                "proteins": 42,
+                "fat": 24,
+                "carbohydrates": 42,
+                "calories": 99,
+                "price": 15,
+                "image": "https://code.s3.yandex.net/react/code/sauce-03.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-03-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-03-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa093c",
+                "name": "Краторная булка N-200i",
+                "type": "bun",
+                "proteins": 80,
+                "fat": 24,
+                "carbohydrates": 53,
+                "calories": 420,
+                "price": 1255,
+                "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+                "__v": 0
+            }
+        ],
+        "_id": "65dad9db97ede0001d05e156",
+        "owner": {
+            "name": "tim",
+            "email": "itf11@mail.ru",
+            "createdAt": "2023-12-28T18:21:48.066Z",
+            "updatedAt": "2024-02-10T18:27:55.551Z"
+        },
+        "status": "done",
+        "name": "Краторный space традиционный-галактический антарианский бургер",
+        "createdAt": "2024-02-25T06:10:35.970Z",
+        "updatedAt": "2024-02-25T06:10:36.620Z",
+        "number": 34960,
+        "price": 2693
+    }
+}
